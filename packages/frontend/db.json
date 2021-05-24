@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "first_name": "Андрей",
+      "last_name": "Грабовский",
+      "email": "hrabouski@epicmax.co",
+      "phone_number": "+375293441113"
+    }
+  ],
+  "interviewers": [
+    {
+      "id": "2",
+      "first_name": "Сергей",
+      "last_name": "Грабовский",
+      "email": "sergei@epicmax.co",
+      "phone_number": "+3752955533114"
+    },
+    {
+      "id": "3",
+      "first_name": "Петр",
+      "last_name": "Грабовский",
+      "email": "petr@epicmax.co",
+      "phone_number": "+375299996655"
+    }
+  ],
+  "interviews": [
+    {
+      "id": "1",
+      "name": "Test interview",
+      "date": "May 25, 2021",
+      "created_at": "May 25, 2021",
+      "finished_at": "May 25, 2021",
+      "interviewersId": [
+        "2",
+        "3"
+      ]
+    }
+  ],
+  "businesses": [
+    {
+      "id": "1",
+      "name": "Epicmax",
+      "ownerId": "1",
+      "employeesId": [
+        "1"
+      ]
+    }
+  ],
+  "interviewers": [
+    {
+      "businessesId": [
+        "1"
+      ],
+      "role": "Interviewer"
+    }
+  ]
+}
