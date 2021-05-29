@@ -3,5 +3,12 @@
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"
-  }
+  },
+  "scripts": {
+    "serve": "yarn workspace conflow-frontend serve",
+    "build": "yarn workspace conflow-frontend build"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
