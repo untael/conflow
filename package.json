@@ -1,12 +1,16 @@
 {
-  "name": "root",
+  "name": "conflow",
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"
   },
+  "dependencies": {
+    "@conflow/frontend": "^0.1.0",
+    "@conflow/backend": "^0.1.0"
+  },
   "scripts": {
-    "serve": "yarn workspace conflow-frontend serve",
-    "build": "yarn workspace conflow-frontend build"
+    "serve": "yarn workspace @conflow/frontend serve",
+    "build": "yarn workspace @conflow/backend build"
   },
   "workspaces": [
     "packages/*"
