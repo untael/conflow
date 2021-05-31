@@ -9,9 +9,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '',
     component: CfAppWrapper,
-    beforeEnter: (to: any, from: any, next: any) => {
-
-    },
     children: [
       {
         path: '/interviews/:id',

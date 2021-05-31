@@ -1,5 +1,5 @@
 <template>
-  <div class="cf-topbar bg-gray-50" :class="topbarClasses">
+  <div class="cf-topbar bg-gray-50 z-10" :class="topbarClasses">
     <div class="cf-topbar__button bg-gray-50">
       <va-button
           @click="toggleTopbar"

@@ -12,7 +12,7 @@
         Already a member?
         <router-link :to="{name: 'sign-in'}" class="font-medium">Sign in</router-link>
       </div>
-      <va-button type="submit">Submit</va-button>
+      <va-button type="submit" @click="signIn">Submit</va-button>
     </va-card-content>
   </va-card>
 </template>
@@ -20,15 +20,21 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useValidation } from '@/components/validation/useValidation'
+import { useAuth } from '@/composables/useAuth'
 
 export default {
   name: 'CfRegisterForm',
   setup () {
+    const { register } = useAuth()
     const { emailRules } = useValidation()
     const email = ref('')
     const password = ref('')
     const passwordConfirmation = ref('')
+    const signIn = () => {
+      register(email.value, password.value)
+    }
     return {
+      signIn,
       emailRules,
       email,
       password,
