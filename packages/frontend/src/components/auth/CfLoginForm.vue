@@ -10,7 +10,7 @@
       <div class="pb-3 pt-1 text-sm text-center font-thin">
         <router-link :to="{name: 'reset-password'}" class="font-medium">Forgot password?</router-link>
       </div>
-      <va-button gradient type="submit">Submit</va-button>
+      <va-button @click="signUp" gradient type="submit">Submit</va-button>
     </va-card-content>
 
     <hr>
@@ -27,17 +27,23 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useValidation } from '@/components/validation/useValidation'
+import { useAuth } from '@/composables/useAuth'
 
 export default {
   name: 'CfLoginForm',
   setup () {
+    const { login } = useAuth()
     const { emailRules } = useValidation()
     const email = ref('')
     const password = ref('')
+    const signUp = () => {
+      login(email.value, password.value)
+    }
     return {
       emailRules,
       email,
       password,
+      signUp,
     }
   },
 }
