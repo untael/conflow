@@ -19,4 +19,8 @@ export default class User implements IUser {
   email = ''
   @Expose()
   phone_number?: string = ''
+
+  public get full_name () {
+    return `${this.first_name} ${this.last_name}`
+  }
 }

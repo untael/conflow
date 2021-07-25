@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-gray-100 h-screen relative">
+  <div class="cf-app-wrapper bg-gray-100 h-screen relative overflow-hidden">
     <cf-topbar/>
     <cf-header/>
-    <main>
+    <main class="h-full">
       <router-view/>
     </main>
     <cf-footer/>
@@ -25,12 +25,16 @@ export default {
   setup () {
     const visible = ref(true)
     return {
-      visible
+      visible,
     }
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
 
+.cf-app-wrapper {
+  font-family: 'Roboto', sans-serif;
+}
 </style>

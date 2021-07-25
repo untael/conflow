@@ -1,12 +1,12 @@
 import { AxiosRequestConfig } from 'axios'
 import { executeApiRequest } from '@/middleware/axios'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import Interview from '@/api/Event/Interview/Interview'
 import { plainToClass } from 'class-transformer'
 import plainInterview from '../../../../interview.json'
 
 export const useInterview = () => {
-  const interview: any = null
+  let interview = ref(new Interview())
 
   const getInterview = (id: string | string[]): Interview => {
     const request: AxiosRequestConfig = {
@@ -14,7 +14,9 @@ export const useInterview = () => {
       url: `/interviews/${id}?include=interviewers`,
     }
     // const plainInterview = await executeApiRequest(request)
-    return reactive(plainToClass(Interview, plainInterview as {}, { excludeExtraneousValues: true }))
+    const result = plainToClass(Interview, plainInterview as {}, { excludeExtraneousValues: true })
+    console.log('result', result)
+    return result
   }
 
   const updateInterview = async (interview: Interview) => {

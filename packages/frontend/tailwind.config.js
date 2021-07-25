@@ -2,6 +2,9 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      'body': ['Roboto'],
+    },
     spacing: {
       sm: '8px',
       md: '12px',
