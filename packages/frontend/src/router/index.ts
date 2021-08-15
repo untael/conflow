@@ -4,6 +4,8 @@ import InterviewDisplayPage from '@/views/InterviewDisplayPage.vue'
 import InterviewEditPage from '@/views/InterviewEditPage.vue'
 import CfAuthPage from '@/views/CfAuthPage.vue'
 import CfAppWrapper from '@/views/CfAppWrapper.vue'
+import Test from '@/views/test.vue'
+import CfInterviewForm from '@/views/CfInterviewForm.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -51,6 +53,16 @@ const routes: Array<RouteRecordRaw> = [
     props: {
       mode: 'reset-password',
     },
+  },
+  {
+    path: '/interview',
+    name: 'interview',
+    component: CfInterviewForm,
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: Test,
   },
   // {
   //   path: '*',
