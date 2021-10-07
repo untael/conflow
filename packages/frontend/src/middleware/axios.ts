@@ -21,7 +21,7 @@ const apiExecuteResponse = axiosInstance.interceptors.response.use((response) =>
 export const executeApiRequest = async (requestConfig: AxiosRequestConfig) => {
   try {
     return (await axiosInstance({ ...requestConfig })).data
-  } catch (e) {
+  } catch (e: any) {
     throw e.response && e.response.data ? e.response.data : e
   }
 }

@@ -1,6 +1,6 @@
 import { Expose, Transform } from 'class-transformer'
 
-const options = { year: 'numeric', month: 'short', day: 'numeric' }
+const options: any = { year: 'numeric', month: 'short', day: 'numeric' }
 
 export default interface IEvent {
   id: string;
