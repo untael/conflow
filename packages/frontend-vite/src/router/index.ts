@@ -7,13 +7,19 @@ import CfAppWrapper from '../views/CfAppWrapper.vue'
 import Test from '../views/test.vue'
 import CfInterviewForm from '../views/CfInterviewForm.vue'
 import CfInterviewProcessPage from '@/views/CfInterviewProcessPage.vue'
-
+import CfQuestionForm from '../components/question/CfQuestionForm.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
     component: CfAppWrapper,
     children: [
       {
+        path: '/question',
+        name: 'question',
+        component: CfQuestionForm,
+      },
+      {
+        
         path: '/interviews/:id',
         component: InterviewControlPage,
         children: [
@@ -70,6 +76,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'test',
     component: Test,
   },
+  
   // {
   //   path: '*',
   //   redirect: '/error',
