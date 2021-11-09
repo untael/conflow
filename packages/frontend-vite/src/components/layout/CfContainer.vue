@@ -1,6 +1,9 @@
 <template>
   <div class="cf-container container pa-4 border-0 mx-auto flex flex-col max-w-screen-md">
     <va-card square outlined class="pa-2 border-0 max-w-screen-md d-flex flex-col">
+      <va-card-title>
+        <slot name="title"></slot>
+      </va-card-title>
       <va-card-content class="pa-0">
         <slot/>
       </va-card-content>
