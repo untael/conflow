@@ -4,7 +4,6 @@ import InterviewDisplayPage from '../views/InterviewDisplayPage.vue'
 import InterviewEditPage from '../views/InterviewEditPage.vue'
 import CfAuthPage from '../views/CfAuthPage.vue'
 import CfAppWrapper from '../views/CfAppWrapper.vue'
-import Test from '../views/test.vue'
 import CfInterviewForm from '../views/CfInterviewForm.vue'
 import CfInterviewProcessPage from '@/views/CfInterviewProcessPage.vue'
 import CfQuestionForm from '../components/question/CfQuestionForm.vue'
@@ -19,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
         component: CfQuestionForm,
       },
       {
-        
+
         path: '/interviews/:id',
         component: InterviewControlPage,
         children: [
@@ -71,12 +70,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'interview',
     component: CfInterviewForm,
   },
-  {
-    path: '/test',
-    name: 'test',
-    component: Test,
-  },
-  
   // {
   //   path: '*',
   //   redirect: '/error',

@@ -27,10 +27,10 @@
             </va-chip>
           </div>
           <div class="py-2 flex items-center">
-            <div v-if="!question.time_spent" class="flex justify-end">
+            <div v-if="!question.is_completed" class="flex justify-end">
               <va-button
-                  v-if="!question.date_start"
-                  @click="startQ"
+                  v-if="!question.is_in_progress"
+                  @click="question.start()"
                   color="success"
                   size="small"
                   class="mr-4 flex-none"
@@ -38,8 +38,8 @@
                 Start
               </va-button>
               <va-button
-                  v-if="question.date_start && !question.date_end"
-                  @click="endQ"
+                  v-if="question.is_in_progress"
+                  @click="question.end()"
                   color="danger"
                   size="small"
                   class="mr-4 flex-none"
@@ -49,13 +49,12 @@
             </div>
 
             <div v-else class="flex flex-col items-end justify-between text-xs">
-              <div class="flex-none text-center" v-if="question.time_spent">{{
-                  ` Time spent: ${Math.round(question.time_spent / 60000)} min ${Math.round(
-                      (question.time_spent % 60000) / 1000,
-                  )} s`
+              <div class="flex-none text-center">
+                {{
+                  time_spent_description
                 }}
               </div>
-              <div v-if="question.time_spent" class="flex items-center flex-none">
+              <div class="flex items-center flex-none">
                 <div>
                   Mark:
                 </div>
@@ -71,6 +70,7 @@
 
 <script lang="ts">
 import Question from '@/api/Question/Question'
+import { computed } from 'vue'
 
 export default {
   name: 'CfQuestionForm',
@@ -88,15 +88,18 @@ export default {
       value: false,
     }
   },
-  methods: {
-    startQ () {
-      this.question.date_start = new Date()
-    },
-    endQ () {
-      this.question.date_end = new Date()
-
-      this.question.time_spent = this.question.date_end - this.question.date_start
-    },
+  setup (props) {
+    const time_spent_description = computed(() => {
+      if (!props.question) {
+        return ''
+      }
+      return ` Time spent: ${Math.round(props.question.time_spent / 60000)} min ${Math.round(
+          (props.question.time_spent % 60000) / 1000,
+      )} s`
+    })
+    return {
+      time_spent_description
+    }
   },
 }
 </script>

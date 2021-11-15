@@ -6,6 +6,7 @@ export default interface IUser {
   last_name: string;
   email: string;
   phone_number?: string;
+  readonly full_name: string;
 }
 
 export default class User implements IUser {

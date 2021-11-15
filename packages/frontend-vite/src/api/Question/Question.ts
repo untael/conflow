@@ -8,11 +8,15 @@ export default interface IQuestion {
   mark?: string
   rating?: string
   code?: any
-  date_start: Date
-  date_end: Date
+  date_start: Date | null
+  date_end: Date | null
   time_spent: number
   type: string
   tags: string[]
+  readonly is_completed: boolean
+  readonly is_in_progress: boolean
+  readonly start: () => void
+  readonly end: () => void
 }
 
 export default class Question implements IQuestion {
@@ -31,18 +35,32 @@ export default class Question implements IQuestion {
   @Expose()
   code?: any
   @Expose()
-  date_start: Date = new Date()
+  date_start: null
   @Expose()
-  date_end: Date = new Date()
+  date_end: null
   @Expose()
   time_spent: number = 0
+  time_spent_description: string = ''
   @Expose()
   type: string = ''
   @Expose()
   tags: string[] = []
 
-  public get is_completed (): boolean {
+  get is_in_progress () {
+    return !!this.date_start
+  }
+
+  get is_completed () {
     return !!this.time_spent
+  }
+
+  start () {
+    this.date_start = new Date()
+  }
+
+  end () {
+    this.date_end = new Date()
+    this.time_spent = this.date_end - this.date_start
   }
 
   constructor (data: any) {
