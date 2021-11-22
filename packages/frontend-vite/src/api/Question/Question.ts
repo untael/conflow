@@ -13,10 +13,10 @@ export default interface IQuestion {
   time_spent: number
   type: string
   tags: string[]
-  readonly is_completed: boolean
-  readonly is_in_progress: boolean
-  readonly start: () => void
-  readonly end: () => void
+  // readonly is_completed: boolean
+  // readonly is_in_progress: boolean
+  // readonly start: () => void
+  // readonly end: () => void
 }
 
 export default class Question implements IQuestion {
@@ -61,6 +61,13 @@ export default class Question implements IQuestion {
   end () {
     this.date_end = new Date()
     this.time_spent = this.date_end - this.date_start
+  }
+
+  //ToDo: 3 sec should looks like 0:03 instead of 0:3
+  get formatted_time_spent () {
+    const minutes = Math.round(this.time_spent / 60000)
+    const seconds = Math.round((this.time_spent % 60000) / 1000)
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
   }
 
   constructor (data: any) {

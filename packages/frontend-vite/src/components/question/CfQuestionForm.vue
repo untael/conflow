@@ -1,27 +1,31 @@
 <template>
   <va-collapse
-      class="cf-question-form"
+      class="cf-question-form shadow-none"
       v-model="value"
       color-all
       :icon="question.type"
       :header="question.name"
   >
-    <div class="pt-2 text-sm bg-gray-100">
+    <div class="pt-2 text-sm bg-gray-50">
       <div class="px-2 py-2">
         {{ question.description }}
       </div>
 
+      <div class="px-2 py-2">
+        <cf-prism-wrapper :code="question.code"/>
+      </div>
+
       <div>
-        <div class="flex justify-between px-2 bg-gray-200">
-          <div class="py-2 text-xs">
+        <div class="flex justify-between px-2 bg-gray-100">
+          <div class="py-2 text-xs flex items-center flex-none">
             <va-chip
                 v-for="(tag, index) in question.tags"
                 :key="index"
-                color="#000000"
+                color="rgba(209, 213, 219)"
                 size="small"
                 square
                 outline
-                class="mr-2 mt-1"
+                class="mr-2"
             >
               {{ tag }}
             </va-chip>
@@ -31,34 +35,34 @@
               <va-button
                   v-if="!question.is_in_progress"
                   @click="question.start()"
-                  color="success"
+                  color="#86a17d"
                   size="small"
-                  class="mr-4 flex-none"
-              >
-                Start
-              </va-button>
+                  class="flex-none"
+                  :rounded="false"
+                  outline
+                  icon="play_arrow"
+              />
               <va-button
                   v-if="question.is_in_progress"
                   @click="question.end()"
-                  color="danger"
+                  color="#c31020"
                   size="small"
-                  class="mr-4 flex-none"
-              >End
-              </va-button
-              >
+                  class="flex-none"
+                  :rounded="false"
+                  outline
+                  icon="stop"
+              />
             </div>
 
-            <div v-else class="flex flex-col items-end justify-between text-xs">
-              <div class="flex-none text-center">
-                {{
-                  time_spent_description
-                }}
+            <div v-else class="flex flex-col flex-none ml-auto items-start justify-between text-xs">
+              <div class="flex-none text-center test">
+                Time spent: {{ question.formatted_time_spent }}
               </div>
-              <div class="flex items-center flex-none">
-                <div>
-                  Mark:
-                </div>
-                <va-rating v-model="question.mark" size="small"/>
+              <div class="flex items-center flex-none test">
+<!--                <div>-->
+<!--                  Mark:-->
+<!--                </div>-->
+                <va-rating color="#86a17d" v-model="question.mark" size="small"/>
               </div>
             </div>
           </div>
@@ -70,10 +74,11 @@
 
 <script lang="ts">
 import Question from '@/api/Question/Question'
-import { computed } from 'vue'
+import CfPrismWrapper from '@/components/CfPrismWrapper.vue'
 
 export default {
   name: 'CfQuestionForm',
+  components: { CfPrismWrapper },
   props: {
     question: {
       type: Object,
@@ -88,39 +93,45 @@ export default {
       value: false,
     }
   },
-  setup (props) {
-    const time_spent_description = computed(() => {
-      if (!props.question) {
-        return ''
-      }
-      return ` Time spent: ${Math.round(props.question.time_spent / 60000)} min ${Math.round(
-          (props.question.time_spent % 60000) / 1000,
-      )} s`
-    })
-    return {
-      time_spent_description
-    }
-  },
 }
 </script>
 
 <style lang="scss">
+.test {
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .6px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
 .cf-question-form {
   --va-collapse-header-content-icon-margin-right: 1rem;
   --va-collapse-header-content-icon-margin-left: 1rem;
+  --va-collapse-header-content-border-radius: var(--cf-border-radius);
+  --va-collapse-header-content-box-shadow: none;
+
+  --va-button-outline-border: 1px;
 
   .va-collapse__header {
     position: relative;
   }
 
   .va-collapse__header__content {
-    @apply bg-gray-300
+    @apply bg-gray-200
   }
 
   .va-collapse__body {
-    border-radius: 0 0 var(--va-collapse-header-content-border-radius) var(--va-collapse-header-content-border-radius);
+    border-radius: 0 0 var(--cf-border-radius) var(--cf-border-radius);
     border: 0;
     margin: -4px 0 0 0;
+  }
+
+  .va-chip {
+    --va-chip-square-border-radius: 0;
+    --va-chip-border: 1px solid;
+    --va-chip-square-border-radius: var(--cf-border-radius);
+    color: var(--va-card-color) !important;
+    @apply bg-gray-100
   }
 }
 

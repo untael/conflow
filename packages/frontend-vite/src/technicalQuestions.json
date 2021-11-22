@@ -2,6 +2,10 @@
   {
     "category": "Javascript",
     "questions": [
+      {
+        "description": "Дан массив объектов",
+        "code": "const frameworks = [\n  {\n    id: 1,\n    name: \"Vue\",\n    stars: 178955\n  },\n  {\n    id: 2,\n    name: \"React\",\n    stars: 162531\n  },\n  {\n    id: 3,\n    name: \"Angular\",\n    stars: 70035\n  }\n];"
+      },
       "Проверка на массив?",
       "Дан массив объектов:\nconst frameworks = [\n  {\n    id: 1,\n    name: \"Vue\",\n    stars: 178955\n  },\n  {\n    id: 2,\n    name: \"React\",\n    stars: 162531\n  },\n  {\n    id: 3,\n    name: \"Angular\",\n    stars: 70035\n  }\n];\n\nconst starsCount = frameworks.reduce((acc, framework) => acc + framework.stars, 0)\n\n\nНайти фреймворк Vue и вывести в консоль\nconst frameworkVue = frameworks.find((framework) => framework.name === \"Vue\")\n\n\nКлонировать массив и уменьшить в нем количество stars в 2 раза у всех фреймворков кроме Vue\nconst clone = frameworks.map((framework) => ({ ...framework, stars: framework.name !== 'Vue' ? framework.stars / 2 : framework.stars }))\n\n\nОтсортировать массив по полю stars (по возрастанию)\nconst sortedFrameworks = frameworks.sort((a,b) => a.stars - b.stars)",
       "Дан массив объектов:\n\nconst people = [\n  { name: \"Alice\", age: 21 },\n  { name: \"Max\", age: 20 },\n  { name: \"Jane\", age: 20 }\n];\n\n\nНаписать функцию groupBy которая группирует объекты по заданному свойству\n\nПример:\nconst groupBy = (objectArray, property) { }\n\n\nРезультат:\n{\n   20: [\n     { name: 'Max', age: 20 },\n     { name: 'Jane', age: 20 }\n   ],\n   21: [{ name: 'Alice', age: 21 }]\n}\n\n"
