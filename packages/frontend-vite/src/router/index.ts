@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import InterviewControlPage from '../views/InterviewControlPage.vue'
 import InterviewDisplayPage from '../views/InterviewDisplayPage.vue'
 import InterviewEditPage from '../views/InterviewEditPage.vue'
@@ -7,78 +7,91 @@ import CfAppWrapper from '../views/CfAppWrapper.vue'
 import CfInterviewForm from '../views/CfInterviewForm.vue'
 import CfInterviewProcessPage from '@/views/CfInterviewProcessPage.vue'
 import CfQuestionForm from '../components/question/CfQuestionForm.vue'
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '',
-    component: CfAppWrapper,
-    children: [
-      {
-        path: '/question',
-        name: 'question',
-        component: CfQuestionForm,
-      },
-      {
+import CfInterviewResultsPage from '@/views/CfInterviewResultsPage.vue'
+import CfAnswerForm from "../components/answer/CfAnswerForm.vue";
 
-        path: '/interviews/:id',
-        component: InterviewControlPage,
+const routes: Array<RouteRecordRaw> = [
+    {
+        path: '',
+        component: CfAppWrapper,
         children: [
-          {
-            name: 'Interview Display',
-            path: '',
-            component: InterviewDisplayPage,
-          },
-          {
-            name: 'Interview Process',
-            path: 'started',
-            component: CfInterviewProcessPage,
-          },
-          {
-            name: 'Interview Edit',
-            path: 'edit',
-            component: InterviewEditPage,
-          },
+            {
+                path: '/question',
+                name: 'question',
+                component: CfQuestionForm,
+            },
+            {
+                path: '/answer',
+                name: 'answer',
+                component: CfAnswerForm,
+            },
+            {
+
+                path: '/interviews/:id',
+                component: InterviewControlPage,
+                children: [
+                    {
+                        name: 'Interview Display',
+                        path: '',
+                        component: InterviewDisplayPage,
+                    },
+                    {
+                        name: 'Interview Process',
+                        path: 'started',
+                        component: CfInterviewProcessPage,
+                    },
+                    {
+                        name: 'Interview Edit',
+                        path: 'edit',
+                        component: InterviewEditPage,
+                    },
+                    {
+                        name: 'Interview Results',
+                        path: 'results',
+                        component: CfInterviewResultsPage,
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  },
-  {
-    path: '/sign-up',
-    name: 'sign-up',
-    component: CfAuthPage,
-    props: {
-      mode: 'sign-up',
     },
-  },
-  {
-    path: '/sign-in',
-    name: 'sign-in',
-    component: CfAuthPage,
-    props: {
-      mode: 'sign-in',
+    {
+        path: '/sign-up',
+        name: 'sign-up',
+        component: CfAuthPage,
+        props: {
+            mode: 'sign-up',
+        },
     },
-  },
-  {
-    path: '/reset-password',
-    name: 'reset-password',
-    component: CfAuthPage,
-    props: {
-      mode: 'reset-password',
+    {
+        path: '/sign-in',
+        name: 'sign-in',
+        component: CfAuthPage,
+        props: {
+            mode: 'sign-in',
+        },
     },
-  },
-  {
-    path: '/interview',
-    name: 'interview',
-    component: CfInterviewForm,
-  },
-  // {
-  //   path: '*',
-  //   redirect: '/error',
-  // },
+    {
+        path: '/reset-password',
+        name: 'reset-password',
+        component: CfAuthPage,
+        props: {
+            mode: 'reset-password',
+        },
+    },
+    {
+        path: '/interview',
+        name: 'interview',
+        component: CfInterviewForm,
+    },
+    // {
+    //   path: '*',
+    //   redirect: '/error',
+    // },
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes,
 })
 
 export default router
