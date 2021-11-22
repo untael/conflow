@@ -1,0 +1,48 @@
+[
+  {
+    "category": "Javascript",
+    "questions": [
+      "Проверка на массив?",
+      "Дан массив объектов:\nconst frameworks = [\n  {\n    id: 1,\n    name: \"Vue\",\n    stars: 178955\n  },\n  {\n    id: 2,\n    name: \"React\",\n    stars: 162531\n  },\n  {\n    id: 3,\n    name: \"Angular\",\n    stars: 70035\n  }\n];\n\nconst starsCount = frameworks.reduce((acc, framework) => acc + framework.stars, 0)\n\n\nНайти фреймворк Vue и вывести в консоль\nconst frameworkVue = frameworks.find((framework) => framework.name === \"Vue\")\n\n\nКлонировать массив и уменьшить в нем количество stars в 2 раза у всех фреймворков кроме Vue\nconst clone = frameworks.map((framework) => ({ ...framework, stars: framework.name !== 'Vue' ? framework.stars / 2 : framework.stars }))\n\n\nОтсортировать массив по полю stars (по возрастанию)\nconst sortedFrameworks = frameworks.sort((a,b) => a.stars - b.stars)",
+      "Дан массив объектов:\n\nconst people = [\n  { name: \"Alice\", age: 21 },\n  { name: \"Max\", age: 20 },\n  { name: \"Jane\", age: 20 }\n];\n\n\nНаписать функцию groupBy которая группирует объекты по заданному свойству\n\nПример:\nconst groupBy = (objectArray, property) { }\n\n\nРезультат:\n{\n   20: [\n     { name: 'Max', age: 20 },\n     { name: 'Jane', age: 20 }\n   ],\n   21: [{ name: 'Alice', age: 21 }]\n}\n\n"
+    ]
+  },
+  {
+    "category": "Objects",
+    "questions": [
+      "Как хранится объект и что это значит?",
+      "Как работает Garbage collection в JS?",
+      "Что такое конструктор и для чего он нужен?",
+      "Что такое дескриптор? Какие у него существуют поля? Для чего нужен?",
+      "Как узнать есть ли определенное свойство в объекте?",
+      "Дан объект:\n\n\nconst obj = {\n  a: 1,\n  b: {\n    c: 2,\n  },\n}\n\n\nКлонировать объект разными способами\nconst clone = { ...obj }\nconst clone2 = Object.assign( {}, obj )\nconst clone3 = JSON.parse(JSON.stringify(obj))\n\n"
+    ]
+  },
+  {
+    "category": "Functions",
+    "questions": [
+      "Написать функцию с последовательным вызовом, суммирующую числа\nПример:\nsum(1)(2)(3)()\n//6\n\n\nconst carrSum = (a) => {\n      let sum = a;\n      let inner = (b) => {\n        if (b) {\n          sum += b;\n          return inner;\n        } else {\n          return sum;\n        }\n      };\n      return inner;\n    };\n\n"
+    ]
+  },
+  {
+    "category": "Asynchronous",
+    "questions": [
+      "Даны объекты:\n\nconst product = {\n  id: 1,\n  name: 'Snowboard',\n}\n\nconst translates = {\n  id: 1,\n  names: [{\n    ru: 'Сноуборд',\n    en: 'Snowboard',\n    cn: '雪板',\n  }],\n}\n\n\nНаписать асинхронную функцию имитирующую получение продукта с сервера через 2 секунды:\nconst getProduct =\n() => new Promise(\n    resolve => setTimeout(resolve({name: 'Banana'}), 2000)\n)\n\n",
+      "Получить результат выполнения функций, одновременно выполнив имитированные запросы:\nconst result = Promise.all([getProduct(), getProductTranslates()]).then(data=>console.log(data))\n",
+      "Получить результат выполнения первой успешно выполненной функции\nconst result = Promise.race([getProduct(), getProductTranslates()]).then(data=>console.log(data))\n"
+    ]
+  },
+  {
+    "category": "Vue",
+    "questions": [
+      "Develop a small app that shows a list of all JavaScript repos on Github, sorted by number of stars.\n\nRequirements:\nList’s columns: name, url (link), owner, forks, open issues, watchers.\nShould have pagination on scroll\nShould show loader when data is being loaded.\nShould look nice and have some styling\nPlease, store sources in a public repo (bitbucket, github, gitlab)\nHave a live version of an app deployed via netlify\n\nNote:\nYou can use GitHub API for that\nUse Vue.js. Any flavor you’re comfortable with (ts, jsx, scss, scoped, bem, etc).\nYou can use any other libraries (but no UI libraries like Vuetify/Element/Material as we want to see custom styling).\nWe expect you to do this at first attempt and spend no more than 4 hours.\n\n",
+      "Что такое Vue lifecycle. Основные хуки Vue. Где лучше использовать те или иные?",
+      "Какие существуют способы передачи данных дочерним компонентам?",
+      "$nextTick - что это такое и зачем нужно? Где можно использовать?",
+      "Как избежать утечек памяти при использовании различных eventListener's",
+      "Что такое Virtual DOM и зачем он нужен?",
+      "Что такое scoped slots?",
+      "Создать stateless компонент рейтинга товара:\nПользователь может поставить рейтинг от 1 до 5\nКомпонент может принимать значение рейтинга из родителя"
+    ]
+  }
+]
