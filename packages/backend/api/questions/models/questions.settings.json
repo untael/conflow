@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "questions",
+  "info": {
+    "name": "Questions",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "answer": {
+      "type": "text"
+    },
+    "mark": {
+      "type": "integer"
+    },
+    "rating": {
+      "type": "decimal"
+    },
+    "code": {
+      "type": "text"
+    },
+    "date_start": {
+      "type": "datetime"
+    },
+    "date_end": {
+      "type": "datetime"
+    },
+    "time_spent": {
+      "type": "biginteger"
+    },
+    "type": {
+      "type": "string"
+    },
+    "tags": {
+      "collection": "tags"
+    }
+  }
+}
