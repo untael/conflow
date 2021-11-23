@@ -27,7 +27,7 @@
                 outline
                 class="mr-2"
             >
-              {{ tag }}
+              {{ tag.name }}
             </va-chip>
           </div>
           <div class="py-2 flex items-center">
@@ -59,9 +59,9 @@
                 Time spent: {{ question.formatted_time_spent }}
               </div>
               <div class="flex items-center flex-none test">
-<!--                <div>-->
-<!--                  Mark:-->
-<!--                </div>-->
+                <!--                <div>-->
+                <!--                  Mark:-->
+                <!--                </div>-->
                 <va-rating color="#86a17d" v-model="question.mark" size="small"/>
               </div>
             </div>
@@ -78,7 +78,7 @@ import CfPrismWrapper from '@/components/CfPrismWrapper.vue'
 
 export default {
   name: 'CfQuestionForm',
-  components: { CfPrismWrapper },
+  components: {CfPrismWrapper},
   props: {
     question: {
       type: Object,
@@ -88,7 +88,7 @@ export default {
       },
     },
   },
-  data () {
+  data() {
     return {
       value: false,
     }
@@ -104,6 +104,7 @@ export default {
   line-height: 1.2;
   text-transform: uppercase;
 }
+
 .cf-question-form {
   --va-collapse-header-content-icon-margin-right: 1rem;
   --va-collapse-header-content-icon-margin-left: 1rem;
