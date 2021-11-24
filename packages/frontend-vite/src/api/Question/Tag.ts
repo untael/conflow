@@ -5,4 +5,8 @@ export default class Tag {
     id: string = ''
     @Expose()
     name: string = ''
+
+    constructor(data: Partial<Tag>) {
+        Object.assign(this, data)
+    }
 }

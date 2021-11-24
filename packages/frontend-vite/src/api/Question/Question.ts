@@ -6,14 +6,14 @@ export default interface IQuestion {
     name: string
     description: string
     answer?: string
-    mark?: string
+    mark?: number
     rating?: string
     code?: any
     date_start: Date | null
     date_end: Date | null
     time_spent: number
     type: string
-    tags: string[]
+    tags: Tag[]
     // readonly is_completed: boolean
     // readonly is_in_progress: boolean
     // readonly start: () => void
@@ -30,9 +30,9 @@ export default class Question implements IQuestion {
     @Expose()
     answer?: string = ''
     @Expose()
-    mark?: string = ''
+    mark?: number = 0
     @Expose()
-    rating?: string = ''
+    rating?: number = 0
     @Expose()
     code?: any
     @Expose()
@@ -46,7 +46,7 @@ export default class Question implements IQuestion {
     type: string = ''
     @Expose()
     @Type(() => Tag)
-    tags: string[] = []
+    tags: Tag[] = []
 
     get is_in_progress() {
         return !!this.date_start

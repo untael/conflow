@@ -1,9 +1,9 @@
 <template>
-  <va-card square outlined class="container px-4 py-4 border-0">
-    <va-card-title>
+  <cf-container>
+    <template #title>
       Interview Edit Form
-    </va-card-title>
-    <va-card-content>
+    </template>
+    <template #default>
       <div class="py-2">
         Interview name:
         <va-input v-model="name"/>
@@ -39,20 +39,24 @@
         </div>
       </div>
 
-      <div class="pt-4 d-flex justify--end">
+      <div class="pt-4 d-flex justify-end">
         <va-button>Save</va-button>
       </div>
-    </va-card-content>
-  </va-card>
+    </template>
+  </cf-container>
+
 </template>
 
 <script lang="ts">
-import { computed, ref } from 'vue'
+import {computed, ref} from 'vue'
+import CfContainer from "@/components/layout/CfContainer.vue";
+
 
 export default {
   name: 'InterviewEditForm',
+  components: {CfContainer},
 
-  setup () {
+  setup() {
     const name = ref('')
     const computedName = computed(() => {
       return name.value ? name.value : ''

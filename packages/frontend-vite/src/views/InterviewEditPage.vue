@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto py-4 flex flex-col max-w-screen-md">
+  <div class="mx-auto  flex flex-col max-w-screen-md">
     <interview-edit-form/>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
   components: {
     InterviewEditForm,
   },
-  setup () {
+  setup() {
     return {}
   },
 }

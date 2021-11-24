@@ -1,7 +1,8 @@
 <template>
+
   <va-collapse
       class="cf-answer-form shadow-none"
-      v-model="value1"
+      v-model="openCollapse"
       color-all
   >
     <template v-slot:header>
@@ -39,27 +40,27 @@
       </div>
     </template>
     <div class="flex  items-start justify-between text-sm bg-gray-50">
-      <div class="px-2 py-2">
+      <div class="px-2 py-2 flex-basis-50">
         {{ question.description }}
       </div>
-      <div class="px-2 py-2">
-        {{
-          question.answer
-        }}
+      <div class="px-2 py-2 flex-basis-50">
+        {{ question.answer }}
       </div>
 
     </div>
   </va-collapse>
 
+
 </template>
 
 <script lang="ts">
 import Question from '@/api/Question/Question'
-import {computed} from 'vue'
+import CfContainer from "@/components/layout/CfContainer.vue";
 
 export default {
 
   name: 'CfAnswerForm',
+  components: {CfContainer},
   props: {
     question: {
       type: Object,
@@ -71,8 +72,8 @@ export default {
   },
   data() {
     return {
-      value: false,
-      value1: false,
+
+      openCollapse: false,
     }
   },
 
@@ -109,6 +110,10 @@ export default {
     margin: -4px 0 0 0;
   }
 
+}
+
+.flex-basis-50 {
+  flex-basis: 50% !important;
 }
 
 </style>

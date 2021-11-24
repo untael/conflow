@@ -1,17 +1,28 @@
 <template>
-  <cf-answer-form
-      :question="question"
-  />
+  <cf-container>
+    <template #title>
+      Interview result
+    </template>
+    <template #default>
+      <div v-for="(question, i) in questions" :key="i">
+        <cf-answer-form
+            :question="question"
+            class="py-2"
+        />
+      </div>
+    </template>
+  </cf-container>
 </template>
 <script>
 import CfAnswerForm from '../components/answer/CfAnswerForm.vue';
 import Question from "@/api/Question/Question";
+import CfContainer from "@/components/layout/CfContainer.vue";
 
 export default {
   name: 'CfInterviewResultsPage',
-  components: {CfAnswerForm},
+  components: {CfAnswerForm, CfContainer},
   data() {
-    let question = new Question({
+    let questions = (new Array(5)).fill(new Question({
       id: 1,
       name: 'Lorem ipsum dolor, sit amet consectetur...',
       description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, consectetur! Asperiores excepturi, fugiat sed tempora impedit facere consequuntur labore eligendi',
@@ -31,9 +42,9 @@ export default {
         'fetch',
         'objects'
       ],
-    })
+    }))
     return {
-      question
+      questions
     }
   }
 }

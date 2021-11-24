@@ -9,12 +9,18 @@ import CfInterviewProcessPage from '@/views/CfInterviewProcessPage.vue'
 import CfQuestionForm from '../components/question/CfQuestionForm.vue'
 import CfInterviewResultsPage from '@/views/CfInterviewResultsPage.vue'
 import CfAnswerForm from "../components/answer/CfAnswerForm.vue";
+import CfAddQuestionForm from "../views/CfAddQuestionForm.vue"
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '',
         component: CfAppWrapper,
         children: [
+            {
+                path: '/addQuestion',
+                name: 'addQuestionForm',
+                component: CfAddQuestionForm,
+            },
             {
                 path: '/question',
                 name: 'question',

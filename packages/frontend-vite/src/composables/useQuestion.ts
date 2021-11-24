@@ -2,7 +2,8 @@ import Question from '@/api/Question/Question'
 import {Ref, ref} from 'vue'
 import axios from "axios";
 import * as process from "process";
-import {plainToClass} from "class-transformer";
+import {plainToClass, classToPlain} from "class-transformer";
+import Tag from "@/api/Question/Tag";
 
 export const useQuestion = () => {
     const questions: Ref<Question[]> = ref([])
@@ -38,9 +39,25 @@ export const useQuestion = () => {
         const mappedQuestions = plainToClass(Question, plainQuestions, {excludeExtraneousValues: true})
         return mappedQuestions
     }
+    const postQuestion = (question: Question) => {
+        console.log(question)
+        question.tags = [
+            new Tag({name: 'js', id: '1'}),
+            new Tag({name: 'fundamentals', id: '2'}),
+            new Tag({name: 'arrays', id: '3'}),]
+        console.log('class-to-plain', classToPlain(question))
+        axios.post(`${import.meta.env.VITE_API_URL}/questions`, classToPlain(question))
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
     return {
         fetchQuestions,
         questions,
         getQuestions,
+        postQuestion,
     }
 }
