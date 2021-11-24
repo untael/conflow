@@ -3,13 +3,13 @@ import InterviewControlPage from '../views/InterviewControlPage.vue'
 import InterviewDisplayPage from '../views/InterviewDisplayPage.vue'
 import InterviewEditPage from '../views/InterviewEditPage.vue'
 import CfAuthPage from '../views/CfAuthPage.vue'
-import CfAppWrapper from '../views/CfAppWrapper.vue'
-import CfInterviewForm from '../views/CfInterviewForm.vue'
+import CfAppWrapper from '../components/layout/CfAppWrapper.vue'
+import CfInterviewForm from '../components/interview/CfInterviewForm.vue'
 import CfInterviewProcessPage from '@/views/CfInterviewProcessPage.vue'
 import CfQuestionForm from '../components/question/CfQuestionForm.vue'
 import CfInterviewResultsPage from '@/views/CfInterviewResultsPage.vue'
 import CfAnswerForm from "../components/answer/CfAnswerForm.vue";
-import CfAddQuestionForm from "../views/CfAddQuestionForm.vue"
+import CfAddQuestionForm from "../components/question/CfQuestionCreateForm.vue"
 
 const routes: Array<RouteRecordRaw> = [
     {

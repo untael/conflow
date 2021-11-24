@@ -15,7 +15,6 @@ export const useInterview = () => {
     }
     // const plainInterview = await executeApiRequest(request)
     const result = plainToClass(Interview, plainInterview as {}, { excludeExtraneousValues: true })
-    console.log('result', result)
     return result
   }
 

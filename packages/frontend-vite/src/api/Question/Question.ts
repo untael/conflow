@@ -1,13 +1,13 @@
-import {Expose, Type} from 'class-transformer'
-import Tag from "@/api/Question/Tag";
+import { Expose, Transform, Type } from 'class-transformer'
+import Tag from '@/api/Question/Tag'
 
 export default interface IQuestion {
   id: string;
   name: string
   description: string
   answer?: string
-  mark?: string
-  rating?: string
+  mark?: number
+  rating?: number
   code?: any
   date_start: Date | null
   date_end: Date | null
@@ -26,9 +26,9 @@ export default class Question implements IQuestion {
   @Expose()
   answer?: string = ''
   @Expose()
-  mark?: string = ''
+  mark?: number = 0
   @Expose()
-  rating?: string = ''
+  rating?: number = 0
   @Expose()
   code?: any
   @Expose()
@@ -41,19 +41,20 @@ export default class Question implements IQuestion {
   @Expose()
   type: string = ''
   @Expose()
+  @Transform(({ value }) => value.map((tag: Tag) => tag.id), { toPlainOnly:true })
   tags: string[] = []
 
-    get is_in_progress() {
-        return !!this.date_start
-    }
+  get is_in_progress () {
+    return !!this.date_start
+  }
 
-    get is_completed() {
-        return !!this.time_spent
-    }
+  get is_completed () {
+    return !!this.time_spent
+  }
 
-    start() {
-        this.date_start = new Date()
-    }
+  start () {
+    this.date_start = new Date()
+  }
 
   end () {
     this.date_end = new Date()
@@ -68,7 +69,9 @@ export default class Question implements IQuestion {
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
   }
 
-    constructor(data: any) {
-        Object.assign(this, data)
+  constructor (data?: any) {
+    if (data) {
+      Object.assign(this, data)
     }
+  }
 }

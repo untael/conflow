@@ -26,7 +26,7 @@ export default {
   components: {CfQuestionForm, CfContainer},
   setup() {
 
-    const {fetchQuestions, getQuestions} = useQuestion()
+    const { getQuestions} = useQuestion()
     const questions = ref([])
     onMounted(async () => {
       //@ts-ignore

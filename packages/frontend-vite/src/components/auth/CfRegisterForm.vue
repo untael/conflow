@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { ref } from 'vue'
-import { useValidation } from '@/components/validation/useValidation'
+import { useValidation } from '@/composables/useValidation'
 import { useAuth } from '@/composables/useAuth'
 
 export default {
