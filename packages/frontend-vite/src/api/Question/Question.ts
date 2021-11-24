@@ -30,7 +30,7 @@ export default class Question implements IQuestion {
   @Expose()
   rating?: number = 0
   @Expose()
-  code?: any
+  code?: any = 'const test = ["a","c","c"]'
   @Expose()
   date_start: Date | null = null
   @Expose()

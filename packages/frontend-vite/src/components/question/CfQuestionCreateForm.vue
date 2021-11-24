@@ -1,5 +1,5 @@
 <template>
-  <cf-container>
+  <cf-container class="cf-question-create-form">
     <template #title>
       Add question form
     </template>
@@ -21,10 +21,7 @@
 
       <div class="py-2">
         Code:
-        <va-input
-            v-model="question.code"
-            type="textarea"
-        />
+        <textarea class="cf-question-create-form__codemirror" v-model="question.code" id="editor"/>
       </div>
 
       <div class="py-2">
@@ -61,10 +58,15 @@
 <script lang="ts">
 import CfContainer from '@/components/layout/CfContainer.vue'
 import Question from '@/api/Question/Question'
-import { onMounted, Ref, ref } from 'vue'
+import { onMounted, onBeforeMount, Ref, ref } from 'vue'
 import { useQuestion } from '@/composables/useQuestion'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
+// import Codemirror from 'codemirror-editor-vue3'
+import * as Codemirror from 'codemirror'
+import 'codemirror/mode/javascript/javascript.js'
+import 'codemirror-editor-vue3/dist/style.css'
+import 'codemirror/lib/codemirror.css'
 
 export default {
   name: 'CfAddQuestionCreateForm',
@@ -77,6 +79,13 @@ export default {
 
     onMounted(async () => {
       tags.value = await getTags()
+
+      Codemirror.fromTextArea(document.getElementById('editor') as HTMLTextAreaElement, {
+        mode: 'text/javascript', // Language mode
+        lineNumbers: true, // Show line number
+        smartIndent: true, // Smart indent
+        indentUnit: 2, // The smart indent unit is 2 spaces in length
+      })
     })
 
     return {
@@ -92,3 +101,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.cf-question-create-form {
+  .CodeMirror {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--va-input-color);
+  }
+}
+</style>

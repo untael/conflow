@@ -6,6 +6,8 @@ import { VuesticPlugin } from 'vuestic-ui'
 import 'vuestic-ui/dist/vuestic-ui.css'
 import './main.scss'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import 'codemirror-editor-vue3/dist/style.css'
+import 'codemirror/mode/javascript/javascript.js'
 
 const app = createApp(App)
 app.use(VuesticPlugin)
