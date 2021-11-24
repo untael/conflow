@@ -11,18 +11,14 @@
           :question="question"
       />
     </div>
-    <va-button color="danger" class="mr-4" @click="endInterview()">End interview</va-button>
+    <va-button color="danger" class="mr-4">End interview</va-button>
   </cf-container>
 </template>
 
 <script lang="ts">
-import Question from "@/api/Question/Question";
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfQuestionForm from '@/components/question/CfQuestionForm.vue'
 import {onMounted, ref} from 'vue'
-import useInterview from '@/composables/useInterview'
-import questionsJson from '../technicalQuestions.json'
-import questionsJson2 from '../questions.json'
 import {useQuestion} from "@/composables/useQuestion";
 
 export default {
@@ -33,12 +29,11 @@ export default {
     const {fetchQuestions, getQuestions} = useQuestion()
     const questions = ref([])
     onMounted(async () => {
+      //@ts-ignore
       questions.value = await getQuestions()
     })
-
     return {
       questions,
-      // endInterview,
     }
   },
 
