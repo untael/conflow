@@ -11,7 +11,7 @@
           :question="question"
       />
     </div>
-    <va-button color="danger" class="mr-4" @click="endInterview()">End interview</va-button>
+    <va-button color="danger" class="mr-4">End interview</va-button>
   </cf-container>
 </template>
 

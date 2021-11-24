@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@types/prismjs": "^1.16.6",
+    "@types/webpack-env": "^1.16.3",
     "axios": "^0.24.0",
     "class-transformer": "^0.4.0",
     "material-design-icons-iconfont": "^6.1.1",
