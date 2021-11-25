@@ -9,7 +9,9 @@ import CfInterviewProcessPage from '../views/CfInterviewProcessPage.vue'
 import CfQuestionForm from '../components/question/CfQuestionForm.vue'
 import CfInterviewResultsPage from '@/views/CfInterviewResultsPage.vue'
 import CfAnswerForm from "../components/answer/CfAnswerForm.vue";
+import CfAddQuestionCreateForm from '../components/question/CfQuestionCreateForm.vue'
 import CfAddQuestionForm from "../components/question/CfQuestionCreateForm.vue"
+import CfQuestionCreatePage from "@/views/CfQuestionCreatePage.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -19,12 +21,12 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: '/questions',
                 name: 'Questions',
-                component: CfQuestionForm,
+                component: CfQuestionCreatePage,
                 children: [
                     {
                         path: 'new',
                         name: 'Question create form',
-                        component: CfAddQuestionForm,
+                        component: CfAddQuestionCreateForm,
                     }
                 ]
             },
