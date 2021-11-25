@@ -1,5 +1,6 @@
 <template>
   <div class="cf-topbar bg-gray-50 z-10" :class="topbarClasses">
+    <va-button :to="{name : 'Question create form'}">test</va-button>
     <div class="cf-topbar__button bg-gray-50">
       <va-button
           @click="toggleTopbar"

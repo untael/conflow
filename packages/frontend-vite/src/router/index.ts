@@ -17,18 +17,20 @@ const routes: Array<RouteRecordRaw> = [
         component: CfAppWrapper,
         children: [
             {
-                path: '/addQuestion',
-                name: 'addQuestionForm',
-                component: CfAddQuestionForm,
-            },
-            {
-                path: '/question',
-                name: 'question',
+                path: '/questions',
+                name: 'Questions',
                 component: CfQuestionForm,
+                children: [
+                    {
+                        path: 'new',
+                        name: 'Question create form',
+                        component: CfAddQuestionForm,
+                    }
+                ]
             },
             {
                 path: '/answer',
-                name: 'answer',
+                name: 'Answers',
                 component: CfAnswerForm,
             },
             {
