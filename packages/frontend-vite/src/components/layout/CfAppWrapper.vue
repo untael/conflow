@@ -1,6 +1,6 @@
 <template>
   <div class="cf-app-wrapper bg-gray-100 h-screen relative ">
-    <cf-topbar/>
+<!--    <cf-topbar/>-->
     <cf-header/>
     <main class="h-full">
       <router-view/>

@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import CfContainer from '@/components/layout/CfContainer.vue'
-import CfQuestionForm from '@/components/question/CfQuestionForm.vue'
+import CfQuestionForm from '@/components/question/CfQuestionItem.vue'
 import {onMounted, ref} from 'vue'
 import {useQuestion} from "@/composables/useQuestion";
 

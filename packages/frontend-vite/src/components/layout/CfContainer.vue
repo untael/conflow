@@ -1,6 +1,6 @@
 <template>
   <div class="cf-container container py-4 border-0 mx-auto flex flex-col max-w-screen-md">
-    <va-card square outlined class="px-4 py-4 border-0 max-w-screen-md d-flex flex-col">
+    <va-card square outlined class="py-4 border-0 max-w-screen-md d-flex flex-col">
       <va-card-title>
         <slot name="title"></slot>
       </va-card-title>

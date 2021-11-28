@@ -21,7 +21,7 @@
             <va-chip
                 v-for="(tag, index) in question.tags"
                 :key="index"
-                color="rgba(209, 213, 219)"
+                color="#d1d5db"
                 size="small"
                 square
                 outline
@@ -77,7 +77,7 @@ import Question from '@/api/Question/Question'
 import CfPrismWrapper from '@/components/CfPrismWrapper.vue'
 
 export default {
-  name: 'CfQuestionForm',
+  name: 'CfQuestionItem',
   components: {CfPrismWrapper},
   props: {
     question: {

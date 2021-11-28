@@ -1,8 +1,12 @@
 <template>
   <header class="cf-header bg-gray-50 px-4 py-2 z-20">
-    <div class="cf-header__controls row align--center justify--space-between">
-      <va-icon class="z-20" color="primary">CF</va-icon>
-      <va-avatar class="z-20" src="https://randomuser.me/api/portraits/men/31.jpg"/>
+    <div class="cf-header__controls row items-center justify-center">
+      <va-button :to="{name: 'Questions dashboard'}">
+        Questions
+      </va-button>
+      <va-button :to="{name: 'Interviews dashboard'}">
+        Interviews
+      </va-button>
     </div>
   </header>
 </template>

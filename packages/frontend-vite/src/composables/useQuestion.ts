@@ -18,9 +18,9 @@ export const useQuestion = () => {
   const createQuestion = async (question: Question) => {
     try {
       const transformedQuestion = classToPlain(question)
-      await axios.post(`${import.meta.env.VITE_API_URL}/questions`, transformedQuestion)
+      await axios.post(`${import.meta.env.VITE_API_URL}/questionsыы`, transformedQuestion)
     } catch (error) {
-      console.log(error)
+      throw new Error()
     }
   }
   return {
