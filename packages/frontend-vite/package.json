@@ -13,7 +13,6 @@
     "axios": "^0.24.0",
     "class-transformer": "^0.4.0",
     "codemirror-editor-vue3": "^0.2.4",
-    "epic-spinners": "^1.1.0",
     "material-design-icons-iconfont": "^6.1.1",
     "prismjs": "^1.25.0",
     "reflect-metadata": "^0.1.13",

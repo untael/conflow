@@ -25,7 +25,7 @@
 
         <div class="py-2">
           <div v-if="isCodemirrorLoading">
-            <intersecting-circles-spinner
+            <cf-spinner
                 class="mx-auto"
                 :animation-duration="1200"
                 :size="300"
@@ -82,15 +82,15 @@ import { inject, onMounted, Ref, ref } from 'vue'
 import { useQuestion } from '@/composables/useQuestion'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
-import { IntersectingCirclesSpinner } from 'epic-spinners'
 import * as Codemirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/lib/codemirror.css'
+import CfSpinner from '@/components/CfSpinner.vue'
 
 export default {
   name: 'CfAddQuestionCreateForm',
-  components: { CfContainer, IntersectingCirclesSpinner },
+  components: { CfSpinner, CfContainer },
   setup () {
     const questionCreateForm = ref(null)
     const validationRules = (value: string) => (value && value.length > 0) || 'Field is required'
