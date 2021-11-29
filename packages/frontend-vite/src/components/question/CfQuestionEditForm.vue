@@ -10,6 +10,7 @@
           <va-input
               v-model="question.name"
               :rules="[validationRules]"
+              :messages="['Required']"
           />
         </div>
 
@@ -20,6 +21,7 @@
               type="textarea"
               autosize
               :rules="[validationRules]"
+              :messages="['Required']"
           />
         </div>
 
@@ -44,8 +46,8 @@
           <va-select
               :options="types"
               v-model="question.type"
-              searchable
-              :rules="[validationRules]"
+              :rules="[v => !!v || 'Field is required']"
+              :messages="['Required']"
           />
         </div>
 
@@ -121,9 +123,10 @@ export default {
           isQuestionCreateInProgress.value = true
           await createQuestion(data)
           $vaToast.init({
-            message: 'Question successfully created',
+            message: 'Question was successfully created',
             color: 'success',
           })
+          question.value = new Question({})
         } catch (error) {
           $vaToast.init({
             message: 'Question was not created',
@@ -155,7 +158,9 @@ export default {
 
 <style lang="scss">
 .cf-question-create-form {
-
+  .va-input-wrapper__message-list-wrapper {
+    padding: 0;
+  }
   textarea {
     width: 0px;
     height: 0px;
