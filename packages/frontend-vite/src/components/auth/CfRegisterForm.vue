@@ -33,7 +33,7 @@ export default {
     const password = ref('')
     const passwordConfirmation = ref('')
     const signUp = () => {
-      register(username.value, email.value, password.value)
+      // register(username.value, email.value, password.value)
     }
     return {
       signUp,

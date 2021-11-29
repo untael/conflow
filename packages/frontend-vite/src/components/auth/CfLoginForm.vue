@@ -37,7 +37,7 @@ export default {
     const email = ref('')
     const password = ref('')
     const signIn = () => {
-      login(email.value, password.value)
+      // login(email.value, password.value)
     }
     return {
       emailRules,
