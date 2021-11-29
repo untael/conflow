@@ -8,7 +8,7 @@ export default interface IQuestion {
   answer?: string
   mark?: number
   rating?: number
-  code?: any
+  code?: string
   date_start: Date | null
   date_end: Date | null
   time_spent: number
@@ -30,7 +30,7 @@ export default class Question implements IQuestion {
   @Expose()
   rating?: number = 0
   @Expose()
-  code?: any = ''
+  code?: string = ''
   @Expose()
   date_start: Date | null = null
   @Expose()

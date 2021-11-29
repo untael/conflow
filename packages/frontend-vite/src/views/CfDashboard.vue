@@ -1,7 +1,7 @@
 <template>
   <cf-container class="cf-questions-dashboard-page bg-transparent flex">
     <template #title>
-      Questions dashboard
+      Dashboard
     </template>
     <div class="flex flex-wrap">
       <cf-dashboard-card
@@ -13,28 +13,28 @@
 </template>
 
 <script lang="ts">
-import CfContainer from '@/components/layout/CfContainer.vue'
+import CfContainer from '../components/layout/CfContainer.vue'
+import CfDashboardCard from '../components/CfDashboardCard.vue'
 import { ref } from 'vue'
-import CfDashboardCard from '@/components/CfDashboardCard.vue'
-
 export default {
-  name: 'CfQuestionsDashboardPage',
+  name: 'CfDashboard',
   components: { CfDashboardCard, CfContainer },
   setup () {
     const cards = ref([
       {
-        title: 'Create question',
-        icon: 'create',
-        route: 'Question create',
+        title: 'Questions',
+        icon: 'contact_support',
+        route: 'Questions dashboard',
       },
       {
-        title: 'Questions list',
-        icon: 'format_list_bulleted',
-        route: 'Questions list',
+        title: 'Interviews',
+        icon: 'groups',
+        route: 'Interviews dashboard',
       },
     ])
+
     return {
-      cards,
+      cards
     }
   },
 
@@ -42,13 +42,5 @@ export default {
 </script>
 
 <style lang="scss">
-.cf-questions-dashboard-page {
-  &__tile:hover {
 
-  }
-  --va-card-background-color: transparent;
-  .va-card__title{
-    justify-content: center;
-  }
-}
 </style>

@@ -30,7 +30,7 @@
               {{ tag.name }}
             </va-chip>
           </div>
-          <div class="py-2 flex items-center">
+          <div v-if="canBeStarted" class="py-2 flex items-center">
             <div v-if="!question.is_completed" class="flex justify-end">
               <va-button
                   v-if="!question.is_in_progress"
@@ -86,6 +86,10 @@ export default {
       validator: (value: any) => {
         return value instanceof Question
       },
+    },
+    canBeStarted: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

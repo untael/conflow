@@ -13,14 +13,20 @@ import CfAddQuestionCreateForm
 import CfQuestionPage from '@/views/CfQuestionPage.vue'
 import CfInterviewPage from '@/views/CfInterviewPage.vue'
 import CfQuestionsDashboardPage from '@/views/CfQuestionsDashboardPage.vue'
-import CfQuestionList from '@/components/question/CfQuestionList.vue'
+import CfQuestionsList from '@/components/question/CfQuestionsList.vue'
 import CfInterviewDashboardPage from '@/views/CfInterviewDashboardPage.vue'
+import CfDashboard from '@/views/CfDashboard.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
     component: CfAppWrapper,
     children: [
+      {
+        path: '',
+        name: 'Dashboard',
+        component: CfDashboard,
+      },
       {
         path: '/questions',
         name: 'Questions page',
@@ -39,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: 'list',
             name: 'Questions list',
-            component: CfQuestionList,
+            component: CfQuestionsList,
           },
         ],
       },
@@ -61,7 +67,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: 'list',
             name: 'Interviews list',
-            component: CfQuestionList,
+            component: CfQuestionsList,
           },
           {
             path: ':id',

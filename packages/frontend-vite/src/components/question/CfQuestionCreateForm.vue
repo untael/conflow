@@ -4,63 +4,73 @@
       Add question form
     </template>
     <template #default>
-      <div class="py-2">
-        Name:
-        <va-input
-            v-model="question.name"
-        />
-      </div>
-
-      <div class="py-2">
-        Description:
-        <va-input
-            v-model="question.description"
-            type="textarea"
-        />
-      </div>
-
-      <div class="py-2">
-        <div v-if="isCodemirrorLoading">
-          <intersecting-circles-spinner
-              class="mx-auto"
-              :animation-duration="1200"
-              :size="300"
-              color="rgb(44, 130, 224)"
+      <va-form ref="questionCreateForm">
+        <div class="py-2">
+          Name:
+          <va-input
+              v-model="question.name"
+              :rules="[validationRules]"
           />
         </div>
-        <div :class="{'cf-question-create-form--codemirror-hidden': isCodemirrorLoading}">
-          Code:
-          <textarea v-model="question.code" id="editor"/>
+
+        <div class="py-2">
+          Description:
+          <va-input
+              v-model="question.description"
+              type="textarea"
+              autosize
+              :rules="[validationRules]"
+          />
         </div>
-      </div>
 
-      <div class="py-2">
-        Question type:
+        <div class="py-2">
+          <div v-if="isCodemirrorLoading">
+            <intersecting-circles-spinner
+                class="mx-auto"
+                :animation-duration="1200"
+                :size="300"
+                color="rgb(44, 130, 224)"
+            />
+          </div>
+          <div :class="{'cf-question-create-form--codemirror-hidden': isCodemirrorLoading}">
+            Code:
+            <textarea v-model="question.code" id="editor"/>
+          </div>
+        </div>
 
-        <va-select
-            :options="types"
-            v-model="question.type"
-            searchable
-        />
-      </div>
+        <div class="py-2">
+          Question type:
 
-      <div class="py-2">
-        Tags:
-        <va-select
-            :options="tags"
-            v-model="question.tags"
-            track-by="id"
-            text-by="name"
-            multiple
-            searchable
-            allow-create
-        />
-      </div>
-      <div class="pt-4 d-flex justify-end">
-        <va-button @click="handleCreateQuestion(question)">
-          Save
-        </va-button>
-      </div>
+          <va-select
+              :options="types"
+              v-model="question.type"
+              searchable
+              :rules="[validationRules]"
+          />
+        </div>
+
+        <div class="py-2">
+          Tags:
+          <va-select
+              :options="tags"
+              v-model="question.tags"
+              track-by="id"
+              text-by="name"
+              multiple
+              searchable
+              allow-create
+              :rules="[validationRules]"
+          />
+        </div>
+        <div class="pt-4 d-flex justify-end">
+          <va-button color="secondary" @click="$router.back()">
+            Cancel
+          </va-button>
+          <va-button class="ml-2" :loading="isQuestionCreateInProgress" @click="handleCreateQuestion(question)">
+            Save
+          </va-button>
+        </div>
+      </va-form>
     </template>
   </cf-container>
 </template>
@@ -68,7 +78,7 @@
 <script lang="ts">
 import CfContainer from '@/components/layout/CfContainer.vue'
 import Question from '@/api/Question/Question'
-import { computed, getCurrentInstance, inject, onMounted, Ref, ref } from 'vue'
+import { inject, onMounted, Ref, ref } from 'vue'
 import { useQuestion } from '@/composables/useQuestion'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
@@ -82,6 +92,8 @@ export default {
   name: 'CfAddQuestionCreateForm',
   components: { CfContainer, IntersectingCirclesSpinner },
   setup () {
+    const questionCreateForm = ref(null)
+    const validationRules = (value: string) => (value && value.length > 0) || 'Field is required'
     //ToDo: issue to vuestic ui about exposing toast type/interface
     const $vaToast: any = inject('$vaToast')
     const isCodemirrorLoading = ref(true)
@@ -104,24 +116,29 @@ export default {
     })
 
     const handleCreateQuestion = async (data: Question) => {
-      try {
-        isQuestionCreateInProgress.value = true
-        await createQuestion(data)
-        $vaToast.init({
-          message: 'Question successfully created',
-          color: 'success',
-        })
-      } catch (error) {
-        $vaToast.init({
-          message: 'Question was not created',
-          color: 'danger',
-        })
-      } finally {
-        isQuestionCreateInProgress.value = false
+      if ((questionCreateForm.value as any).validate()) {
+        try {
+          isQuestionCreateInProgress.value = true
+          await createQuestion(data)
+          $vaToast.init({
+            message: 'Question successfully created',
+            color: 'success',
+          })
+        } catch (error) {
+          $vaToast.init({
+            message: 'Question was not created',
+            color: 'danger',
+          })
+        } finally {
+          isQuestionCreateInProgress.value = false
+        }
       }
     }
 
     return {
+      validationRules,
+      questionCreateForm,
+      isQuestionCreateInProgress,
       tags,
       question,
       handleCreateQuestion,
@@ -130,7 +147,7 @@ export default {
   },
   data () {
     return {
-      types: ['hearing', 'edit'],
+      types: ['Verbal', 'Practice'],
     }
   },
 }
