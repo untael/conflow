@@ -6,7 +6,7 @@
 
     <va-card-content class="d-flex flex-col">
       <va-input v-model="email" label="Email" type="text" class="pb-3"/>
-      <va-button gradient type="submit">Submit</va-button>
+      <va-button color="success" gradient type="submit">Submit</va-button>
     </va-card-content>
 
     <hr>
@@ -14,7 +14,7 @@
     <va-card-content>
       <div class="pb-3 pt-1 text-sm text-center font-thin">
         Back to
-        <router-link :to="{name: 'sign-in'}" class="font-medium">Sign in</router-link>
+        <router-link :to="{name: 'Login'}" class="font-medium">Sign in</router-link>
       </div>
     </va-card-content>
   </va-card>

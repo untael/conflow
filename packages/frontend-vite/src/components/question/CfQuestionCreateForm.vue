@@ -66,7 +66,7 @@
           <va-button color="secondary" @click="$router.back()">
             Cancel
           </va-button>
-          <va-button class="ml-2" :loading="isQuestionCreateInProgress" @click="handleCreateQuestion(question)">
+          <va-button color="primary" class="ml-2" :loading="isQuestionCreateInProgress" @click="handleCreateQuestion(question)">
             Save
           </va-button>
         </div>

@@ -93,36 +93,36 @@ const routes: Array<RouteRecordRaw> = [
           }
         ],
       },
+      {
+        path: '/sign-up',
+        name: 'Sign up',
+        component: CfAuthPage,
+        props: {
+          mode: 'sign-up',
+        },
+      },
+      {
+        path: '/sign-in',
+        name: 'Login',
+        component: CfAuthPage,
+        props: {
+          mode: 'sign-in',
+        },
+      },
+      {
+        path: '/reset-password',
+        name: 'Reset password',
+        component: CfAuthPage,
+        props: {
+          mode: 'reset-password',
+        },
+      },
     ],
   },
   {
     path: '/answer',
     name: 'Answers',
     component: CfAnswerForm,
-  },
-  {
-    path: '/sign-up',
-    name: 'sign-up',
-    component: CfAuthPage,
-    props: {
-      mode: 'sign-up',
-    },
-  },
-  {
-    path: '/sign-in',
-    name: 'sign-in',
-    component: CfAuthPage,
-    props: {
-      mode: 'sign-in',
-    },
-  },
-  {
-    path: '/reset-password',
-    name: 'reset-password',
-    component: CfAuthPage,
-    props: {
-      mode: 'reset-password',
-    },
   },
   {
     path: '/interview',

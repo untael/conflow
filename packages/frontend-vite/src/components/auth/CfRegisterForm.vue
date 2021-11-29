@@ -11,9 +11,9 @@
       <va-input v-model="passwordConfirmation" label="Password confirmation" type="password" class="pt-3"/>
       <div class="pb-3 pt-1 text-sm text-center font-thin">
         Already a member?
-        <router-link :to="{name: 'sign-in'}" class="font-medium">Sign in</router-link>
+        <router-link :to="{name: 'Login'}" class="font-medium">Sign in</router-link>
       </div>
-      <va-button type="submit" @click="signUp">Submit</va-button>
+      <va-button color="success" type="submit" @click="signUp">Submit</va-button>
     </va-card-content>
   </va-card>
 </template>

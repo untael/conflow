@@ -8,9 +8,9 @@
       <va-input v-model="email" :rules="emailRules" label="Email" type="text"/>
       <va-input v-model="password" label="Password" type="password" class="pt-3"/>
       <div class="pb-3 pt-1 text-sm text-center font-thin">
-        <router-link :to="{name: 'reset-password'}" class="font-medium">Forgot password?</router-link>
+        <router-link :to="{name: 'Reset password'}" class="font-medium">Forgot password?</router-link>
       </div>
-      <va-button @click="signUp" gradient type="submit">Submit</va-button>
+      <va-button color="success" @click="signIn" gradient type="submit">Submit</va-button>
     </va-card-content>
 
     <hr>
@@ -19,7 +19,7 @@
       <div class="text-center font-thin text-sm">
         Still have no account?
       </div>
-      <va-button :to="{name: 'sign-up'}" flat>Sign up</va-button>
+      <va-button color="primary" :to="{name: 'Sign up'}" flat>Sign up</va-button>
     </va-card-content>
   </va-card>
 </template>
@@ -36,14 +36,14 @@ export default {
     const { emailRules } = useValidation()
     const email = ref('')
     const password = ref('')
-    const signUp = () => {
+    const signIn = () => {
       login(email.value, password.value)
     }
     return {
       emailRules,
       email,
       password,
-      signUp,
+      signIn,
     }
   },
 }

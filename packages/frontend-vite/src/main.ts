@@ -11,10 +11,14 @@ import 'codemirror/mode/javascript/javascript.js'
 
 const app = createApp(App)
 app.use(VuesticPlugin, {
+  colors: {
+    primary: '#1e40af',
+    success: '#065f46',
+  },
   components: {
     VaButton: {
-      outline: true,
       rounded: false,
+      color: '#000000'
     }
   }
 })

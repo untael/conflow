@@ -1,28 +1,33 @@
 <template>
-  <header class="cf-header bg-gray-50 px-4 py-2 z-20">
-    <div class="cf-header__controls row items-center justify-center">
-      <va-button :to="{name: 'Questions dashboard'}">
-        Questions
-      </va-button>
-      <va-button :to="{name: 'Interviews dashboard'}">
-        Interviews
-      </va-button>
+  <header class="cf-header px-4 z-20 flex items-center shadow">
+    <div class="cf-header__controls row items-center justify-between">
+      <cf-logo/>
+      <div>
+        <va-button color="primary" class="mr-2" @click="$router.push({name: 'Sign up'})">
+          Sign up
+        </va-button>
+        <va-button color="success" @click="$router.push({name: 'Login'})">
+          Login
+        </va-button>
+      </div>
     </div>
   </header>
 </template>
 
 <script lang="ts">
 
+import CfLogo from '@/components/CfLogo.vue'
+
 export default {
   name: 'CfHeader',
-  setup () {
-  },
+  components: { CfLogo },
 }
 </script>
 
 <style lang="scss">
 
 .cf-header {
+  //box-shadow: 0 3px 8px rgb(122 139 173 / 20%);
   --cf-header-height: 64px;
   height: var(--cf-header-height);
 
