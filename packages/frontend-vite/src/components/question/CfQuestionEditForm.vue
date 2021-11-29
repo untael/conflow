@@ -46,7 +46,7 @@
           <va-select
               :options="types"
               v-model="question.type"
-              :rules="[v => !!v || 'Field is required']"
+              :rules="[selectRules]"
               :messages="['Required']"
           />
         </div>
@@ -96,6 +96,7 @@ export default {
   setup () {
     const questionCreateForm = ref(null)
     const validationRules = (value: string) => (value && value.length > 0) || 'Field is required'
+    const selectRules = (v: string) => !!v || 'Field is required'
     //ToDo: issue to vuestic ui about exposing toast type/interface
     const $vaToast: any = inject('$vaToast')
     const isCodemirrorLoading = ref(true)
@@ -140,6 +141,7 @@ export default {
 
     return {
       validationRules,
+      selectRules,
       questionCreateForm,
       isQuestionCreateInProgress,
       tags,
@@ -161,6 +163,7 @@ export default {
   .va-input-wrapper__message-list-wrapper {
     padding: 0;
   }
+
   textarea {
     width: 0px;
     height: 0px;
