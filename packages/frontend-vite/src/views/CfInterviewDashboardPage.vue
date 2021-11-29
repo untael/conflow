@@ -23,14 +23,22 @@ export default {
   setup () {
     const cards = ref([
       {
+        title: 'Start interview',
+        icon: 'flag',
+        route: 'Interview process',
+        badgeText: 'WIP',
+      },
+      {
         title: 'Create interview',
         icon: 'create',
         route: 'Interview create',
+        badgeText: 'WIP',
       },
       {
         title: 'Interviews list',
         icon: 'format_list_bulleted',
         route: 'Interviews list',
+        badgeText: 'WIP',
       },
     ])
     return { cards }

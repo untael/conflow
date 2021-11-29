@@ -89,7 +89,7 @@ import 'codemirror/lib/codemirror.css'
 import CfSpinner from '@/components/CfSpinner.vue'
 
 export default {
-  name: 'CfAddQuestionCreateForm',
+  name: 'CfAddQuestionEditForm',
   components: { CfSpinner, CfContainer },
   setup () {
     const questionCreateForm = ref(null)

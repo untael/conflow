@@ -16,6 +16,7 @@
 import CfContainer from '../components/layout/CfContainer.vue'
 import CfDashboardCard from '../components/CfDashboardCard.vue'
 import { ref } from 'vue'
+
 export default {
   name: 'CfDashboard',
   components: { CfDashboardCard, CfContainer },
@@ -25,16 +26,18 @@ export default {
         title: 'Questions',
         icon: 'contact_support',
         route: 'Questions dashboard',
+        badgeText: 'WIP',
       },
       {
         title: 'Interviews',
         icon: 'groups',
         route: 'Interviews dashboard',
+        badgeText: 'WIP',
       },
     ])
 
     return {
-      cards
+      cards,
     }
   },
 

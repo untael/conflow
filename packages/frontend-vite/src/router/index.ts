@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import InterviewControlPage from '../views/InterviewControlPage.vue'
 import InterviewDisplayPage from '../views/InterviewDisplayPage.vue'
-import InterviewEditPage from '../views/InterviewEditPage.vue'
+import CfInterviewEditForm from '../components/interview/CfInterviewEditForm.vue'
 import CfAuthPage from '../views/CfAuthPage.vue'
 import CfAppWrapper from '../components/layout/CfAppWrapper.vue'
 import CfInterviewForm from '../components/interview/CfInterviewForm.vue'
 import CfInterviewProcessPage from '../views/CfInterviewProcessPage.vue'
 import CfInterviewResultsPage from '@/views/CfInterviewResultsPage.vue'
 import CfAnswerForm from '../components/answer/CfAnswerForm.vue'
-import CfAddQuestionCreateForm
-  from '../components/question/CfQuestionCreateForm.vue'
+import CfAddQuestionEditForm
+  from '../components/question/CfQuestionEditForm.vue'
 import CfQuestionPage from '@/views/CfQuestionPage.vue'
 import CfInterviewPage from '@/views/CfInterviewPage.vue'
 import CfQuestionsDashboardPage from '@/views/CfQuestionsDashboardPage.vue'
@@ -40,12 +40,17 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: 'new',
             name: 'Question create',
-            component: CfAddQuestionCreateForm,
+            component: CfAddQuestionEditForm,
           },
           {
             path: 'list',
             name: 'Questions list',
             component: CfQuestionsList,
+          },
+          {
+            path: 'process',
+            name: 'Interview process',
+            component: CfInterviewProcessPage,
           },
         ],
       },
@@ -62,7 +67,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: 'new',
             name: 'Interview create',
-            component: CfAddQuestionCreateForm,
+            component: CfInterviewEditForm,
           },
           {
             path: 'list',
@@ -79,11 +84,11 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'started',
                 component: CfInterviewProcessPage,
               },
-              {
-                name: 'Interview Edit',
-                path: 'edit',
-                component: InterviewEditPage,
-              },
+              // {
+              //   name: 'Interview Edit',
+              //   path: 'edit',
+              //   component: InterviewEditPage,
+              // },
               {
                 name: 'Interview Results',
                 path: 'results',

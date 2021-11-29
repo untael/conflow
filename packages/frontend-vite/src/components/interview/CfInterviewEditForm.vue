@@ -40,7 +40,12 @@
       </div>
 
       <div class="pt-4 d-flex justify-end">
-        <va-button>Save</va-button>
+        <va-button color="secondary" @click="$router.back()">
+          Cancel
+        </va-button>
+        <va-button color="primary" class="ml-2">
+          Save
+        </va-button>
       </div>
     </template>
   </cf-container>
@@ -53,7 +58,7 @@ import CfContainer from "@/components/layout/CfContainer.vue";
 
 
 export default {
-  name: 'InterviewEditForm',
+  name: 'CfInterviewEditForm',
   components: {CfContainer},
 
   setup() {

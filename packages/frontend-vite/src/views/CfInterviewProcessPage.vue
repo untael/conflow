@@ -4,7 +4,6 @@
       Interview process page
     </template>
 
-
     <div v-for="(question, i) in questions" :key="i">
       <cf-question-form
           class="py-2"
