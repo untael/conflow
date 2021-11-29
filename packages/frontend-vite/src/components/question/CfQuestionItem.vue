@@ -3,7 +3,7 @@
       class="cf-question-form shadow-none"
       v-model="value"
       color-all
-      :icon="question.type"
+      :icon="quesitonIcon"
       :header="question.name"
   >
     <div class="pt-2 text-sm bg-gray-50">
@@ -75,10 +75,11 @@
 <script lang="ts">
 import Question from '@/api/Question/Question'
 import CfPrismWrapper from '@/components/CfPrismWrapper.vue'
+import { ref } from 'vue'
 
 export default {
   name: 'CfQuestionItem',
-  components: {CfPrismWrapper},
+  components: { CfPrismWrapper },
   props: {
     question: {
       type: Object,
@@ -92,9 +93,16 @@ export default {
       default: false,
     },
   },
-  data() {
+  data () {
     return {
       value: false,
+    }
+  },
+  setup (props: any) {
+    const quesitonIcon = ref('')
+    quesitonIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
+    return {
+      quesitonIcon,
     }
   },
 }
