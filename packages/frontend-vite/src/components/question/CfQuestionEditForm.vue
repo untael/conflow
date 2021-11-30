@@ -36,7 +36,7 @@
           </div>
           <div :class="{'cf-question-create-form--codemirror-hidden': isCodemirrorLoading}">
             Code:
-            <textarea v-model="question.code" id="editor"/>
+            <textarea :value="question.code" id="editor"/>
           </div>
         </div>
 
@@ -109,11 +109,15 @@ export default {
     onMounted(async () => {
       tags.value = await getTags()
 
-      Codemirror.fromTextArea(document.getElementById('editor') as HTMLTextAreaElement, {
+      const codemirrorElement = document.getElementById('editor')
+      const condemirror = Codemirror.fromTextArea(codemirrorElement as HTMLTextAreaElement, {
         mode: 'text/javascript', // Language mode
         lineNumbers: true, // Show line number
         smartIndent: true, // Smart indent
         indentUnit: 2, // The smart indent unit is 2 spaces in length
+      })
+      condemirror.on('change', (instance, change) => {
+        question.value.code = instance.getValue()
       })
       isCodemirrorLoading.value = false
     })
