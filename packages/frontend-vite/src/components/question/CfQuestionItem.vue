@@ -1,85 +1,85 @@
-<template>
+<template >
   <va-collapse
-      class="cf-question-form shadow-none"
-      v-model="value"
+      class = "cf-question-form shadow-none"
+      v-model = "value"
       color-all
-      :icon="quesitonIcon"
-      :header="question.name"
+      :icon = "questionIcon"
+      :header = "question.name"
   >
-    <div class="pt-2 text-sm bg-gray-50">
-      <div class="px-2 py-2">
+    <div class = "pt-2 text-sm bg-gray-50" >
+      <div class = "px-2 py-2" >
         {{ question.description }}
-      </div>
+      </div >
 
-      <div class="px-2 py-2">
-        <cf-prism-wrapper :code="question.code"/>
-      </div>
+      <div class = "px-2 py-2" >
+        <cf-code-block :read-only = "true" v-model = "question.code" />
+      </div >
 
-      <div>
-        <div class="flex justify-between px-2 bg-gray-100">
-          <div class="py-2 text-xs flex items-center flex-none">
+      <div >
+        <div class = "flex justify-between px-2 bg-gray-100" >
+          <div class = "py-2 text-xs flex items-center flex-none" >
             <va-chip
-                v-for="(tag, index) in question.tags"
-                :key="index"
-                color="#d1d5db"
-                size="small"
+                v-for = "(tag, index) in question.tags"
+                :key = "index"
+                color = "#d1d5db"
+                size = "small"
                 square
                 outline
-                class="mr-2"
+                class = "mr-2"
             >
               {{ tag.name }}
-            </va-chip>
-          </div>
-          <div v-if="canBeStarted" class="py-2 flex items-center">
-            <div v-if="!question.is_completed" class="flex justify-end">
+            </va-chip >
+          </div >
+          <div v-if = "canBeStarted" class = "py-2 flex items-center" >
+            <div v-if = "!question.is_completed" class = "flex justify-end" >
               <va-button
-                  v-if="!question.is_in_progress"
-                  @click="question.start()"
-                  color="#86a17d"
-                  size="small"
-                  class="flex-none"
-                  :rounded="false"
+                  v-if = "!question.is_in_progress"
+                  @click = "question.start()"
+                  color = "#86a17d"
+                  size = "small"
+                  class = "flex-none"
+                  :rounded = "false"
                   outline
-                  icon="play_arrow"
+                  icon = "play_arrow"
               />
               <va-button
-                  v-if="question.is_in_progress"
-                  @click="question.end()"
-                  color="#c31020"
-                  size="small"
-                  class="flex-none"
-                  :rounded="false"
+                  v-if = "question.is_in_progress"
+                  @click = "question.end()"
+                  color = "#c31020"
+                  size = "small"
+                  class = "flex-none"
+                  :rounded = "false"
                   outline
-                  icon="stop"
+                  icon = "stop"
               />
-            </div>
+            </div >
 
-            <div v-else class="flex flex-col flex-none ml-auto items-start justify-between text-xs">
-              <div class="flex-none text-center test">
+            <div v-else class = "flex flex-col flex-none ml-auto items-start justify-between text-xs" >
+              <div class = "flex-none text-center test" >
                 Time spent: {{ question.formatted_time_spent }}
-              </div>
-              <div class="flex items-center flex-none test">
+              </div >
+              <div class = "flex items-center flex-none test" >
                 <!--                <div>-->
                 <!--                  Mark:-->
                 <!--                </div>-->
-                <va-rating color="#86a17d" v-model="question.mark" size="small"/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </va-collapse>
-</template>
+                <va-rating color = "#86a17d" v-model = "question.mark" size = "small" />
+              </div >
+            </div >
+          </div >
+        </div >
+      </div >
+    </div >
+  </va-collapse >
+</template >
 
-<script lang="ts">
+<script lang = "ts" >
 import Question from '@/api/Question/Question'
-import CfPrismWrapper from '@/components/CfPrismWrapper.vue'
-import { ref } from 'vue'
+import {ref} from 'vue'
+import CfCodeBlock from "@/components/CfCodeBlock.vue";
 
 export default {
   name: 'CfQuestionItem',
-  components: { CfPrismWrapper },
+  components: {CfCodeBlock},
   props: {
     question: {
       type: Object,
@@ -93,22 +93,22 @@ export default {
       default: false,
     },
   },
-  data () {
+  data() {
     return {
       value: false,
     }
   },
-  setup (props: any) {
-    const quesitonIcon = ref('')
-    quesitonIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
+  setup(props: any) {
+    const questionIcon = ref('')
+    questionIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
     return {
-      quesitonIcon,
+      questionIcon,
     }
   },
 }
-</script>
+</script >
 
-<style lang="scss">
+<style lang = "scss" >
 .test {
   font-size: .625rem;
   font-weight: 700;
@@ -151,4 +151,4 @@ export default {
 hr {
   margin: 10px 0px;
 }
-</style>
+</style >

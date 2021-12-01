@@ -1,125 +1,111 @@
-<template>
-  <cf-container class="cf-question-create-form">
-    <template #title>
+<template >
+  <cf-container class = "cf-question-create-form" >
+    <template #title >
       Add question form
-    </template>
-    <template #default>
-      <va-form ref="questionCreateForm">
-        <div class="py-2">
+    </template >
+    <template #default >
+      <va-form ref = "questionCreateForm" >
+        <div class = "py-2" >
           Name:
           <va-input
-              v-model="question.name"
-              :rules="[validationRules]"
-              :messages="['Required']"
+              v-model = "question.name"
+              :rules = "[validationRules]"
+              :messages = "['Required']"
           />
-        </div>
+        </div >
 
-        <div class="py-2">
+        <div class = "py-2" >
           Description:
           <va-input
-              v-model="question.description"
-              type="textarea"
+              v-model = "question.description"
+              type = "textarea"
               autosize
-              :rules="[validationRules]"
-              :messages="['Required']"
+              :rules = "[validationRules]"
+              :messages = "['Required']"
           />
-        </div>
+        </div >
 
-        <div class="py-2">
-          <div v-if="isCodemirrorLoading">
+        <div class = "py-2" >
+          <div v-if = "isCodemirrorLoading" >
             <cf-spinner
-                class="mx-auto"
-                :animation-duration="1200"
-                :size="300"
-                color="rgb(44, 130, 224)"
+                class = "mx-auto"
+                :animation-duration = "1200"
+                :size = "300"
+                color = "rgb(44, 130, 224)"
             />
-          </div>
-          <div :class="{'cf-question-create-form--codemirror-hidden': isCodemirrorLoading}">
-            Code:
-            <textarea :value="question.code" id="editor"/>
-          </div>
-        </div>
+          </div >
+          <cf-code-block v-model = "question.code" @loaded = "isCodemirrorLoading=$event" />
+        </div >
 
-        <div class="py-2">
+        <div class = "py-2" >
           Question type:
 
           <va-select
-              :options="types"
-              v-model="question.type"
-              :rules="[selectRules]"
-              :messages="['Required']"
+              :options = "types"
+              v-model = "question.type"
+              :rules = "[selectRules]"
+              :messages = "['Required']"
           />
-        </div>
+        </div >
 
-        <div class="py-2">
+        <div class = "py-2" >
           Tags:
           <va-select
-              :options="tags"
-              v-model="question.tags"
-              track-by="id"
-              text-by="name"
+              :options = "tags"
+              v-model = "question.tags"
+              track-by = "id"
+              text-by = "name"
               multiple
               searchable
               allow-create
-              :rules="[validationRules]"
+              :rules = "[validationRules]"
           />
-        </div>
-        <div class="pt-4 d-flex justify-end">
-          <va-button color="secondary" @click="$router.back()">
+        </div >
+        <div class = "pt-4 d-flex justify-end" >
+          <va-button color = "secondary" @click = "$router.back()" >
             Cancel
-          </va-button>
-          <va-button color="primary" class="ml-2" :loading="isQuestionCreateInProgress" @click="handleCreateQuestion(question)">
+          </va-button >
+          <va-button color = "primary" class = "ml-2" :loading = "isQuestionCreateInProgress"
+                     @click = "handleCreateQuestion(question)" >
             Save
-          </va-button>
-        </div>
-      </va-form>
-    </template>
-  </cf-container>
-</template>
+          </va-button >
+        </div >
+      </va-form >
+    </template >
+  </cf-container >
+</template >
 
-<script lang="ts">
+<script lang = "ts" >
 import CfContainer from '@/components/layout/CfContainer.vue'
 import Question from '@/api/Question/Question'
-import { inject, onMounted, Ref, ref } from 'vue'
-import { useQuestion } from '@/composables/useQuestion'
-import { useTag } from '@/composables/useTag'
+import {inject, onMounted, Ref, ref} from 'vue'
+import {useQuestion} from '@/composables/useQuestion'
+import {useTag} from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
-import * as Codemirror from 'codemirror'
-import 'codemirror/mode/javascript/javascript.js'
-import 'codemirror-editor-vue3/dist/style.css'
-import 'codemirror/lib/codemirror.css'
+
 import CfSpinner from '@/components/CfSpinner.vue'
+import CfCodeBlock from "@/components/CfCodeBlock.vue";
 
 export default {
   name: 'CfAddQuestionEditForm',
-  components: { CfSpinner, CfContainer },
-  setup () {
+  components: {CfCodeBlock, CfSpinner, CfContainer},
+  setup() {
+    const isCodemirrorLoading = ref(true)
     const questionCreateForm = ref(null)
     const validationRules = (value: string) => (value && value.length > 0) || 'Field is required'
     const selectRules = (v: string) => !!v || 'Field is required'
     //ToDo: issue to vuestic ui about exposing toast type/interface
     const $vaToast: any = inject('$vaToast')
-    const isCodemirrorLoading = ref(true)
     const isQuestionCreateInProgress = ref(false)
     const question = ref(new Question({}))
     const tags: Ref<Tag[]> = ref([])
-    const { createQuestion } = useQuestion()
-    const { getTags } = useTag()
+    const {createQuestion} = useQuestion()
+    const {getTags} = useTag()
 
     onMounted(async () => {
       tags.value = await getTags()
 
-      const codemirrorElement = document.getElementById('editor')
-      const condemirror = Codemirror.fromTextArea(codemirrorElement as HTMLTextAreaElement, {
-        mode: 'text/javascript', // Language mode
-        lineNumbers: true, // Show line number
-        smartIndent: true, // Smart indent
-        indentUnit: 2, // The smart indent unit is 2 spaces in length
-      })
-      condemirror.on('change', (instance, change) => {
-        question.value.code = instance.getValue()
-      })
-      isCodemirrorLoading.value = false
+
     })
 
     const handleCreateQuestion = async (data: Question) => {
@@ -154,15 +140,15 @@ export default {
       isCodemirrorLoading,
     }
   },
-  data () {
+  data() {
     return {
       types: ['Verbal', 'Practice'],
     }
   },
 }
-</script>
+</script >
 
-<style lang="scss">
+<style lang = "scss" >
 .cf-question-create-form {
   .va-input-wrapper__message-list-wrapper {
     padding: 0;
@@ -183,4 +169,4 @@ export default {
     background-color: var(--va-input-color);
   }
 }
-</style>
+</style >
