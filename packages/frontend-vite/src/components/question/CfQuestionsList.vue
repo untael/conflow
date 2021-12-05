@@ -14,17 +14,18 @@
 
 <script lang="ts">
 import { useQuestion } from '@/composables/useQuestion'
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import CfQuestionForm from '@/components/question/CfQuestionItem.vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfSpinner from '@/components/CfSpinner.vue'
+import Question from '@/api/Question/Question'
 
 export default {
   name: 'CfQuestionsList',
   components: { CfSpinner, CfContainer, CfQuestionForm },
   setup () {
 
-    const questions = ref([])
+    const questions: Ref<Question[]> = ref([])
     const { getQuestions } = useQuestion()
     const isLoading = ref(false)
     onMounted(async () => {

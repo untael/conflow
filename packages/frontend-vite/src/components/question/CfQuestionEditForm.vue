@@ -34,7 +34,7 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+          <cf-code-block :id="question.id" v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">

@@ -45,7 +45,7 @@ export default {
       default: false,
     },
   },
-  setup (props: any, { emit }) {
+  setup (props: any, { emit }: any) {
     const $vaToast: any = inject('$vaToast')
     const isLoading = ref(true)
     const copyToClipboard = async () => {

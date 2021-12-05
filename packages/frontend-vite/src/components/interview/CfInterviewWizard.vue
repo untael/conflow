@@ -74,7 +74,7 @@ export default {
         variants: [],
       },
     ]
-    const currentStep = ref(steps[0])
+    const currentStep: any = ref(steps[0])
 
     const goToNextStep = () => {
       const currentStepIndex = steps.findIndex(step => step.name === currentStep.value.name)
