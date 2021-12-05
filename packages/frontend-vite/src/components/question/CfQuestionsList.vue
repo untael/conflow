@@ -5,7 +5,7 @@
     </template>
     <cf-question-form
         class="py-2"
-        v-for="(question, index) in questions" :key="index" :question="question"
+        v-for="(question, index) in questions" :key="`${index}-${question.id}`" :question="question"
     />
   </cf-container>
 </template>

@@ -1,7 +1,10 @@
 <template>
-  <div :class="{'cf-code-block--codemirror-hidden': isLoading}">
+  <div class="cf-code-block" :class="{'cf-code-block--codemirror-hidden': isLoading}">
     Code:
-    <textarea :value="modelValue" id="editor"/>
+    <div class="cf-code-block__code-box">
+      <va-button @click="copyToClipboard" size="small" class="cf-code-block__code-box--copy-button">Copy</va-button>
+      <textarea :value="modelValue" :id="`editor-${id}`"/>
+    </div>
   </div>
 </template>
 
@@ -10,12 +13,16 @@ import * as Codemirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/lib/codemirror.css'
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { js_beautify as jsFormatter } from 'js-beautify'
 
 export default {
   name: 'CfCodeBlock',
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     modelValue: {
       type: String,
       required: false,
@@ -30,9 +37,17 @@ export default {
     },
   },
   setup (props: any, { emit }) {
+    const $vaToast: any = inject('$vaToast')
     const isLoading = ref(true)
+    const copyToClipboard = async () => {
+      await navigator.clipboard.writeText(props.modelValue)
+      $vaToast.init({
+        message: 'Code was copied to clipboard',
+        color: 'success',
+      })
+    }
     onMounted(async () => {
-          const codemirrorElement = document.getElementById('editor')
+          const codemirrorElement = document.getElementById(`editor-${props.id}`)
           const codemirror = Codemirror.fromTextArea(codemirrorElement as HTMLTextAreaElement, {
             mode: 'text/javascript', // Language mode
             lineNumbers: true, // Show line number
@@ -54,6 +69,7 @@ export default {
         },
     )
     return {
+      copyToClipboard,
       isLoading,
     }
   },
@@ -62,6 +78,17 @@ export default {
 
 <style lang="scss">
 .cf-code-block {
+
+  &__code-box {
+    position: relative;
+    &--copy-button {
+      position: absolute !important;
+      right: 0 !important;
+      top: 0 !important;
+      z-index: 3;
+    }
+  }
+
   .va-input-wrapper__message-list-wrapper {
     padding: 0;
   }

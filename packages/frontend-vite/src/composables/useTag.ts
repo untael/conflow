@@ -8,7 +8,7 @@ export const useTag = () => {
     const tags: Ref<Tag[]> = ref([])
 
     const getTags = async () => {
-        const plainTags: any[] = (await axios.get(`${import.meta.env.VITE_API_URL}/tags?_start=100&_limit=100`)).data
+        const plainTags: any[] = (await axios.get(`${import.meta.env.VITE_API_URL}/tags?_start=0&_limit=200`)).data
         const mappedTags = plainToClass(Tag, plainTags, {excludeExtraneousValues: true})
         return mappedTags
     }
