@@ -20,6 +20,7 @@ import CfDashboard from '@/views/CfDashboard.vue'
 import CfAddTagForm from '@/components/tag/CfAddTagForm.vue'
 // import CfInterviewWizard from '@/components/CfInterviewWizard.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
+import CfInterviewWizard from '@/components/interview/CfInterviewWizard.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -97,6 +98,11 @@ const routes: Array<RouteRecordRaw> = [
                         path: 'list',
                         name: 'Interviews list',
                         component: CfQuestionsList,
+                    },
+                    {
+                        path: 'instant',
+                        name: 'Interview wizard',
+                        component: CfInterviewWizard,
                     },
                     {
                         path: ':id',

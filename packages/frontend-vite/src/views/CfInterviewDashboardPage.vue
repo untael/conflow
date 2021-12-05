@@ -25,7 +25,7 @@ export default {
       {
         title: 'Start interview',
         icon: 'flag',
-        route: 'Interview process',
+        route: 'Interview wizard',
         badgeText: 'WIP',
       },
       {

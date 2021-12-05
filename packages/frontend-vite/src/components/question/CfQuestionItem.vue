@@ -12,7 +12,7 @@
       </div>
 
       <div class="px-2 py-2">
-        <cf-code-block :read-only="true" :id="question.id" v-model="question.code"/>
+        <cf-code-block :read-only="true" :id="question.id" autoheight showCopyButton v-model="question.code"/>
       </div>
 
       <div>
@@ -59,9 +59,6 @@
                 Time spent: {{ question.formatted_time_spent }}
               </div>
               <div class="flex items-center flex-none test">
-                <!--                <div>-->
-                <!--                  Mark:-->
-                <!--                </div>-->
                 <va-rating color="#86a17d" v-model="question.mark" size="small"/>
               </div>
             </div>

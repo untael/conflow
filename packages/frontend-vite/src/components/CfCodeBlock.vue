@@ -2,7 +2,7 @@
   <div class="cf-code-block" :class="{'cf-code-block--codemirror-hidden': isLoading}">
     Code:
     <div class="cf-code-block__code-box">
-      <va-button @click="copyToClipboard" size="small" class="cf-code-block__code-box--copy-button">Copy</va-button>
+      <va-button v-if="showCopyButton" @click="copyToClipboard" size="small" class="cf-code-block__code-box--copy-button">Copy</va-button>
       <textarea :value="modelValue" :id="`editor-${id}`"/>
     </div>
   </div>
@@ -14,6 +14,7 @@ import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/lib/codemirror.css'
 import { inject, onMounted, ref } from 'vue'
+//@ts-ignore
 import { js_beautify as jsFormatter } from 'js-beautify'
 
 export default {
@@ -35,6 +36,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    autoheight: {
+      type: Boolean,
+      default: false,
+    },
+    showCopyButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup (props: any, { emit }) {
     const $vaToast: any = inject('$vaToast')
@@ -46,28 +55,33 @@ export default {
         color: 'success',
       })
     }
-    onMounted(async () => {
-          const codemirrorElement = document.getElementById(`editor-${props.id}`)
-          const codemirror = Codemirror.fromTextArea(codemirrorElement as HTMLTextAreaElement, {
-            mode: 'text/javascript', // Language mode
-            lineNumbers: true, // Show line number
-            smartIndent: true, // Smart indent
-            readOnly: props.readOnly,
-            indentUnit: 2, // The smart indent unit is 2 spaces in length
-          })
-          codemirror.on('change', (instance, change) => {
-            emit('update:modelValue', instance.getValue())
-          })
-          codemirror.on('blur', (instance, change) => {
-            let value = jsFormatter(instance.getValue(), { indent_size: 2 })
-            instance.setValue(value)
-            emit('update:modelValue', value)
-          })
-          isLoading.value = false
-          emit('loaded', isLoading.value)
-          //todo: add loader, remove loader from qForm
-        },
-    )
+    onMounted(() => {
+      const codemirrorElement = document.getElementById(`editor-${props.id}`)
+      const codemirror = Codemirror.fromTextArea(codemirrorElement as HTMLTextAreaElement, {
+        mode: 'text/javascript', // Language mode
+        lineNumbers: true, // Show line number
+        smartIndent: true, // Smart indent
+        readOnly: props.readOnly,
+        indentUnit: 2, // The smart indent unit is 2 spaces in length
+      })
+      codemirror.on('change', (instance, change) => {
+        emit('update:modelValue', instance.getValue())
+      })
+      codemirror.on('blur', (instance, change) => {
+        let value = jsFormatter(instance.getValue(), { indent_size: 2 })
+        instance.setValue(value)
+        emit('update:modelValue', value)
+      })
+      if (props.autoheight) {
+        const initializedCodemirrorInstances = document.querySelectorAll('.CodeMirror')
+        initializedCodemirrorInstances.forEach((block) => {
+          block.setAttribute('style', 'height: auto')
+        })
+      }
+      isLoading.value = false
+      emit('loaded', isLoading.value)
+      //todo: add loader, remove loader from qForm
+    })
     return {
       copyToClipboard,
       isLoading,
@@ -81,6 +95,7 @@ export default {
 
   &__code-box {
     position: relative;
+
     &--copy-button {
       position: absolute !important;
       right: 0 !important;
@@ -106,7 +121,7 @@ export default {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
     background-color: var(--va-input-color);
-    height: auto;
+    //height: auto;
   }
 }
 </style>
