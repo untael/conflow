@@ -1,16 +1,17 @@
-<template >
-  <div :class = "{'cf-code-block--codemirror-hidden': isLoading}" >
+<template>
+  <div :class="{'cf-code-block--codemirror-hidden': isLoading}">
     Code:
-    <textarea :value = "modelValue" id = "editor" />
-  </div >
-</template >
+    <textarea :value="modelValue" id="editor"/>
+  </div>
+</template>
 
-<script lang = "ts" >
+<script lang="ts">
 import * as Codemirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/lib/codemirror.css'
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from 'vue'
+import { js_beautify as jsFormatter } from 'js-beautify'
 
 export default {
   name: 'CfCodeBlock',
@@ -22,9 +23,13 @@ export default {
     readOnly: {
       type: [String, Boolean],
       default: false,
-    }
+    },
+    autoformat: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props: any, {emit}) {
+  setup (props: any, { emit }) {
     const isLoading = ref(true)
     onMounted(async () => {
           const codemirrorElement = document.getElementById('editor')
@@ -36,21 +41,26 @@ export default {
             indentUnit: 2, // The smart indent unit is 2 spaces in length
           })
           codemirror.on('change', (instance, change) => {
-            props.modelValue = instance.getValue()
+            emit('update:modelValue', instance.getValue())
+          })
+          codemirror.on('blur', (instance, change) => {
+            let value = jsFormatter(instance.getValue(), { indent_size: 2 })
+            instance.setValue(value)
+            emit('update:modelValue', value)
           })
           isLoading.value = false
           emit('loaded', isLoading.value)
           //todo: add loader, remove loader from qForm
-        }
+        },
     )
     return {
       isLoading,
     }
-  }
+  },
 }
-</script >
+</script>
 
-<style lang = "scss" >
+<style lang="scss">
 .cf-code-block {
   .va-input-wrapper__message-list-wrapper {
     padding: 0;
@@ -72,4 +82,4 @@ export default {
     height: auto;
   }
 }
-</style >
+</style>

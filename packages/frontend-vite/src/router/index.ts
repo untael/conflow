@@ -18,7 +18,7 @@ import CfTagsList from '@/components/tag/CfTagsList.vue'
 import CfInterviewDashboardPage from '@/views/CfInterviewDashboardPage.vue'
 import CfDashboard from '@/views/CfDashboard.vue'
 import CfAddTagForm from '@/components/tag/CfAddTagForm.vue'
-import CfInterviewWizard from '@/components/CfInterviewWizard.vue'
+// import CfInterviewWizard from '@/components/CfInterviewWizard.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -46,11 +46,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'AddTagForm',
                 component: CfAddTagForm,
             },
-            {
-                path: '/interviewWizard',
-                name: 'InterviewWizard',
-                component: CfInterviewWizard,
-            },
+            // {
+            //     path: '/interviewWizard',
+            //     name: 'InterviewWizard',
+            //     component: CfInterviewWizard,
+            // },
             {
                 path: '/questions',
                 name: 'Questions page',

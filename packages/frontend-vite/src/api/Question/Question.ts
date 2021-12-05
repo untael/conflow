@@ -1,5 +1,6 @@
 import { Expose, Transform, Type } from 'class-transformer'
 import Tag from '@/api/Question/Tag'
+import { js_beautify as jsFormatter } from 'js-beautify'
 
 export default interface IQuestion {
   id: string;
@@ -30,6 +31,7 @@ export default class Question implements IQuestion {
   @Expose()
   rating?: number = 0
   @Expose()
+  @Transform(({ value }) => jsFormatter(value, { indent_size: 2 }))
   code?: string = ''
   @Expose()
   date_start: Date | null = null
