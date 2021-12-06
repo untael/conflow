@@ -5,7 +5,7 @@
     </template>
     <template #default>
       <div class="cf-interview-wizard__step">
-        <div class="flex flex-wrap">
+        <div class="flex flex-col md:flex-row flex-wrap">
           <div
               class="cf-interview-wizard__step__tile transition hover:text-blue-800 hover:border-blue-800 cursor-pointer flex flex-1 flex-col items-center border border-solid border-gray-300 px-4 py-4 mx-2 my-2"
               :class="{'border-blue-800': selectedVariantIndex === variantIndex}"
@@ -24,12 +24,8 @@
         </div>
 
         <div class="flex justify-between mt-4">
-          <va-button color="info" class="flex-none ml-2" @click="goToPreviousStep">
-            Previous step
-          </va-button>
-          <va-button color="info" class="flex-none mr-2" @click="goToNextStep">
-            Next step
-          </va-button>
+          <va-button rounded="true" icon="navigate_before" color="info" class="flex-none ml-2" @click="goToPreviousStep"/>
+          <va-button rounded="true" icon="navigate_next" color="info" class="flex-none mr-2" @click="goToNextStep"/>
         </div>
       </div>
 

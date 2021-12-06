@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 h-screen relative d-flex justify--center align--center">
+  <div class="h-full d-flex justify-center items-center">
     <div class="w-4/5 sm:w-3/5 lg:w-1/3 xl:w-1/4 xl:w-1/5">
       <cf-login-form v-if="mode==='sign-in'"/>
       <cf-register-form v-if="mode==='sign-up'"/>

@@ -3,7 +3,7 @@
     <template #title>
       Questions dashboard
     </template>
-    <div class="flex flex-wrap">
+    <div class="flex flex-col md:flex-row flex-wrap">
       <cf-dashboard-card
           v-for="(card, index) in cards" :key="index"
           :card="card"
