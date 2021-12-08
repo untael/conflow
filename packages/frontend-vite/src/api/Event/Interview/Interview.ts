@@ -4,6 +4,7 @@ import Candidate from '@/api/User/Candidate/Candidate'
 import Employee from '@/api/User/Employee/Employee'
 import Business from '@/api/Business/Business'
 import { Expose, Type } from 'class-transformer'
+import Question from "@/api/Question/Question";
 
 
 export enum InterviewType {
@@ -68,10 +69,11 @@ export const CandidateLevelIterator = [
 interface IInterview extends IEvent {
   type: InterviewType;
   candidate_level: CandidateLevel;
-  candidate: Candidate;
-  recruiters: Employee[];
-  interviewers: Employee[];
-  business: Business;
+  candidate?: Candidate;
+  recruiters?: Employee[];
+  interviewers?: Employee[];
+  business?: Business;
+  questions?: Question[]
 }
 
 export default class Interview extends Event implements IInterview {

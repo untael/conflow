@@ -21,6 +21,8 @@ import CfAddTagForm from '@/components/tag/CfAddTagForm.vue'
 // import CfInterviewWizard from '@/components/CfInterviewWizard.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import CfInterviewWizard from '@/components/interview/CfInterviewWizard.vue'
+import CfInterviewTemplatePage from "@/views/CfInterviewTemplatePage.vue";
+import CfInterviewTemplateEditForm from "@/components/interview/CfInterviewTemplateEditForm.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -103,6 +105,18 @@ const routes: Array<RouteRecordRaw> = [
                         path: 'instant',
                         name: 'Interview wizard',
                         component: CfInterviewWizard,
+                    },
+                    {
+                        path: 'template',
+                        name: 'Interview template',
+                        component: CfInterviewTemplatePage,
+                        children: [
+                            {
+                                path: 'new',
+                                name: 'Interview template create',
+                                component: CfInterviewTemplateEditForm
+                            }
+                        ]
                     },
                     {
                         path: ':id',
