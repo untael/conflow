@@ -6853,11 +6853,6 @@ findup-sync@^3.0.0:
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
 
-flatpickr@4.6.9, flatpickr@^4.6.9:
-  version "4.6.9"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.6.9.tgz#9a13383e8a6814bda5d232eae3fcdccb97dc1499"
-  integrity sha512-F0azNNi8foVWKSF+8X+ZJzz8r9sE1G4hl06RyceIaLvyltKvDl6vqk9Lm/6AUUCi5HWaIjiUbk7UpeE/fOXOpw==
-
 flatstr@^1.0.5:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/flatstr/-/flatstr-1.0.12.tgz#c2ba6a08173edbb6c9640e3055b95e287ceb5931"
@@ -11930,6 +11925,13 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
+qs@^6.10.2:
+  version "6.10.2"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.2.tgz#c1431bea37fc5b24c5bdbafa20f16bdf2a4b9ffe"
+  integrity sha512-mSIdjzqznWgfd4pMii7sHtaYF8rx8861hBO80SraY5GT0XQibWZWJSid0avzHGkDIZLImux2S5mXO0Hfct2QCw==
+  dependencies:
+    side-channel "^1.0.4"
+
 qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -16030,13 +16032,6 @@ vue-codemirror@^4.0.6:
     codemirror "^5.41.0"
     diff-match-patch "^1.0.0"
 
-vue-flatpickr-component@^9.0.3:
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/vue-flatpickr-component/-/vue-flatpickr-component-9.0.5.tgz#350ec73b7f3d7f80b050c170c088234f9c3bd14c"
-  integrity sha512-fKuz/D4ePQKi+jPo4xjYRgBCLTWrTsCoKbx8nam63x4kTDtSqvFOjNwLvy0QgwC0lC+aFpUWa1dNYTH0hgUcCA==
-  dependencies:
-    flatpickr "^4.6.9"
-
 vue-router@4.0.12:
   version "4.0.12"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.12.tgz#8dc792cddf5bb1abcc3908f9064136de7e13c460"
@@ -16063,10 +16058,10 @@ vue@^3.2.16:
     "@vue/server-renderer" "3.2.21"
     "@vue/shared" "3.2.21"
 
-vuestic-ui@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/vuestic-ui/-/vuestic-ui-1.3.1.tgz#cd9c7e50b297d46d3c36ce7353461c8fb54cffc1"
-  integrity sha512-zPqtB56HGXrfkgbXGCAovmHPfxqoEFD1AQrmRPxOEqZSjvXwUwz83UwbtRZ2IiSe/ERJcWNSZ1VXG9PO6WAzTQ==
+vuestic-ui@^1.3.2:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/vuestic-ui/-/vuestic-ui-1.3.3.tgz#605b0083ac994f7409adb7e1e9fde07133092f10"
+  integrity sha512-DA7gLTtQAtjlDkWGAh2uVHA56ZMeCgbmBZLKN1HEMs5sjj19XkDSclOZMv7Y0rpfH5HnsoABqI5gslQWSxyf2A==
   dependencies:
     "@popperjs/core" "^2.9.2"
     asva-executors "^0.1.26"
@@ -16074,11 +16069,9 @@ vuestic-ui@^1.3.1:
     colortranslator "^1.7.1"
     detect-browser "^5.2.0"
     element-resize-detector "^1.2.1"
-    flatpickr "4.6.9"
     lodash-es "^4.17.21"
     normalize.css "^8.0.1"
     tslib "^2.2.0"
-    vue-flatpickr-component "^9.0.3"
 
 warning@^4.0.2, warning@^4.0.3:
   version "4.0.3"

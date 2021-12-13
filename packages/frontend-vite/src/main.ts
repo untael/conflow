@@ -16,11 +16,21 @@ app.use(VuesticPlugin, {
     success: '#065f46',
   },
   components: {
+    VaIcon: {
+      sizesConfig: {
+        defaultSize: 24,
+        sizes: {
+          small: 20,
+          medium: 24,
+          large: 32,
+        },
+      },
+    },
     VaButton: {
       rounded: false,
-      color: '#000000'
-    }
-  }
+      color: '#000000',
+    },
+  },
 })
 app.provide('$vaToast', app.config.globalProperties.$vaToast)
 app.use(router)

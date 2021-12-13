@@ -4,7 +4,7 @@
       Questions list
     </template>
     <cf-spinner class="mx-auto" v-if="isLoading"/>
-    <cf-question-form
+    <cf-question-item
         v-else
         class="py-2"
         v-for="(question, index) in questions" :key="`${index}-${question.id}`" :question="question"
@@ -15,14 +15,14 @@
 <script lang="ts">
 import { useQuestion } from '@/composables/useQuestion'
 import { onMounted, Ref, ref } from 'vue'
-import CfQuestionForm from '@/components/question/CfQuestionItem.vue'
+import CfQuestionItem from '@/components/question/CfQuestionItem.vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfSpinner from '@/components/CfSpinner.vue'
 import Question from '@/api/Question/Question'
 
 export default {
   name: 'CfQuestionsList',
-  components: { CfSpinner, CfContainer, CfQuestionForm },
+  components: { CfSpinner, CfContainer, CfQuestionItem },
   setup () {
 
     const questions: Ref<Question[]> = ref([])

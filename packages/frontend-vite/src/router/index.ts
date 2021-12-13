@@ -107,7 +107,7 @@ const routes: Array<RouteRecordRaw> = [
                         component: CfInterviewWizard,
                     },
                     {
-                        path: 'template',
+                        path: 'templates',
                         name: 'Interview template',
                         component: CfInterviewTemplatePage,
                         children: [

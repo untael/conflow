@@ -3,9 +3,17 @@
       class="cf-question-form shadow-none"
       v-model="value"
       color-all
-      :icon="questionIcon"
-      :header="question.name"
   >
+    <template #header>
+      <div class="va-collapse__header__content pl-0">
+        <va-icon class="va-collapse__header__icon" color="black" :name="questionIcon"></va-icon>
+        <div class="va-collapse__header__text">{{ question.name }}</div>
+        <va-button v-if="canBeEdited" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
+        <va-button v-if="canBeAdded" size="small" class="mx-1" flat icon="add" @click.stop="$emit('add')"/>
+        <va-button v-if="canBeRemoved" size="small" class="mx-1" flat icon="remove" @click.stop="$emit('remove')"/>
+        <va-icon class="va-collapse__header__icon" color="black" :name="value ? 'expand_less' : 'expand_more'"/>
+      </div>
+    </template>
     <div class="pt-2 text-sm bg-gray-50">
       <div class="px-2 py-2">
         {{ question.description }}
@@ -86,6 +94,18 @@ export default {
       },
     },
     canBeStarted: {
+      type: Boolean,
+      default: false,
+    },
+    canBeEdited: {
+      type: Boolean,
+      default: false,
+    },
+    canBeAdded: {
+      type: Boolean,
+      default: false,
+    },
+    canBeRemoved: {
       type: Boolean,
       default: false,
     },

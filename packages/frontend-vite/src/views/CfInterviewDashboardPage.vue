@@ -40,6 +40,12 @@ export default {
         route: 'Interviews list',
         badgeText: 'WIP',
       },
+      {
+        title: 'Create interview template',
+        icon: 'format_list_bulleted',
+        route: 'Interview template create',
+        badgeText: 'WIP',
+      },
     ])
     return { cards }
   },

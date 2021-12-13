@@ -104,8 +104,6 @@ export default {
 
     onMounted(async () => {
       tags.value = await getTags()
-
-
     })
 
     const handleCreateQuestion = async (data: Question) => {
