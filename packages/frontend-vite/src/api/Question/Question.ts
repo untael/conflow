@@ -1,8 +1,8 @@
-import { Expose, Transform, Type } from 'class-transformer'
+import { Expose, Transform } from 'class-transformer'
 import Tag from '@/api/Question/Tag'
 import { js_beautify as jsFormatter } from 'js-beautify'
 
-export default interface IQuestion {
+interface IQuestion {
   id: string;
   name: string
   description: string

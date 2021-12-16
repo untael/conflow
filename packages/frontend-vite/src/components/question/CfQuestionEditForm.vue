@@ -10,7 +10,6 @@
           <va-input
               v-model="question.name"
               :rules="[validationRules]"
-              :messages="['Required']"
           />
         </div>
 
@@ -21,7 +20,6 @@
               type="textarea"
               autosize
               :rules="[validationRules]"
-              :messages="['Required']"
           />
         </div>
 
@@ -43,8 +41,7 @@
           <va-select
               :options="types"
               v-model="question.type"
-              :rules="[selectRules]"
-              :messages="['Required']"
+              :rules="[typeSelectRules]"
           />
         </div>
 
@@ -58,7 +55,7 @@
               multiple
               searchable
               allow-create
-              :rules="[validationRules]"
+              :rules="[tagsSelectRules]"
           />
         </div>
         <div class="pt-4 d-flex justify-end">
@@ -92,8 +89,9 @@ export default {
   setup () {
     const isCodemirrorLoading = ref(true)
     const questionCreateForm = ref(null)
-    const validationRules = (value: string) => (value && value.length > 0) || 'Field is required'
-    const selectRules = (v: string) => !!v || 'Field is required'
+    const validationRules = (value: string) => value && value.length || 'Field is required'
+    const tagsSelectRules = (v: any[]) => v && v.length || 'Field is required'
+    const typeSelectRules = (v: string) => v && v.length || 'Field is required'
     //ToDo: issue to vuestic ui about exposing toast type/interface
     const $vaToast: any = inject('$vaToast')
     const isQuestionCreateInProgress = ref(false)
@@ -107,6 +105,8 @@ export default {
     })
 
     const handleCreateQuestion = async (data: Question) => {
+      //@ts-ignore
+      console.log('(questionCreateForm.value as any).validate()', questionCreateForm.value.validate())
       if ((questionCreateForm.value as any).validate()) {
         try {
           isQuestionCreateInProgress.value = true
@@ -129,7 +129,8 @@ export default {
 
     return {
       validationRules,
-      selectRules,
+      tagsSelectRules,
+      typeSelectRules,
       questionCreateForm,
       isQuestionCreateInProgress,
       tags,

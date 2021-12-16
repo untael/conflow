@@ -39,9 +39,9 @@ import CfContainer from '@/components/layout/CfContainer.vue'
 import CfDashboardCard from '@/components/CfDashboardCard.vue'
 import Interview, {
   InterviewType,
-  iterviewTypesIterator,
+  interviewTypesIterator,
   CandidateLevel,
-  CandidateLevelIterator,
+  candidateLevelIterator,
 } from '@/api/Event/Interview/Interview'
 
 enum InstantInterviewSteps {
@@ -59,11 +59,11 @@ export default {
     const steps: Array<Record<string, unknown>> = [
       {
         name: InstantInterviewSteps.Type,
-        variants: [...iterviewTypesIterator],
+        variants: [...interviewTypesIterator],
       },
       {
         name: InstantInterviewSteps.CandidateLevel,
-        variants: [...CandidateLevelIterator],
+        variants: [...candidateLevelIterator],
       },
       {
         name: InstantInterviewSteps.Template,

@@ -3,8 +3,8 @@ import Event from '../Event'
 import Candidate from '@/api/User/Candidate/Candidate'
 import Employee from '@/api/User/Employee/Employee'
 import Business from '@/api/Business/Business'
+import Question from "@/api/Question/Question"
 import { Expose, Type } from 'class-transformer'
-import Question from "@/api/Question/Question";
 
 
 export enum InterviewType {
@@ -13,7 +13,7 @@ export enum InterviewType {
   Technical = 'Deep technical'
 }
 
-export const iterviewTypesIterator = [
+export const interviewTypesIterator = [
   {
     name: InterviewType.PreConversation,
     value: 'pre_conversation',
@@ -43,7 +43,7 @@ export enum CandidateLevel {
   Senior = 'Senior',
 }
 
-export const CandidateLevelIterator = [
+export const candidateLevelIterator = [
   {
     name: CandidateLevel.Junior,
     value: 'junior',
@@ -67,8 +67,8 @@ export const CandidateLevelIterator = [
 ]
 
 interface IInterview extends IEvent {
-  type: InterviewType;
-  candidate_level: CandidateLevel;
+  type: string | InterviewType;
+  candidate_level: CandidateLevel[];
   candidate?: Candidate;
   recruiters?: Employee[];
   interviewers?: Employee[];
@@ -78,10 +78,10 @@ interface IInterview extends IEvent {
 
 export default class Interview extends Event implements IInterview {
   @Expose()
-  type: InterviewType = InterviewType.Technical
+  type: string | InterviewType = ''
 
   @Expose()
-  candidate_level: CandidateLevel = CandidateLevel.Junior
+  candidate_level: CandidateLevel[] = []
 
   @Expose()
   @Type(() => Candidate)
@@ -97,6 +97,10 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   business: Business = new Business()
+
+  @Expose()
+  @Type(() => Question)
+  questions: Question[] = []
 
   get title (): string {
     return this.name ? this.name : `${this.candidate.full_name} interview`
