@@ -23,6 +23,14 @@
         <cf-code-block :read-only="true" :id="question.id" autoheight showCopyButton v-model="question.code"/>
       </div>
 
+      <div class="px-2 py-2" v-if="question.answer">
+        <va-checkbox label="Show answer" v-model="showAnswer"/>
+      </div>
+
+      <div class="px-2 py-2" v-if="showAnswer">
+        <cf-code-block :read-only="true" :id="`${question.id}-answer`" autoheight showCopyButton v-model="question.answer"/>
+      </div>
+
       <div>
         <div class="flex justify-between px-2 bg-gray-100">
           <div class="py-2 text-xs flex items-center flex-none">
@@ -116,10 +124,12 @@ export default {
     }
   },
   setup (props: any) {
+    const showAnswer = ref(false)
     const questionIcon = ref('')
     questionIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
     return {
       questionIcon,
+      showAnswer,
     }
   },
 }

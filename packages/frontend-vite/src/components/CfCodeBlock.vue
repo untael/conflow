@@ -1,6 +1,6 @@
 <template>
   <div class="cf-code-block" :class="{'cf-code-block--codemirror-hidden': isLoading}">
-    Code:
+    {{ label }}:
     <div class="cf-code-block__code-box">
       <va-button v-if="showCopyButton" @click="copyToClipboard" size="small" class="cf-code-block__code-box--copy-button">Copy</va-button>
       <textarea :value="modelValue" :id="`editor-${id}`"/>
@@ -13,8 +13,7 @@ import * as Codemirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/lib/codemirror.css'
-import { inject, onMounted, ref } from 'vue'
-//@ts-ignore
+import { inject, onMounted, Ref, ref, watch } from 'vue'
 import { js_beautify as jsFormatter } from 'js-beautify'
 
 export default {
@@ -44,6 +43,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    label: {
+      type: String,
+      default: 'Code',
+    },
   },
   setup (props: any, { emit }: any) {
     const $vaToast: any = inject('$vaToast')
@@ -55,15 +58,18 @@ export default {
         color: 'success',
       })
     }
+    const codeMirrorValue: Ref<string> = ref('')
+
     onMounted(() => {
       const codemirrorElement = document.getElementById(`editor-${props.id}`)
       const codemirror = Codemirror.fromTextArea(codemirrorElement as HTMLTextAreaElement, {
         mode: 'text/javascript', // Language mode
         lineNumbers: true, // Show line number
         smartIndent: true, // Smart indent
-        readOnly: props.readOnly,
+        readOnly: props.readOnly, //Read only state
         indentUnit: 2, // The smart indent unit is 2 spaces in length
       })
+      codeMirrorValue.value = codemirror.getValue()
       codemirror.on('change', (instance, change) => {
         emit('update:modelValue', instance.getValue())
       })
@@ -81,6 +87,13 @@ export default {
       isLoading.value = false
       emit('loaded', isLoading.value)
       //todo: add loader, remove loader from qForm
+      //Reactivity hack
+      watch(() => props.modelValue, (value) => {
+        if(codemirror.getValue() !== value) {
+          codemirror.setValue(value)
+          codeMirrorValue.value = value
+        }
+      })
     })
     return {
       copyToClipboard,

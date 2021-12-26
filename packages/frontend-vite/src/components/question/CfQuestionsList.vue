@@ -8,6 +8,8 @@
         v-else
         class="py-2"
         v-for="(question, index) in questions" :key="`${index}-${question.id}`" :question="question"
+        :canBeEdited="editable"
+        @edit="$router.push({name: 'Question edit', params: { id: question.id}})"
     />
   </cf-container>
 </template>
@@ -23,6 +25,12 @@ import Question from '@/api/Question/Question'
 export default {
   name: 'CfQuestionsList',
   components: { CfSpinner, CfContainer, CfQuestionItem },
+  props: {
+    editable: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup () {
 
     const questions: Ref<Question[]> = ref([])

@@ -23,12 +23,18 @@ import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import CfInterviewWizard from '@/components/interview/CfInterviewWizard.vue'
 import CfInterviewTemplatePage from "@/views/CfInterviewTemplatePage.vue";
 import CfInterviewTemplateEditForm from "@/components/interview/CfInterviewTemplateEditForm.vue";
+import CfNotFound from '@/components/CfNotFound.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '',
         component: CfAppWrapper,
         children: [
+            {
+                path: '/:pathMatch(.*)*',
+                name: 'Not found',
+                component: CfNotFound
+            },
             {
                 path: '',
                 name: 'Dashboard',
@@ -70,9 +76,22 @@ const routes: Array<RouteRecordRaw> = [
                         component: CfAddQuestionEditForm,
                     },
                     {
+                        path: ':id',
+                        name: 'Question edit',
+                        component: CfAddQuestionEditForm,
+                    },
+                    {
                         path: 'list',
                         name: 'Questions list',
                         component: CfQuestionsList,
+                    },
+                    {
+                        path: 'list/editable',
+                        name: 'Question list editable',
+                        component: CfQuestionsList,
+                        props: {
+                            editable: true,
+                        },
                     },
                     {
                         path: 'process',
@@ -168,21 +187,7 @@ const routes: Array<RouteRecordRaw> = [
             },
         ],
     },
-    {
-        path: '/answer',
-        name: 'Answers',
-        component: CfAnswerForm,
-    },
-    {
-        path: '/interview',
-        name: 'interview',
-        component: CfInterviewForm,
-    },
 
-    // {
-    //   path: '*',
-    //   redirect: '/error',
-    // },
 ]
 
 const router = createRouter({

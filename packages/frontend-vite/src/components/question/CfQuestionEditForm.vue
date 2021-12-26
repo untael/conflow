@@ -1,7 +1,7 @@
 <template>
   <cf-container class="cf-question-create-form">
     <template #title>
-      Add question form
+      {{ formLabel }}
     </template>
     <template #default>
       <va-form ref="questionCreateForm">
@@ -32,7 +32,23 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block :id="question.id" v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+          <cf-code-block label="Question code" :id="question.id" v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+        </div>
+
+        <div class="py-2">
+          <va-checkbox @update:modelValue="handleAddAnswer" :modelValue="showAddAnswer" :label="answerCheckboxLabel"/>
+        </div>
+
+        <div class="py-2" v-if="showAddAnswer || question.answer">
+          <div v-if="isCodemirrorLoading">
+            <cf-spinner
+                class="mx-auto"
+                :animation-duration="1200"
+                :size="300"
+                color="rgb(44, 130, 224)"
+            />
+          </div>
+          <cf-code-block label="Answer code" :id="`${question.id}-answer`" v-model="question.answer" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
@@ -63,7 +79,7 @@
             Cancel
           </va-button>
           <va-button color="primary" class="ml-2" :loading="isQuestionCreateInProgress"
-                     @click="handleCreateQuestion(question)">
+                     @click="handleSaveQuestion(question)">
             Save
           </va-button>
         </div>
@@ -75,56 +91,76 @@
 <script lang="ts">
 import CfContainer from '@/components/layout/CfContainer.vue'
 import Question from '@/api/Question/Question'
-import { inject, onMounted, Ref, ref } from 'vue'
+import { computed, inject, onMounted, Ref, ref } from 'vue'
 import { useQuestion } from '@/composables/useQuestion'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
 
 import CfSpinner from '@/components/CfSpinner.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   name: 'CfAddQuestionEditForm',
   components: { CfCodeBlock, CfSpinner, CfContainer },
   setup () {
+    const route = useRoute()
+    const router = useRouter()
+    const showAddAnswer = ref(false)
     const isCodemirrorLoading = ref(true)
     const questionCreateForm = ref(null)
     const validationRules = (value: string) => value && value.length || 'Field is required'
     const tagsSelectRules = (v: any[]) => v && v.length || 'Field is required'
     const typeSelectRules = (v: string) => v && v.length || 'Field is required'
     //ToDo: issue to vuestic ui about exposing toast type/interface
-    const $vaToast: any = inject('$vaToast')
     const isQuestionCreateInProgress = ref(false)
-    const question = ref(new Question({}))
+    const question: Ref<Question> = ref(new Question({}))
     const tags: Ref<Tag[]> = ref([])
-    const { createQuestion } = useQuestion()
+    const { createQuestion, updateQuestion, getQuestion } = useQuestion()
     const { getTags } = useTag()
-
+    const formLabel = computed(() => {
+      return question.value.id ? 'Edit question form' : 'Add question form'
+    })
     onMounted(async () => {
+      const questionId = route.params.id as string
+      if (questionId) {
+        try {
+          question.value = await getQuestion(questionId)
+        } catch {
+          await router.push({name: 'Not found'})
+        }
+        showAddAnswer.value = true
+      }
       tags.value = await getTags()
     })
 
-    const handleCreateQuestion = async (data: Question) => {
-      //@ts-ignore
-      console.log('(questionCreateForm.value as any).validate()', questionCreateForm.value.validate())
-      if ((questionCreateForm.value as any).validate()) {
-        try {
-          isQuestionCreateInProgress.value = true
-          await createQuestion(data)
-          $vaToast.init({
-            message: 'Question was successfully created',
-            color: 'success',
-          })
-          question.value = new Question({})
-        } catch (error) {
-          $vaToast.init({
-            message: 'Question was not created',
-            color: 'danger',
-          })
-        } finally {
-          isQuestionCreateInProgress.value = false
-        }
+    const handleAddAnswer = (value: boolean) => {
+      if (!value) {
+        question.value.answer = ''
       }
+      showAddAnswer.value = value
+    }
+
+    const answerCheckboxLabel = computed(() => {
+      return showAddAnswer.value ? 'Remove answer' : 'Add answer'
+    })
+
+    const handleSaveQuestion = async (data: Question) => {
+      //@ts-ignore
+      // if ((questionCreateForm.value as any).validate()) {
+      try {
+        isQuestionCreateInProgress.value = true
+        if (!data.id) {
+          await createQuestion(data)
+          question.value = new Question({})
+        } else {
+          await updateQuestion(data)
+        }
+      } catch (error) {
+      } finally {
+        isQuestionCreateInProgress.value = false
+      }
+      // }
     }
 
     return {
@@ -135,8 +171,12 @@ export default {
       isQuestionCreateInProgress,
       tags,
       question,
-      handleCreateQuestion,
+      handleSaveQuestion,
       isCodemirrorLoading,
+      formLabel,
+      showAddAnswer,
+      handleAddAnswer,
+      answerCheckboxLabel,
     }
   },
   data () {
