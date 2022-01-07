@@ -1,5 +1,5 @@
 <template>
-  <cf-container class="cf-question-create-form">
+  <cf-container :loading="isLoading" class="cf-question-create-form">
     <template #title>
       {{ formLabel }}
     </template>
@@ -32,7 +32,7 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Question code" :id="question.id" v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+          <cf-code-block label="Question code" :id="id ? `${question.id}-edit` : question.id" v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
@@ -48,7 +48,7 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Answer code" :id="`${question.id}-answer`" v-model="question.answer" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+          <cf-code-block label="Answer code" :id="id ? `${question.id}-answer-edit` : `${question.id}-answer`" v-model="question.answer" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
@@ -91,7 +91,7 @@
 <script lang="ts">
 import CfContainer from '@/components/layout/CfContainer.vue'
 import Question from '@/api/Question/Question'
-import { computed, inject, onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, Ref, ref, watch } from 'vue'
 import { useQuestion } from '@/composables/useQuestion'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
@@ -101,14 +101,20 @@ import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default {
-  name: 'CfAddQuestionEditForm',
+  name: 'CfQuestionEditPanel',
   components: { CfCodeBlock, CfSpinner, CfContainer },
-  setup () {
+  props: {
+    id: {
+      type: String,
+    },
+  },
+  setup (props: any) {
     const route = useRoute()
     const router = useRouter()
     const showAddAnswer = ref(false)
     const isCodemirrorLoading = ref(true)
     const questionCreateForm = ref(null)
+    const isLoading = ref(false)
     const validationRules = (value: string) => value && value.length || 'Field is required'
     const tagsSelectRules = (v: any[]) => v && v.length || 'Field is required'
     const typeSelectRules = (v: string) => v && v.length || 'Field is required'
@@ -121,16 +127,25 @@ export default {
     const formLabel = computed(() => {
       return question.value.id ? 'Edit question form' : 'Add question form'
     })
-    onMounted(async () => {
+    const fetchQuestion = async () => {
+      isCodemirrorLoading.value = true
+      showAddAnswer.value = false
       const questionId = route.params.id as string
-      if (questionId) {
+      if (questionId || props.id) {
         try {
-          question.value = await getQuestion(questionId)
+          isLoading.value = true
+          question.value = await getQuestion(questionId || props.id)
+          isLoading.value = false
         } catch {
-          await router.push({name: 'Not found'})
+          await router.push({ name: 'Not found' })
         }
-        showAddAnswer.value = true
+        if (question.value.answer) {
+          showAddAnswer.value = true
+        }
       }
+    }
+    onMounted(async () => {
+      await fetchQuestion()
       tags.value = await getTags()
     })
 
@@ -160,8 +175,11 @@ export default {
       } finally {
         isQuestionCreateInProgress.value = false
       }
-      // }
     }
+
+    watch(props, async () => {
+      await fetchQuestion()
+    })
 
     return {
       validationRules,
@@ -177,6 +195,7 @@ export default {
       showAddAnswer,
       handleAddAnswer,
       answerCheckboxLabel,
+      isLoading,
     }
   },
   data () {

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import InterviewEditForm from '../components/interview/CfInterviewEditForm.vue'
+import InterviewEditForm from '../components/interview/CfInterviewEditPanelWrapper.vue'
 
 export default {
   name: 'InterviewEditPage',

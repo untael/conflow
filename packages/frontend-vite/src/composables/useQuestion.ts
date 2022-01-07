@@ -1,10 +1,11 @@
 import Question from '@/api/Question/Question'
-import { inject, Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 import axios from 'axios'
 import { plainToClass, classToPlain } from 'class-transformer'
+import { useToast } from '@/composables/useToast'
 
 export const useQuestion = () => {
-  const $vaToast: any = inject('$vaToast')
+  const { $toast } = useToast()
   const questions: Ref<Question[]> = ref([])
 
   const getQuestion = async (id: string) => {
@@ -42,12 +43,12 @@ export const useQuestion = () => {
     try {
       const transformedQuestion = classToPlain(question)
       await axios.post(`${import.meta.env.VITE_API_URL}/questions`, transformedQuestion)
-      $vaToast.init({
+      $toast.init({
         message: 'Question was successfully created',
         color: 'success',
       })
     } catch (error) {
-      $vaToast.init({
+      $toast.init({
         message: 'Question was not created',
         color: 'danger',
       })
@@ -58,12 +59,12 @@ export const useQuestion = () => {
     try {
       const transformedQuestion = classToPlain(question)
       await axios.put(`${import.meta.env.VITE_API_URL}/questions/${question.id}`, transformedQuestion)
-      $vaToast.init({
+      $toast.init({
         message: 'Question was successfully updated',
         color: 'success',
       })
     } catch (error) {
-      $vaToast.init({
+      $toast.init({
         message: 'Question was not updated',
         color: 'danger',
       })

@@ -3,7 +3,7 @@
     <!--    <cf-topbar/>-->
     <cf-header/>
     <main class="h-full overflow-hidden relative bg-gray-200">
-      <div class="overflow-y-scroll overflow-x-hidden h-full">
+      <div class="overflow-hidden h-full">
         <router-view/>
       </div>
     </main>

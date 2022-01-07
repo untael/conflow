@@ -58,7 +58,7 @@ import CfContainer from "@/components/layout/CfContainer.vue";
 
 
 export default {
-  name: 'CfInterviewEditForm',
+  name: 'CfInterviewEditPanel',
   components: {CfContainer},
 
   setup() {

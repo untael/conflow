@@ -1,29 +1,31 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import InterviewControlPage from '../views/InterviewControlPage.vue'
-import InterviewDisplayPage from '../views/InterviewDisplayPage.vue'
-import CfInterviewEditForm from '../components/interview/CfInterviewEditForm.vue'
 import CfAuthPage from '../views/CfAuthPage.vue'
 import CfAppWrapper from '../components/layout/CfAppWrapper.vue'
-import CfInterviewForm from '../components/interview/CfInterviewForm.vue'
 import CfInterviewProcessPage from '../views/CfInterviewProcessPage.vue'
 import CfInterviewResultsPage from '@/views/CfInterviewResultsPage.vue'
-import CfAnswerForm from '../components/answer/CfAnswerForm.vue'
-import CfAddQuestionEditForm
-    from '../components/question/CfQuestionEditForm.vue'
 import CfQuestionPage from '@/views/CfQuestionPage.vue'
 import CfInterviewPage from '@/views/CfInterviewPage.vue'
-import CfQuestionsDashboardPage from '@/views/CfQuestionsDashboardPage.vue'
-import CfQuestionsList from '@/components/question/CfQuestionsList.vue'
 import CfTagsList from '@/components/tag/CfTagsList.vue'
-import CfInterviewDashboardPage from '@/views/CfInterviewDashboardPage.vue'
-import CfDashboard from '@/views/CfDashboard.vue'
 import CfAddTagForm from '@/components/tag/CfAddTagForm.vue'
-// import CfInterviewWizard from '@/components/CfInterviewWizard.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import CfInterviewWizard from '@/components/interview/CfInterviewWizard.vue'
 import CfInterviewTemplatePage from "@/views/CfInterviewTemplatePage.vue";
-import CfInterviewTemplateEditForm from "@/components/interview/CfInterviewTemplateEditForm.vue";
 import CfNotFound from '@/components/CfNotFound.vue'
+import CfQuestionsListPanelWrapper
+    from '@/components/question/panels/CfQuestionsListPanelWrapper.vue'
+import CfInterviewTemplateCreatePanelWrapper
+    from '@/components/interview/template/CfInterviewTemplateCreatePanelWrapper.vue'
+import CfQuestionEditPanelWrapper
+    from '@/components/question/panels/CfQuestionEditPanelWrapper.vue'
+import CfInterviewEditPanelWrapper
+    from '@/components/interview/CfInterviewEditPanelWrapper.vue'
+import CfDashboardPanelWrapper
+    from '@/components/dashboard/CfDashboardPanelWrapper.vue'
+import CfQuestionsDashboardPanelWrapper
+    from '@/components/question/panels/CfQuestionsDashboardPanelWrapper.vue'
+import CfInterviewDashboardPanelWrapper
+    from '@/components/interview/CfInterviewDashboardPanelWrapper.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -38,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: '',
                 name: 'Dashboard',
-                component: CfDashboard,
+                component: CfDashboardPanelWrapper,
             },
             {
                 path: '/codeBlock',
@@ -68,27 +70,27 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: '',
                         name: 'Questions dashboard',
-                        component: CfQuestionsDashboardPage,
+                        component: CfQuestionsDashboardPanelWrapper,
                     },
                     {
                         path: 'new',
                         name: 'Question create',
-                        component: CfAddQuestionEditForm,
+                        component: CfQuestionEditPanelWrapper,
                     },
                     {
                         path: ':id',
                         name: 'Question edit',
-                        component: CfAddQuestionEditForm,
+                        component: CfQuestionEditPanelWrapper,
                     },
                     {
                         path: 'list',
                         name: 'Questions list',
-                        component: CfQuestionsList,
+                        component: CfQuestionsListPanelWrapper,
                     },
                     {
                         path: 'list/editable',
                         name: 'Question list editable',
-                        component: CfQuestionsList,
+                        component: CfQuestionsListPanelWrapper,
                         props: {
                             editable: true,
                         },
@@ -108,17 +110,17 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: '',
                         name: 'Interviews dashboard',
-                        component: CfInterviewDashboardPage,
+                        component: CfInterviewDashboardPanelWrapper,
                     },
                     {
                         path: 'new',
                         name: 'Interview create',
-                        component: CfInterviewEditForm,
+                        component: CfInterviewEditPanelWrapper,
                     },
                     {
                         path: 'list',
                         name: 'Interviews list',
-                        component: CfQuestionsList,
+                        component: CfQuestionsListPanelWrapper,
                     },
                     {
                         path: 'instant',
@@ -133,7 +135,7 @@ const routes: Array<RouteRecordRaw> = [
                             {
                                 path: 'new',
                                 name: 'Interview template create',
-                                component: CfInterviewTemplateEditForm
+                                component: CfInterviewTemplateCreatePanelWrapper
                             }
                         ]
                     },

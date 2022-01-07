@@ -13,8 +13,9 @@ import * as Codemirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/lib/codemirror.css'
-import { inject, onMounted, Ref, ref, watch } from 'vue'
+import { onMounted, Ref, ref, watch } from 'vue'
 import { js_beautify as jsFormatter } from 'js-beautify'
+import { useToast } from '@/composables/useToast'
 
 export default {
   name: 'CfCodeBlock',
@@ -49,11 +50,11 @@ export default {
     },
   },
   setup (props: any, { emit }: any) {
-    const $vaToast: any = inject('$vaToast')
+    const { $toast } = useToast()
     const isLoading = ref(true)
     const copyToClipboard = async () => {
       await navigator.clipboard.writeText(props.modelValue)
-      $vaToast.init({
+      $toast.init({
         message: 'Code was copied to clipboard',
         color: 'success',
       })
@@ -89,7 +90,7 @@ export default {
       //todo: add loader, remove loader from qForm
       //Reactivity hack
       watch(() => props.modelValue, (value) => {
-        if(codemirror.getValue() !== value) {
+        if (codemirror.getValue() !== value) {
           codemirror.setValue(value)
           codeMirrorValue.value = value
         }
@@ -130,11 +131,15 @@ export default {
     visibility: hidden;
   }
 
+  .CodeMirror-vscrollbar {
+    display: none !important;
+  }
+
   .CodeMirror {
+    overflow-y: hidden;
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
     background-color: var(--va-input-color);
-    //height: auto;
   }
 }
 </style>

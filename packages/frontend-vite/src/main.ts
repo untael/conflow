@@ -8,6 +8,8 @@ import './main.scss'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/mode/javascript/javascript.js'
+import mitt, { Emitter } from 'mitt'
+import { Events } from '@/api/emitter'
 
 const app = createApp(App)
 app.use(VuesticPlugin, {
@@ -34,4 +36,7 @@ app.use(VuesticPlugin, {
 })
 app.provide('$vaToast', app.config.globalProperties.$vaToast)
 app.use(router)
+const emitter: Emitter<Events> = mitt<Events>()
+app.provide('$emitter', emitter)
+
 app.mount('#app')
