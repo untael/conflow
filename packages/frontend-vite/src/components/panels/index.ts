@@ -63,5 +63,4 @@ export const panelsIterator = [
 export const PanelList = [
   ...panelsIterator,
 ]
-console.log('PanelList', PanelList)
 

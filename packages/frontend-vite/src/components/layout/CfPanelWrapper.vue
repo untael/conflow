@@ -28,7 +28,6 @@
 <script lang="ts">
 import { provide, Ref, ref } from 'vue'
 import { PanelList, PanelNames } from '@/components/panels'
-import { PanelsMixin } from '@/router/PanelsMixin'
 import { useToast } from '@/composables/useToast'
 import Panel from '@/api/Panel'
 import CfPanel from '@/components/layout/CfPanel.vue'
@@ -36,7 +35,12 @@ import CfPanel from '@/components/layout/CfPanel.vue'
 export default {
   name: 'CfPanelWrapper',
   components: { CfPanel },
-  mixins: [PanelsMixin],
+  props: {
+    panel: {
+      type: Panel,
+      required: true,
+    },
+  },
   setup () {
     const { $toast } = useToast()
     const childPanels: Ref<Panel[]> = ref([])

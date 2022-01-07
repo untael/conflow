@@ -1,5 +1,5 @@
 <template>
-  <cf-panel-wrapper :panel="panel"/>
+  $toast
 </template>
 
 <script lang="ts">
