@@ -1,10 +1,18 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   important: true,
   purge: [
-    "./src/components/**/*.vue",
+    './src/components/**/*.vue',
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    colors: {
+      primary: 'rgb(30, 64, 175)',
+      transparent: 'transparent',
+      current: 'currentColor',
+      ...colors,
+    },
     fontFamily: {
       'body': ['Roboto'],
     },
@@ -14,7 +22,7 @@ module.exports = {
       lg: '16px',
       xl: '24px',
       test: '36px',
-    }
+    },
   },
   variants: {
     extend: {},

@@ -1,7 +1,7 @@
 <template>
-  <div class="cf-panel my-4 container h-full border-0 mx-auto flex flex-col max-w-screen-md relative">
+  <div class="cf-panel my-4 container h-full border-0 mx-auto flex flex-col relative">
     <div class="flex z-10 flex-none absolute cf-panel__controls">
-      <va-button v-if="minimizeable" size="small" class="ml-1 flex-none" flat icon="minimize" @click="$panel.minimize(panel)"/>
+<!--      <va-button v-if="minimizeable" size="small" class="ml-1 flex-none" flat icon="minimize" @click="$panel.minimize(panel)"/>-->
 <!--      <va-button v-if="maximizeable" size="small" class="ml-1 flex-none" flat icon="open_in_full" @click="panels.maximize(panel)"/>-->
       <va-button v-if="closeable" size="small" class="ml-1 flex-none" flat icon="close" @click="$panel.close(panel)"/>
     </div>
@@ -32,6 +32,10 @@ export default {
     //   type: Boolean,
     //   default: true,
     // },
+    minimized: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup () {
     const { $panel } = usePanel()

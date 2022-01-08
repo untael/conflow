@@ -45,6 +45,7 @@
           </div>
 
           <va-button @click="initQuestionsPanel" color="primary">Add more</va-button>
+          <va-button @click="initQuestionEditPanel" color="primary">test</va-button>
         </div>
 
         <div class="pt-4 flex justify-end mt-auto">
@@ -122,7 +123,12 @@ export default {
         addable: true,
       })
     }
+    const initQuestionEditPanel = () => {
+      $panel.init(PanelNames.QuestionsEditPanel)
+    }
+
     return {
+      initQuestionEditPanel,
       initQuestionsPanel,
       interview,
       tags,

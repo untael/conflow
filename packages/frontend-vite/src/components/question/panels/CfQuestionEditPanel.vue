@@ -32,7 +32,7 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Question code" :id="id ? `${question.id}-edit` : question.id" v-model="question.code" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+          <cf-code-block label="Question code" :id="id ? `${question.id}-edit` : `${question.id}-create`" v-model="question.code" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
@@ -48,7 +48,7 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Answer code" :id="id ? `${question.id}-answer-edit` : `${question.id}-answer`" v-model="question.answer" @loaded="isCodemirrorLoading=$event" :showCopyButton="false"/>
+          <cf-code-block label="Answer code" :id="id ? `${question.id}-answer-edit` : `${question.id}-answer`" v-model="question.answer" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
@@ -128,11 +128,11 @@ export default {
       return question.value.id ? 'Edit question form' : 'Add question form'
     })
     const fetchQuestion = async () => {
-      isCodemirrorLoading.value = true
       showAddAnswer.value = false
       const questionId = route.params.id as string
       if (questionId || props.id) {
         try {
+          isCodemirrorLoading.value = true
           isLoading.value = true
           question.value = await getQuestion(questionId || props.id)
           isLoading.value = false
@@ -181,7 +181,11 @@ export default {
       await fetchQuestion()
     })
 
+    const setCodemirrorLoading = (value: boolean) => {
+      isCodemirrorLoading.value = value
+    }
     return {
+      setCodemirrorLoading,
       validationRules,
       tagsSelectRules,
       typeSelectRules,

@@ -38,6 +38,7 @@ export default {
 <style lang="scss">
 .cf-container {
   --va-collapse-solid-box-shadow: none;
+  scrollbar-gutter: stable;
 
   .va-collapse__body {
     border: 1px solid var(--va-collapse-solid-header-content-background-color);
