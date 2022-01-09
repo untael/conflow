@@ -9,13 +9,14 @@
           center
       >
         <template #tabs>
-          <va-tab
-              :class="[
+            <va-tab
+                :class="[
                activePanelName === panel.name ? 'text-blue-800': 'text-green-700',
               ]"
-              :label="panel.name"
-              :name="panel.name"
-          />
+                :label="panel.name"
+                :name="panel.name"
+                icon="home"
+            />
           <va-tab
               v-for="(panelName, index) in childPanelNames"
               :name="panelName"
@@ -36,8 +37,11 @@
     </div>
 
     <div
-        class="cf-panel-wrapper__panel cf-panel-wrapper__panel--main w-full md:w-5/12 max-w-screen-md md:max-w-screen-sm md:block md:mt-8"
-        :class="[childPanels.length && activePanelName !== panel.name ? 'hidden' : 'block']"
+        class="cf-panel-wrapper__panel cf-panel-wrapper__panel--main w-full max-w-screen-md md:max-w-screen-sm md:block md:mt-8"
+        :class="[
+            childPanels.length && activePanelName !== panel.name ? 'hidden' : 'block',
+            childPanels.length ? 'md:w-5/12' : 'md:w-9/12 md:max-w-screen-md',
+        ]"
     >
       <cf-panel
           :panel="panel"
@@ -48,7 +52,10 @@
         <component :is="panel.component" v-on="$attrs" v-bind="panel.props"/>
       </cf-panel>
     </div>
-    <div class="cf-panel-wrapper__panel cf-panel-wrapper__panel--child flex md:w-5/12 max-w-screen-md md:max-w-screen-sm">
+    <div
+        v-if="childPanels.length"
+        class="cf-panel-wrapper__panel cf-panel-wrapper__panel--child flex md:w-5/12 max-w-screen-md md:max-w-screen-sm"
+    >
       <template
           v-for="(childPanel, index) in childPanels"
           :key="`${childPanel.name}-${index}`"
@@ -207,6 +214,5 @@ export default {
     display: flex;
     align-items: center;
   }
-
 }
 </style>
