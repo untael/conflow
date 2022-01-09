@@ -86,7 +86,6 @@ export default {
         })
       }
       isLoading.value = false
-      console.log('isLoading.value', isLoading.value)
       emit('loaded', isLoading.value)
       //todo: add loader, remove loader from qForm
       //Reactivity hack

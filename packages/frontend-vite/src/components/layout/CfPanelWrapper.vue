@@ -1,6 +1,44 @@
 <template>
-  <div class="cf-panel-wrapper flex justify-center">
-    <div class="cf-panel-wrapper__main-panel max-w-screen-md md:max-w-screen-sm mx-2">
+  <div class="cf-panel-wrapper h-full flex flex-col md:flex-row justify-center">
+    <div class="flex-none bg-white md:hidden h-8 z-10 shadow">
+      <va-tabs
+          v-if="childPanels.length"
+          color="primary"
+          v-model="activePanelName"
+          hide-slider
+          center
+      >
+        <template #tabs>
+          <va-tab
+              :class="[
+               activePanelName === panel.name ? 'text-blue-800': 'text-green-700',
+              ]"
+              :label="panel.name"
+              :name="panel.name"
+          />
+          <va-tab
+              v-for="(panelName, index) in childPanelNames"
+              :name="panelName"
+              :key="index"
+          >
+            {{ panelName }}
+          </va-tab>
+          <va-tab
+              class="bg-red-300"
+              icon="clear_all"
+              color="red"
+              key="clear_all"
+              @click="childPanels = []"
+              label="Clear all"
+          />
+        </template>
+      </va-tabs>
+    </div>
+
+    <div
+        class="cf-panel-wrapper__panel cf-panel-wrapper__panel--main w-full md:w-5/12 max-w-screen-md md:max-w-screen-sm md:block md:mt-8"
+        :class="[childPanels.length && activePanelName !== panel.name ? 'hidden' : 'block']"
+    >
       <cf-panel
           :panel="panel"
           :closeable="false"
@@ -10,47 +48,39 @@
         <component :is="panel.component" v-on="$attrs" v-bind="panel.props"/>
       </cf-panel>
     </div>
-    <template
-        v-for="(childPanel, index) in childPanels"
-        :key="`${childPanel.name}-${index}`"
-    >
-      <div
-          class="cf-panel-wrapper__child-panel flex mx-2 max-w-screen-md md:max-w-screen-sm"
-          :class="[activePanelName === childPanel.name ? '' : 'hidden']"
+    <div class="cf-panel-wrapper__panel cf-panel-wrapper__panel--child flex md:w-5/12 max-w-screen-md md:max-w-screen-sm">
+      <template
+          v-for="(childPanel, index) in childPanels"
+          :key="`${childPanel.name}-${index}`"
       >
         <cf-panel
-            class="cf-panel-wrapper__child-panel__panel"
-            :class="[childPanels.length > 1 ? '' : 'max-w-full w-full']"
+            :class="{
+              'hidden': activePanelName !== childPanel.name || !childPanels.length,
+              'w-10/12': childPanels.length > 1,
+              'block': childPanels.length,
+              'w-full': childPanels.length === 1,
+            }"
             :panel="childPanel"
             :minimizeable="childPanels.length > 1"
         >
           <component :is="childPanel.component" v-on="$attrs" v-bind="childPanel.props"/>
         </cf-panel>
-        <div class="cf-panel-wrapper__child-panel__bookmarks my-4">
-          <div
-              class="cf-panel-wrapper__child-panel__bookmarks--ribbon mb-1 py-1 px-1 bg-white hover:bg-blue-300 md:hidden"
-              :class="[activePanelName === panel.name ? 'bg-blue-800 text-white hover:bg-blue-800' : '']"
-              @click="activePanelName = panel.name"
-          >
-            {{ panel.name }}
-          </div>
-          <template v-if="childPanels.length > 1">
-            <div
-                class="cf-panel-wrapper__child-panel__bookmarks--ribbon mb-1 py-1 px-1 bg-white hover:bg-blue-300"
-                v-for="panelName in childPanelNames"
-                :key="panelName"
-                :class="[activePanelName === panelName ? 'bg-blue-800 text-white hover:bg-blue-800' : '']"
-                @click="activePanelName = panelName"
-            >
-              {{ panelName }}
-            </div>
-            <div class="cf-panel-wrapper__child-panel__bookmarks--ribbon pb-1 px-1 bg-white text-center hover:bg-red-200" @click="childPanels = []">
-              Close all
-            </div>
-          </template>
+      </template>
+      <div v-if="childPanels.length > 1" class="cf-panel-wrapper__bookmarks hidden md:block w-2/12">
+        <div
+            class="cf-panel-wrapper__bookmarks--ribbon mb-1 py-1 px-1 bg-white hover:bg-blue-300"
+            v-for="panelName in childPanelNames"
+            :key="panelName"
+            :class="[activePanelName === panelName ? 'bg-blue-800 text-white hover:bg-blue-800' : '']"
+            @click="activePanelName = panelName"
+        >
+          {{ panelName }}
+        </div>
+        <div class="cf-panel-wrapper__bookmarks--ribbon pb-1 px-1 bg-white text-center hover:bg-red-200" @click="childPanels = []">
+          Close all
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -70,10 +100,10 @@ export default {
       required: true,
     },
   },
-  setup () {
+  setup (props: any) {
     const { $toast } = useToast()
     const childPanels: Ref<Panel[]> = ref([])
-    const activePanelName = ref('')
+    const activePanelName = ref(props.panel.name)
     const minimize = (panel: Panel) => {
       panel.minimized = true
     }
@@ -91,6 +121,11 @@ export default {
         activePanelName.value = childPanels.value[0].name
         return
       }
+      if (!childPanels.value.length) {
+        activePanelName.value = props.panel.name
+        return
+      }
+
     }
     const init = (name: PanelNames, props: any) => {
       const panel = PanelList.find((panel: Panel) => panel.name === name)
@@ -134,35 +169,44 @@ export default {
 
 <style lang="scss">
 .cf-panel-wrapper {
-  height: calc(100vh - var(--cf-header-height) * 2);
+  &__bookmarks {
 
-  &__main-panel {
-    transition: all 1s ease;
-    max-width: 40% !important;
-    width: 40% !important;
-    flex: 1 0 auto !important;
+    &--ribbon {
+      text-overflow: ellipsis;
+      cursor: pointer;
+      border-radius: 0 var(--va-button-square-border-radius) var(--va-button-square-border-radius) 0;
+    }
   }
 
-  &__child-panel {
-    max-width: 40% !important;
-    width: 40% !important;
-    flex: 1 0 auto !important;
+  &__panel {
+    height: calc(100vh - var(--cf-header-height) - 36px);
 
-    &__panel {
-      max-width: 80% !important;
-      width: 80% !important;
+    &--main {
     }
 
-    &__bookmarks {
-      max-width: 20%;
-      width: 20%;
+    &--child {
+    }
 
-      &--ribbon {
-        text-overflow: ellipsis;
-        cursor: pointer;
-        border-radius: 0 var(--va-button-square-border-radius) var(--va-button-square-border-radius) 0;
+    @media (min-width: 768px) {
+      &--main, &--child {
+        margin: 2rem .5rem 0 .5rem;
       }
     }
+
   }
+
+  .va-tabs__slider-wrapper {
+    display: none !important;
+  }
+
+  .va-tabs__wrapper {
+    align-items: center;
+  }
+
+  .va-tabs__tabs {
+    display: flex;
+    align-items: center;
+  }
+
 }
 </style>
