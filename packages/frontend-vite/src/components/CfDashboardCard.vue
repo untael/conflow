@@ -1,5 +1,5 @@
 <template>
-  <va-badge class="cf-dashboard-card flex-1" overlap :text="card.badgeText">
+  <va-badge class="cf-dashboard-card basis-2/4" overlap :text="card.badgeText">
     <div
         class="cf-dashboard-card transition hover:text-blue-800 hover:border-blue-800 cursor-pointer flex flex-1 flex-col items-center border border-solid border-gray-300 px-4 py-4 mx-2 my-2"
         @click="$router.push({name: card.route})"
