@@ -1,7 +1,8 @@
 import Panel from '@/api/Panel'
 import CfInterviewTemplateEditPanel
   from '@/components/interview/template/panels/CfInterviewTemplateEditPanel.vue'
-import CfQuestionEditPanel from '@/components/question/panels/CfQuestionEditPanel.vue'
+import CfQuestionEditPanel
+  from '@/components/question/panels/CfQuestionEditPanel.vue'
 import CfInterviewEditPanel
   from '@/components/interview/panels/CfInterviewEditPanel.vue'
 import CfDashboardPanel from '@/components/dashboard/CfDashboardPanel.vue'

@@ -39,29 +39,23 @@
         </div>
       </div>
 
-      <div class="pt-4 d-flex justify-end">
-        <va-button color="secondary" @click="$router.back()">
-          Cancel
-        </va-button>
-        <va-button color="primary" class="ml-2">
-          Save
-        </va-button>
-      </div>
+      <cf-control-buttons @cancel="$router.back()" @save="onSave"/>
     </template>
   </cf-container>
 
 </template>
 
 <script lang="ts">
-import {computed, ref} from 'vue'
-import CfContainer from "@/components/layout/CfContainer.vue";
+import { computed, ref } from 'vue'
+import CfContainer from '@/components/layout/CfContainer.vue'
+import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 
 
 export default {
   name: 'CfInterviewEditPanel',
-  components: {CfContainer},
+  components: { CfContainer, CfControlButtons },
 
-  setup() {
+  setup () {
     const name = ref('')
     const computedName = computed(() => {
       return name.value ? name.value : ''
@@ -73,7 +67,11 @@ export default {
     const note = ref('')
     const date = ref('')
     const time = ref(new Date())
+    const onSave = () => {
+      console.log('save button clicked')
+    }
     return {
+      onSave,
       name,
       candidates,
       selectedCandidate,

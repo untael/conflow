@@ -7,7 +7,7 @@
         <router-view/>
       </div>
     </main>
-<!--        <cf-footer/>-->
+    <!--        <cf-footer/>-->
   </div>
 </template>
 

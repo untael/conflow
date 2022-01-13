@@ -1,5 +1,5 @@
 <template>
-  <div class="cf-container overflow-y-auto h-full border-0 flex flex-col">
+  <div class="cf-container overflow-y-auto h-full border-0 flex flex-col bg-white justify-between">
     <va-card square outlined class="border-0 d-flex flex-col">
       <va-card-title v-if="$slots.title" class="text-lg">
         <slot name="title"></slot>
@@ -13,16 +13,20 @@
               color="rgb(44, 130, 224)"
           />
         </div>
-        <div v-else>
+        <div v-else style="display: flex;flex-direction: column;justify-content: space-between">
           <slot/>
         </div>
       </va-card-content>
     </va-card>
+    <div class="flex-none">
+      <slot name="control-buttons"/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import CfSpinner from '@/components/CfSpinner.vue'
+
 export default {
   name: 'CfContainer',
   components: { CfSpinner },
@@ -30,8 +34,8 @@ export default {
     loading: {
       type: Boolean,
       default: false,
-    }
-  }
+    },
+  },
 }
 </script>
 

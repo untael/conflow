@@ -48,8 +48,10 @@ export default {
   &__tile:hover {
 
   }
+
   --va-card-background-color: transparent;
-  .va-card__title{
+
+  .va-card__title {
     justify-content: center;
   }
 }

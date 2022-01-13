@@ -32,11 +32,13 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Question code" :id="id ? `${question.id}-edit` : `${question.id}-create`" v-model="question.code" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
+          <cf-code-block label="Question code" :id="id ? `${question.id}-edit` : `${question.id}-create`"
+                         v-model="question.code" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
-          <va-checkbox @update:modelValue="handleAddAnswer" :modelValue="showAddAnswer" :label="answerCheckboxLabel"/>
+          <va-checkbox @update:modelValue="handleAddAnswer" :modelValue="showAddAnswer"
+                       :label="answerCheckboxLabel"/>
         </div>
 
         <div class="py-2" v-if="showAddAnswer || question.answer">
@@ -48,7 +50,8 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Answer code" :id="id ? `${question.id}-answer-edit` : `${question.id}-answer`" v-model="question.answer" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
+          <cf-code-block label="Answer code" :id="id ? `${question.id}-answer-edit` : `${question.id}-answer`"
+                         v-model="question.answer" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
         </div>
 
         <div class="py-2">
@@ -74,15 +77,10 @@
               :rules="[tagsSelectRules]"
           />
         </div>
-        <div class="pt-4 d-flex justify-end">
-          <va-button color="secondary" @click="$router.back()">
-            Cancel
-          </va-button>
-          <va-button color="primary" class="ml-2" :loading="isQuestionCreateInProgress"
-                     @click="handleSaveQuestion(question)">
-            Save
-          </va-button>
-        </div>
+        <cf-control-buttons @cancel="$router.back()" @save="handleSaveQuestion(question)"
+                            :loading="isQuestionCreateInProgress"/>
+
+
       </va-form>
     </template>
   </cf-container>
@@ -99,10 +97,11 @@ import Tag from '@/api/Question/Tag'
 import CfSpinner from '@/components/CfSpinner.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import { useRoute, useRouter } from 'vue-router'
+import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 
 export default {
   name: 'CfQuestionEditPanel',
-  components: { CfCodeBlock, CfSpinner, CfContainer },
+  components: { CfCodeBlock, CfSpinner, CfContainer, CfControlButtons },
   props: {
     id: {
       type: String,

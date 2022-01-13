@@ -19,7 +19,7 @@ import CfDashboardCard from '@/components/CfDashboardCard.vue'
 
 export default {
   name: 'CfDashboard',
-  components: { CfDashboardCard, CfContainer  },
+  components: { CfDashboardCard, CfContainer },
   setup () {
     const cards = ref([
       {

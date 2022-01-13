@@ -7,7 +7,7 @@
       <va-icon size="large" name="people"/>
     </div>
     <div class="font-bold">
-      {{appName}}
+      {{ appName }}
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
 
     const appName = ref(import.meta.env.VITE_APP_NAME)
     return {
-      appName
+      appName,
     }
   },
 

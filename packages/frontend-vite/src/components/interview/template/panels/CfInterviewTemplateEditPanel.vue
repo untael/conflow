@@ -47,15 +47,19 @@
           <va-button @click="initQuestionsPanel" color="primary">Add more</va-button>
         </div>
 
-        <div class="pt-4 flex justify-end mt-auto">
-          <va-button class="flex-none" color="secondary" @click="$router.back()">
-            Cancel
-          </va-button>
-          <va-button color="primary" class="flex-none ml-2">
-            Save
-          </va-button>
-        </div>
+        <!--        <div class="pt-4 flex justify-end mt-auto">-->
+        <!--          <va-button class="flex-none" color="secondary" @click="$router.back()">-->
+        <!--            Cancel-->
+        <!--          </va-button>-->
+        <!--          <va-button color="primary" class="flex-none ml-2">-->
+        <!--            Save-->
+        <!--          </va-button>-->
+        <!--        </div>-->
       </div>
+
+    </template>
+    <template #control-buttons>
+      <cf-control-buttons @cancel="$router.back()" @save="onSave"/>
     </template>
   </cf-container>
 </template>
@@ -76,10 +80,11 @@ import { PanelNames } from '@/components/panels'
 import { QuestionEvents } from '@/api/Question/events'
 import { useEmitter } from '@/composables/useEmitter'
 import { usePanel } from '@/composables/usePanel'
+import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 
 export default {
   name: 'CfInterviewTemplateEditPanel',
-  components: { CfQuestionItem, CfContainer },
+  components: { CfQuestionItem, CfContainer, CfControlButtons },
   setup () {
     const { $emitter } = useEmitter()
     const { $panel } = usePanel()
@@ -96,6 +101,9 @@ export default {
     $emitter.on(QuestionEvents.Add, (question: Question) => {
       addTemplateQuestion(question)
     })
+    const onSave = () => {
+      console.log('save button clicked')
+    }
     const addTemplateQuestion = (question: Question) => {
       const isInList = interview.value.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
       if (!isInList) {
@@ -127,6 +135,7 @@ export default {
     }
 
     return {
+      onSave,
       initQuestionEditPanel,
       initQuestionsPanel,
       interview,

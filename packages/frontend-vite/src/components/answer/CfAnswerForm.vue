@@ -55,12 +55,12 @@
 
 <script lang="ts">
 import Question from '@/api/Question/Question'
-import CfContainer from "@/components/layout/CfContainer.vue";
+import CfContainer from '@/components/layout/CfContainer.vue'
 
 export default {
 
   name: 'CfAnswerForm',
-  components: {CfContainer},
+  components: { CfContainer },
   props: {
     question: {
       type: Object,
@@ -70,7 +70,7 @@ export default {
       },
     },
   },
-  data() {
+  data () {
     return {
 
       openCollapse: false,

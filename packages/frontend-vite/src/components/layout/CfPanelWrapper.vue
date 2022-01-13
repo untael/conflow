@@ -9,14 +9,14 @@
           center
       >
         <template #tabs>
-            <va-tab
-                :class="[
+          <va-tab
+              :class="[
                activePanelName === panel.name ? 'text-blue-800': 'text-green-700',
               ]"
-                :label="panel.name"
-                :name="panel.name"
-                icon="home"
-            />
+              :label="panel.name"
+              :name="panel.name"
+              icon="home"
+          />
           <va-tab
               v-for="(panelName, index) in childPanelNames"
               :name="panelName"
