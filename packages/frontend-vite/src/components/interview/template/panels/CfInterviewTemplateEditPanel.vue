@@ -9,14 +9,14 @@
         <div>
           <div class="py-2">
             Name:
-            <va-input v-model="interview.name"/>
+            <va-input v-model="interviewTemplate.name"/>
           </div>
 
           <div class="py-2 d-flex">
             <div class="mr-1 flex-grow">
               Type:
               <va-select
-                  v-model="interview.type"
+                  v-model="interviewTemplate.type"
                   text-by="name"
                   :options="interviewTypes"
               />
@@ -24,7 +24,7 @@
             <div class="ml-1 flex-grow">
               Candidate level:
               <va-select
-                  v-model="interview.candidate_level"
+                  v-model="interviewTemplate.candidate_level"
                   text-by="name"
                   :options="candidateLevels"
                   multiple
@@ -34,7 +34,7 @@
 
           <div class="py-2">
             Questions:
-            <div v-for="(question, index) in interview.questions" :key="`iq-${index}-${question.id}`">
+            <div v-for="(question, index) in interviewTemplate.questions" :key="`iq-${index}-${question.id}`">
               <cf-question-item
                   can-be-removed
                   @remove="removeTemplateQuestion(question)"
@@ -69,7 +69,7 @@ import CfContainer from '../../../layout/CfContainer.vue'
 import Interview, {
   candidateLevelIterator,
   interviewTypesIterator,
-} from '@/api/Event/Interview/Interview'
+} from '@/api/Interview/Interview'
 import { onMounted, Ref, ref, watch } from 'vue'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
@@ -81,11 +81,16 @@ import { QuestionEvents } from '@/api/Question/events'
 import { useEmitter } from '@/composables/useEmitter'
 import { usePanel } from '@/composables/usePanel'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
+import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
 
 export default {
   name: 'CfInterviewTemplateEditPanel',
   components: { CfQuestionItem, CfContainer, CfControlButtons },
   setup () {
+    const {
+      interviewTemplate,
+      interviewTemplateAPIHandlers,
+    } = useInterviewTemplate()
     const { $emitter } = useEmitter()
     const { $panel } = usePanel()
     const tags: Ref<Tag[]> = ref([])
@@ -96,22 +101,21 @@ export default {
     const candidateLevels = ref(candidateLevelIterator)
     const { getTags } = useTag()
     const { getQuestions } = useQuestion()
-    const interview = ref(new Interview())
     const showAddQuestionModal = ref(false)
     $emitter.on(QuestionEvents.Add, (question: Question) => {
       addTemplateQuestion(question)
     })
-    const onSave = () => {
-      console.log('save button clicked')
+    const onSave = async () => {
+      await interviewTemplateAPIHandlers.create(interviewTemplate.value)
     }
     const addTemplateQuestion = (question: Question) => {
-      const isInList = interview.value.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
+      const isInList = interviewTemplate.value.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
       if (!isInList) {
-        interview.value.questions.push(question)
+        interviewTemplate.value.questions.push(question)
       }
     }
     const removeTemplateQuestion = (question: Question) => {
-      interview.value.questions = interview.value.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
+      interviewTemplate.value.questions = interviewTemplate.value.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
     }
     onMounted(async () => {
       tags.value = await getTags()
@@ -138,7 +142,7 @@ export default {
       onSave,
       initQuestionEditPanel,
       initQuestionsPanel,
-      interview,
+      interviewTemplate,
       tags,
       tagsToFilter,
       showAddQuestionModal,

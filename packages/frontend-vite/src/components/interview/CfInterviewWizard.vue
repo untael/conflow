@@ -38,11 +38,9 @@ import { ref } from 'vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfDashboardCard from '@/components/CfDashboardCard.vue'
 import Interview, {
-  InterviewType,
   interviewTypesIterator,
-  CandidateLevel,
   candidateLevelIterator,
-} from '@/api/Event/Interview/Interview'
+} from '@/api/Interview/Interview'
 
 enum InstantInterviewSteps {
   Type = 'Type',
