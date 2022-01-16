@@ -72,6 +72,10 @@ export default class Question implements IQuestion {
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
   }
 
+  get endpoint (): string {
+    return 'questions'
+  }
+
   constructor (data?: any) {
     if (data) {
       Object.assign(this, data)

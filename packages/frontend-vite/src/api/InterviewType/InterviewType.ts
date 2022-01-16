@@ -18,4 +18,9 @@ export default class InterviewType implements IInterviewType {
   get value (): string {
     return this.name.split(/(?=[A-Z])/).join('-').toLowerCase()
   }
+
+  get endpoint (): string {
+    return 'interview-types'
+  }
+
 }

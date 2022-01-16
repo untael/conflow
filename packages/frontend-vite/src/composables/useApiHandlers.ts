@@ -5,21 +5,15 @@ import { useToast } from '@/composables/useToast'
 export const useApiHandlers = () => {
   const { $toast } = useToast()
 
-  //ToDo: types
-  const getClassName = <T> (classObject: { new (): T }): string => {
-    const entityName: string = classObject.constructor.name.trim()
-    return entityName.split(/(?=[A-Z])/).join('-').toLowerCase() + 's'
-  }
 
   const getClassInstance = <T> (classObject: { new (): T }) => {
     return Object.getPrototypeOf(classObject).constructor
   }
 
-  const getOne = async <T> (classValue: { new (): T }, id: string): Promise<any> => {
-    const entityName = getClassName(classValue)
+  const getOne = async (classValue: any, id: string): Promise<any> => {
     const classInstance = getClassInstance(classValue)
     try {
-      const plainEntity: any = (await axios.get(`${import.meta.env.VITE_API_URL}/${entityName}/${id}`)).data
+      const plainEntity: any = (await axios.get(`${import.meta.env.VITE_API_URL}/${classValue.endpoint}/${id}`)).data
       const mappedEntity = plainToClass(classInstance, plainEntity, { excludeExtraneousValues: true })
       return mappedEntity
     } catch (error) {
@@ -27,49 +21,46 @@ export const useApiHandlers = () => {
     }
   }
 
-  const getMany = async <T> (classValue: { new (): T }): Promise<any[]> => {
-    const entityName = getClassName(classValue)
+  const getMany = async (classValue: any): Promise<any[]> => {
     const classInstance = getClassInstance(classValue)
     try {
-      const plainList: any[] = (await axios.get(`${import.meta.env.VITE_API_URL}/${entityName}`)).data
+      const plainList: any[] = (await axios.get(`${import.meta.env.VITE_API_URL}/${classValue.endpoint}`)).data
       const mappedList = plainToClass(classInstance, plainList, { excludeExtraneousValues: true })
       return mappedList
     } catch (error) {
       console.log(error)
       return []
     }
-
   }
-  const create = async <T> (classValue: { new (): T }) => {
-    const entityName = getClassName(classValue)
+
+  const create = async (classValue: any) => {
     try {
       const plainValue = classToPlain(classValue)
-      await axios.post(`${import.meta.env.VITE_API_URL}/${entityName}`, plainValue)
+      await axios.post(`${import.meta.env.VITE_API_URL}/${classValue.endpoint}`, plainValue)
       $toast.init({
-        message: `${entityName} was successfully created`,
+        message: `${classValue.endpoint} was successfully created`,
         color: 'success',
       })
     } catch (error) {
       console.log('error', error)
       $toast.init({
-        message: `${entityName} was not created`,
+        message: `${classValue.endpoint} was not created`,
         color: 'danger',
       })
     }
 
   }
-  const update = async <T> (classValue: { new (): T }) => {
-    const entityName = getClassName(classValue)
+  const update = async (classValue: any) => {
     try {
       const plainValue = classToPlain(classValue)
-      await axios.put(`${import.meta.env.VITE_API_URL}/${entityName}/${plainValue.id}`, plainValue)
+      await axios.put(`${import.meta.env.VITE_API_URL}/${classValue.endpoint}/${plainValue.id}`, plainValue)
       $toast.init({
-        message: `${entityName} was successfully updated`,
+        message: `${classValue.endpoint} was successfully updated`,
         color: 'success',
       })
     } catch (error) {
       $toast.init({
-        message: `${entityName} was not updated`,
+        message: `${classValue.endpoint} was not updated`,
         color: 'danger',
       })
     }

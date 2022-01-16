@@ -107,4 +107,8 @@ export default class Interview extends Event implements IInterview {
   get title (): string {
     return this.name ? this.name : `${this.candidate.full_name} interview`
   }
+
+  get endpoint (): string {
+    return 'interviews'
+  }
 }

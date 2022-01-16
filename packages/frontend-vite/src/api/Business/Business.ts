@@ -13,4 +13,8 @@ export default class Business implements IBusiness {
   name = ''
   owners: Owner[] = []
   employees: Employee[] = []
+
+  get endpoint (): string {
+    return 'business'
+  }
 }
