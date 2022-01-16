@@ -7,7 +7,7 @@ interface IInterviewTemplate {
   id: string,
   name: string,
   questions: Question[],
-  candidate_level: CandidateLevel;
+  candidate_levels: CandidateLevel[];
   type: InterviewType;
 }
 
@@ -21,8 +21,8 @@ export default class InterviewTemplate implements IInterviewTemplate {
   questions: Question[] = []
   @Expose()
   @Transform(({ value }) => value.map((level: CandidateLevel) => level.id), { toPlainOnly:true })
-  candidate_level: CandidateLevel = new CandidateLevel()
+  candidate_levels: CandidateLevel[] = []
   @Expose()
-  @Transform(({ value }) => value.map((type: InterviewType) => type.id), { toPlainOnly:true })
+  @Transform(({ value }) => value.id, { toPlainOnly:true })
   type: InterviewType = new InterviewType()
 }

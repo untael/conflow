@@ -1,6 +1,6 @@
 <template>
   <va-collapse
-      class="cf-question-form shadow-none"
+      class="cf-question-item shadow-none"
       v-model="value"
       color-all
   >
@@ -144,7 +144,7 @@ export default {
   text-transform: uppercase;
 }
 
-.cf-question-form {
+.cf-question-item {
   --va-collapse-header-content-icon-margin-right: 1rem;
   --va-collapse-header-content-icon-margin-left: 1rem;
   --va-collapse-header-content-border-radius: var(--cf-border-radius);

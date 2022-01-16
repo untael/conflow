@@ -1,5 +1,5 @@
 import { CandidateLevelEnum } from '@/api/Interview/Interview'
-import { Expose } from 'class-transformer'
+import { Expose, Transform } from 'class-transformer'
 
 interface ICandidateLevel {
   id: string,
@@ -14,4 +14,7 @@ export default class CandidateLevel implements ICandidateLevel {
   name: CandidateLevelEnum = CandidateLevelEnum.Junior
   @Expose()
   icon: string = ''
+  get value(): string {
+    return this.name.split(/(?=[A-Z])/).join('-').toLowerCase()
+  }
 }

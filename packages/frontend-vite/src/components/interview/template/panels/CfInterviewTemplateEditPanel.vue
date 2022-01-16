@@ -1,7 +1,7 @@
 <template>
-  <cf-container class="cf-interview-template-edit-form">
+  <cf-container :loading="isLoading" class="cf-interview-template-edit-form">
     <template #title>
-      Interview template edit form
+      Interview template edit panel
     </template>
 
     <template #default>
@@ -24,7 +24,7 @@
             <div class="ml-1 flex-grow">
               Candidate level:
               <va-select
-                  v-model="interviewTemplate.candidate_level"
+                  v-model="interviewTemplate.candidate_levels"
                   text-by="name"
                   :options="candidateLevels"
                   multiple
@@ -46,15 +46,6 @@
 
           <va-button @click="initQuestionsPanel" color="primary">Add more</va-button>
         </div>
-
-        <!--        <div class="pt-4 flex justify-end mt-auto">-->
-        <!--          <va-button class="flex-none" color="secondary" @click="$router.back()">-->
-        <!--            Cancel-->
-        <!--          </va-button>-->
-        <!--          <va-button color="primary" class="flex-none ml-2">-->
-        <!--            Save-->
-        <!--          </va-button>-->
-        <!--        </div>-->
       </div>
 
     </template>
@@ -66,10 +57,6 @@
 
 <script lang="ts">
 import CfContainer from '../../../layout/CfContainer.vue'
-import Interview, {
-  candidateLevelIterator,
-  interviewTypesIterator,
-} from '@/api/Interview/Interview'
 import { onMounted, Ref, ref, watch } from 'vue'
 import { useTag } from '@/composables/useTag'
 import Tag from '@/api/Question/Tag'
@@ -82,11 +69,24 @@ import { useEmitter } from '@/composables/useEmitter'
 import { usePanel } from '@/composables/usePanel'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
+import { useRoute } from 'vue-router'
+import InterviewType from '@/api/InterviewType/InterviewType'
+import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 
 export default {
   name: 'CfInterviewTemplateEditPanel',
   components: { CfQuestionItem, CfContainer, CfControlButtons },
-  setup () {
+  props: {
+    id: {
+      type: String,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  setup (props: any) {
+    const route = useRoute()
     const {
       interviewTemplate,
       interviewTemplateAPIHandlers,
@@ -95,13 +95,13 @@ export default {
     const { $panel } = usePanel()
     const tags: Ref<Tag[]> = ref([])
     const tagsToFilter: Ref<Tag[]> = ref([])
-    const templateQuestions: Ref<Question[]> = ref([])
     const questions: Ref<Question[]> = ref([])
-    const interviewTypes = ref(interviewTypesIterator)
-    const candidateLevels = ref(candidateLevelIterator)
+    const interviewTypes: Ref<InterviewType[]> = ref([])
+    const candidateLevels: Ref<CandidateLevel[]> = ref([])
     const { getTags } = useTag()
     const { getQuestions } = useQuestion()
     const showAddQuestionModal = ref(false)
+    const isLoading = ref(false)
     $emitter.on(QuestionEvents.Add, (question: Question) => {
       addTemplateQuestion(question)
     })
@@ -118,8 +118,23 @@ export default {
       interviewTemplate.value.questions = interviewTemplate.value.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
     }
     onMounted(async () => {
-      tags.value = await getTags()
-      questions.value = await getQuestions()
+      const interviewTemplateId = route.params.id as string
+      isLoading.value = true
+      if (interviewTemplateId || props.id) {
+        interviewTemplate.value = await interviewTemplateAPIHandlers.getOne(interviewTemplateId || props.id)
+      }
+      await Promise.all([
+        await interviewTemplateAPIHandlers.getTypes(),
+        await interviewTemplateAPIHandlers.getCandidateLevels(),
+        await getTags(),
+        await getQuestions(),
+      ]).then((data) => {
+        interviewTypes.value = data[0]
+        candidateLevels.value = data[1]
+        tags.value = data[2]
+        questions.value = data[3]
+      })
+      isLoading.value = false
     })
     watch(tagsToFilter, async (tags) => {
       const filters = {
@@ -147,11 +162,11 @@ export default {
       tagsToFilter,
       showAddQuestionModal,
       questions,
-      templateQuestions,
       addTemplateQuestion,
       removeTemplateQuestion,
       interviewTypes,
       candidateLevels,
+      isLoading,
     }
   },
 }
@@ -160,11 +175,6 @@ export default {
 <style lang="scss">
 .cf-interview-template-edit-form {
   --va-button-border-radius: 0.5rem;
-
-  //.va-badge__text-wrapper {
-  //  left: 95% !important;
-  //  top: 2.5% !important;
-  //}
 }
 
 .va-modal__inner {

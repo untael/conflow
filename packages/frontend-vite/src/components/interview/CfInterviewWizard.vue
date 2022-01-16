@@ -93,7 +93,7 @@ export default {
           interview.value.type = variant.value
           break
         case InstantInterviewSteps.CandidateLevel:
-          interview.value.candidate_level = variant.value
+          interview.value.candidate_levels = [...variant.value]
           break
         case InstantInterviewSteps.Template:
           interview.value.type = variant.name

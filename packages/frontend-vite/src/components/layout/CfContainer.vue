@@ -13,7 +13,7 @@
               color="rgb(44, 130, 224)"
           />
         </div>
-        <div v-else style="display: flex;flex-direction: column;justify-content: space-between">
+        <div v-else class="flex flex-col justify-between">
           <slot/>
         </div>
       </va-card-content>

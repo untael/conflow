@@ -12,17 +12,21 @@ import CfInterviewDashboardPanel
   from '@/components/interview/panels/CfInterviewDashboardPanel.vue'
 import CfQuestionsListPanel
   from '@/components/question/panels/CfQuestionsListPanel.vue'
+import CfInterviewTemplateListPanel
+  from '@/components/interview/template/panels/CfInterviewTemplateListPanel.vue'
 
 export enum PanelNames {
   DashboardPanel = 'Dashboard Panel',
   InterviewDashboardPanel = 'Interview Dashboard Panel',
   InterviewTemplateEditPanel = 'Interview Template Edit Panel',
+  InterviewTemplateListPanel = 'Interview Template List Panel',
   InterviewEditPanel = 'Interview Edit Panel',
   QuestionsDashboardPanel = 'Questions Dashboard Panel',
   QuestionsListPanel = 'Questions List Panel',
   QuestionsEditPanel = 'Questions Edit Panel',
 }
 
+//Only panels, not their wrappers
 export const panelsIterator = [
   new Panel({
     name: PanelNames.DashboardPanel,
@@ -53,6 +57,11 @@ export const panelsIterator = [
     name: PanelNames.InterviewTemplateEditPanel,
     minimized: false,
     component: CfInterviewTemplateEditPanel,
+  }),
+  new Panel({
+    name: PanelNames.InterviewTemplateListPanel,
+    minimized: false,
+    component: CfInterviewTemplateListPanel,
   }),
   new Panel({
     name: PanelNames.InterviewEditPanel,

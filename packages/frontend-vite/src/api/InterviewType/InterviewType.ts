@@ -1,5 +1,5 @@
 import { InterviewTypeEnum } from '@/api/Interview/Interview'
-import { Expose } from 'class-transformer'
+import { Expose, Transform } from 'class-transformer'
 
 interface IInterviewType {
   id: string,
@@ -14,4 +14,8 @@ export default class InterviewType implements IInterviewType {
   name: InterviewTypeEnum = InterviewTypeEnum.Technical
   @Expose()
   icon: string = ''
+
+  get value (): string {
+    return this.name.split(/(?=[A-Z])/).join('-').toLowerCase()
+  }
 }

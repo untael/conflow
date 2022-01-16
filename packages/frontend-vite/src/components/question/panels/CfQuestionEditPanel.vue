@@ -77,10 +77,11 @@
               :rules="[tagsSelectRules]"
           />
         </div>
-        <cf-control-buttons @cancel="$router.back()" @save="handleSaveQuestion(question)"
-                            :loading="isQuestionCreateInProgress"/>
-
-
+        <cf-control-buttons
+            v-if="editable"
+            @cancel="$router.back()" @save="handleSaveQuestion(question)"
+            :loading="isQuestionCreateInProgress"
+        />
       </va-form>
     </template>
   </cf-container>
@@ -105,6 +106,10 @@ export default {
   props: {
     id: {
       type: String,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
     },
   },
   setup (props: any) {

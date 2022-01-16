@@ -70,7 +70,7 @@ export const candidateLevelIterator = [
 
 interface IInterview extends IEvent {
   type: InterviewType;
-  candidate_level: CandidateLevel[];
+  candidate_levels: CandidateLevel[];
   candidate?: Candidate;
   recruiters?: Employee[];
   interviewers?: Employee[];
@@ -83,7 +83,7 @@ export default class Interview extends Event implements IInterview {
   type: InterviewType = new InterviewType()
 
   @Expose()
-  candidate_level: CandidateLevel[] = []
+  candidate_levels: CandidateLevel[] = []
 
   @Expose()
   @Type(() => Candidate)
