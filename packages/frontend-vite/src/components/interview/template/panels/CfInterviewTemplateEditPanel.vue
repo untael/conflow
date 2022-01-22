@@ -5,14 +5,13 @@
     </template>
 
     <template #default>
-      <div class="flex-col justify-between">
         <div>
-          <div class="py-2">
+          <cf-container-row>
             Name:
             <va-input v-model="interviewTemplate.name"/>
-          </div>
+          </cf-container-row>
 
-          <div class="py-2 d-flex">
+          <cf-container-row class="flex">
             <div class="mr-1 flex-grow">
               Type:
               <va-select
@@ -30,9 +29,9 @@
                   multiple
               />
             </div>
-          </div>
+          </cf-container-row>
 
-          <div class="py-2">
+          <cf-container-row>
             Questions:
             <div v-for="(question, index) in interviewTemplate.questions" :key="`iq-${index}-${question.id}`">
               <cf-question-item
@@ -42,11 +41,10 @@
                   class="py-2 grow"
               />
             </div>
-          </div>
+          </cf-container-row>
 
           <va-button @click="initQuestionsPanel" color="primary">Add more</va-button>
         </div>
-      </div>
 
     </template>
     <template #control-buttons>
@@ -72,10 +70,11 @@ import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
 import { useRoute } from 'vue-router'
 import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
+import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 
 export default {
   name: 'CfInterviewTemplateEditPanel',
-  components: { CfQuestionItem, CfContainer, CfControlButtons },
+  components: { CfContainerRow, CfQuestionItem, CfContainer, CfControlButtons },
   props: {
     id: {
       type: String,
@@ -123,6 +122,7 @@ export default {
       if (interviewTemplateId || props.id) {
         interviewTemplate.value = await interviewTemplateAPIHandlers.getOne(interviewTemplateId || props.id)
       }
+      //ToDo: refactor
       await Promise.all([
         await interviewTemplateAPIHandlers.getTypes(),
         await interviewTemplateAPIHandlers.getCandidateLevels(),

@@ -1,19 +1,19 @@
 <template>
-  <cf-container :loading="isLoading" class="cf-question-create-form">
+  <cf-container :loading="isLoading" class="cf-question-edit-panel">
     <template #title>
       {{ formLabel }}
     </template>
     <template #default>
       <va-form ref="questionCreateForm">
-        <div class="py-2">
+        <cf-container-row>
           Name:
           <va-input
               v-model="question.name"
               :rules="[validationRules]"
           />
-        </div>
+        </cf-container-row>
 
-        <div class="py-2">
+        <cf-container-row>
           Description:
           <va-input
               v-model="question.description"
@@ -21,9 +21,9 @@
               autosize
               :rules="[validationRules]"
           />
-        </div>
+        </cf-container-row>
 
-        <div class="py-2">
+        <cf-container-row>
           <div v-if="isCodemirrorLoading">
             <cf-spinner
                 class="mx-auto"
@@ -32,16 +32,21 @@
                 color="rgb(44, 130, 224)"
             />
           </div>
-          <cf-code-block label="Question code" :id="id ? `${question.id}-edit` : `${question.id}-create`"
-                         v-model="question.code" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
-        </div>
+          <cf-code-block
+              label="Question code"
+              :id="id ? `${question.id}-edit` : `${question.id}-create`"
+              v-model="question.code"
+              @loaded="setCodemirrorLoading"
+              :showCopyButton="false"
+          />
+        </cf-container-row>
 
-        <div class="py-2">
+        <cf-container-row>
           <va-checkbox @update:modelValue="handleAddAnswer" :modelValue="showAddAnswer"
                        :label="answerCheckboxLabel"/>
-        </div>
+        </cf-container-row>
 
-        <div class="py-2" v-if="showAddAnswer || question.answer">
+        <cf-container-row v-if="showAddAnswer || question.answer">
           <div v-if="isCodemirrorLoading">
             <cf-spinner
                 class="mx-auto"
@@ -52,9 +57,9 @@
           </div>
           <cf-code-block label="Answer code" :id="id ? `${question.id}-answer-edit` : `${question.id}-answer`"
                          v-model="question.answer" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
-        </div>
+        </cf-container-row>
 
-        <div class="py-2">
+        <cf-container-row>
           Question type:
 
           <va-select
@@ -62,9 +67,9 @@
               v-model="question.type"
               :rules="[typeSelectRules]"
           />
-        </div>
+        </cf-container-row>
 
-        <div class="py-2">
+        <cf-container-row>
           Tags:
           <va-select
               :options="tags"
@@ -76,7 +81,7 @@
               allow-create
               :rules="[tagsSelectRules]"
           />
-        </div>
+        </cf-container-row>
         <cf-control-buttons
             v-if="editable"
             @cancel="$router.back()" @save="handleSaveQuestion(question)"
@@ -99,10 +104,17 @@ import CfSpinner from '@/components/CfSpinner.vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import { useRoute, useRouter } from 'vue-router'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
+import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 
 export default {
   name: 'CfQuestionEditPanel',
-  components: { CfCodeBlock, CfSpinner, CfContainer, CfControlButtons },
+  components: {
+    CfContainerRow,
+    CfCodeBlock,
+    CfSpinner,
+    CfContainer,
+    CfControlButtons,
+  },
   props: {
     id: {
       type: String,
@@ -215,7 +227,7 @@ export default {
 </script>
 
 <style lang="scss">
-.cf-question-create-form {
+.cf-question-edit-panel {
   .va-input-wrapper__message-list-wrapper {
     padding: 0;
   }

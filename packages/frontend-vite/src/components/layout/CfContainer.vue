@@ -4,12 +4,11 @@
       <va-card-title v-if="$slots.title" class="text-lg">
         <slot name="title"></slot>
       </va-card-title>
-      <va-card-content>
-        <div v-if="loading">
+      <va-card-content class="h-5/6">
+        <div class="flex justify-center h-full items-center" v-if="loading">
           <cf-spinner
-              class="mx-auto"
               :animation-duration="1200"
-              :size="300"
+              :size="150"
               color="rgb(44, 130, 224)"
           />
         </div>
@@ -18,7 +17,7 @@
         </div>
       </va-card-content>
     </va-card>
-    <div class="flex-none">
+    <div class="flex-none" v-if="!loading">
       <slot name="control-buttons"/>
     </div>
   </div>

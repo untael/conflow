@@ -1,98 +1,148 @@
 <template>
-  <div class="intersecting-circles-spinner">
-    <div class="spinnerBlock">
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
+  <div
+      class="scaling-squares-spinner"
+      :style="spinnerStyle">
+    <div class="square"
+         v-for="(ss, index) in squaresStyles"
+         :key="index"
+         :class="`square-${index + 1}`"
+         :style="ss">
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { computed, ref } from 'vue'
+
 export default {
   name: 'CfSpinner',
+  props: {
+    animationDuration: {
+      type: Number,
+      default: 1250,
+    },
+    size: {
+      type: Number,
+      default: 65,
+    },
+    color: {
+      type: String,
+      default: '#fff',
+    },
+  },
+  setup (props: any) {
+    const spinnerStyle = computed(() => {
+      return {
+        height: `${props.size}px`,
+        width: `${props.size}px`,
+        animationDuration: `${props.animationDuration}ms`,
+      }
+
+    })
+    const squareStyle = computed(() => {
+      console.log('props.color', props.color)
+      return {
+        height: `${props.size * 0.25 / 1.3}px`,
+        width: `${props.size * 0.25 / 1.3}px`,
+        animationDuration: `${props.animationDuration}ms`,
+        borderWidth: `${props.size * 0.04 / 1.3}px`,
+        borderColor: props.color,
+      }
+
+    })
+    const squaresStyles = computed(() => {
+      const squaresStyles = []
+      for (let i = 1; i <= squaresNum.value; i++) {
+        squaresStyles.push(Object.assign({}, squareStyle.value))
+      }
+      return squaresStyles
+    })
+    const squaresNum = ref(4)
+    return {
+      squaresNum,
+      spinnerStyle,
+      squareStyle,
+      squaresStyles,
+    }
+  },
 }
 </script>
 
-<style lang="scss">
-.intersecting-circles-spinner, .intersecting-circles-spinner * {
+<style scoped>
+.scaling-squares-spinner, .scaling-squares-spinner * {
   box-sizing: border-box;
 }
 
-.intersecting-circles-spinner {
-  height: 70px;
-  width: 70px;
+.scaling-squares-spinner {
+  height: 65px;
+  width: 65px;
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  animation: scaling-squares-animation 1250ms;
+  animation-iteration-count: infinite;
+  transform: rotate(0deg);
 }
 
-.intersecting-circles-spinner .spinnerBlock {
-  animation: intersecting-circles-spinners-animation 1200ms linear infinite;
-  transform-origin: center;
-  display: block;
-  height: 35px;
-  width: 35px;
-}
-
-.intersecting-circles-spinner .circle {
-  display: block;
-  border: 2px solid rgb(44, 130, 224);
-  border-radius: 50%;
-  height: 100%;
-  width: 100%;
+.scaling-squares-spinner .square {
+  height: calc(65px * 0.25 / 1.3);
+  width: calc(65px * 0.25 / 1.3);
+  margin-right: auto;
+  margin-left: auto;
+  border: calc(65px * 0.04 / 1.3) solid #ff1d5e;
   position: absolute;
-  left: 0;
-  top: 0;
+  animation-duration: 1250ms;
+  animation-iteration-count: infinite;
 }
 
-.intersecting-circles-spinner .circle:nth-child(1) {
-  left: 0;
-  top: 0;
+.scaling-squares-spinner .square:nth-child(1) {
+  animation-name: scaling-squares-spinner-animation-child-1;
 }
 
-.intersecting-circles-spinner .circle:nth-child(2) {
-  left: calc(35px * -0.36);
-  top: calc(35px * 0.2);
+.scaling-squares-spinner .square:nth-child(2) {
+  animation-name: scaling-squares-spinner-animation-child-2;
 }
 
-.intersecting-circles-spinner .circle:nth-child(3) {
-  left: calc(35px * -0.36);
-  top: calc(35px * -0.2);
+.scaling-squares-spinner .square:nth-child(3) {
+  animation-name: scaling-squares-spinner-animation-child-3;
 }
 
-.intersecting-circles-spinner .circle:nth-child(4) {
-  left: 0;
-  top: calc(35px * -0.36);
+.scaling-squares-spinner .square:nth-child(4) {
+  animation-name: scaling-squares-spinner-animation-child-4;
 }
 
-.intersecting-circles-spinner .circle:nth-child(5) {
-  left: calc(35px * 0.36);
-  top: calc(35px * -0.2);
-}
-
-.intersecting-circles-spinner .circle:nth-child(6) {
-  left: calc(35px * 0.36);
-  top: calc(35px * 0.2);
-}
-
-.intersecting-circles-spinner .circle:nth-child(7) {
-  left: 0;
-  top: calc(35px * 0.36);
-}
-
-@keyframes intersecting-circles-spinners-animation {
-  from {
-    transform: rotate(0deg);
+@keyframes scaling-squares-animation {
+  50% {
+    transform: rotate(90deg);
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes scaling-squares-spinner-animation-child-1 {
+  50% {
+    transform: translate(150%, 150%) scale(2, 2);
+  }
+}
+
+@keyframes scaling-squares-spinner-animation-child-2 {
+  50% {
+    transform: translate(-150%, 150%) scale(2, 2);
+  }
+}
+
+@keyframes scaling-squares-spinner-animation-child-3 {
+  50% {
+    transform: translate(-150%, -150%) scale(2, 2);
+  }
+}
+
+@keyframes scaling-squares-spinner-animation-child-4 {
+  50% {
+    transform: translate(150%, -150%) scale(2, 2);
   }
 }
 </style>

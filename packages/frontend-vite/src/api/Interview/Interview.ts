@@ -3,10 +3,11 @@ import Event from '../Event/Event'
 import Candidate from '@/api/User/Candidate/Candidate'
 import Employee from '@/api/User/Employee/Employee'
 import Business from '@/api/Business/Business'
-import Question from "@/api/Question/Question"
+import Question from '@/api/Question/Question'
 import { Expose, Type } from 'class-transformer'
 import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
+import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
 
 
 export enum InterviewTypeEnum {
@@ -71,23 +72,27 @@ export const candidateLevelIterator = [
 interface IInterview extends IEvent {
   type: InterviewType;
   candidate_levels: CandidateLevel[];
-  candidate?: Candidate;
+  candidate?: Candidate | string;
   recruiters?: Employee[];
   interviewers?: Employee[];
   business?: Business;
-  questions?: Question[]
+  questions?: Question[];
+  note?: string;
+  interviewTemplate?: InterviewTemplate | null;
 }
 
 export default class Interview extends Event implements IInterview {
   @Expose()
+  @Type(() => InterviewType)
   type: InterviewType = new InterviewType()
 
   @Expose()
+  @Type(() => CandidateLevel)
   candidate_levels: CandidateLevel[] = []
 
   @Expose()
   @Type(() => Candidate)
-  candidate: Candidate = new Candidate()
+  candidate: Candidate | string = ''
 
   @Expose()
   @Type(() => Employee)
@@ -104,8 +109,22 @@ export default class Interview extends Event implements IInterview {
   @Type(() => Question)
   questions: Question[] = []
 
+  @Expose()
+  note: string = ''
+
+  @Expose()
+  @Type(() => InterviewTemplate)
+  interviewTemplate: InterviewTemplate | null = null
+
+  getQuestions (): Question[] {
+    return this.interviewTemplate ? [...this.questions, ...this.interviewTemplate.questions] : this.questions
+  }
+
   get title (): string {
-    return this.name ? this.name : `${this.candidate.full_name} interview`
+    if (this.candidate instanceof Candidate) {
+      return this.name ? this.name : `${this.candidate.full_name} interview`
+    }
+    return this.name ? this.name : `${this.candidate} interview`
   }
 
   get endpoint (): string {

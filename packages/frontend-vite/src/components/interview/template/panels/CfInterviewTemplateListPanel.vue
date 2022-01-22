@@ -1,5 +1,5 @@
 <template>
-  <cf-container class="cf-interview-template-edit-form">
+  <cf-container :loading="isLoading" class="cf-interview-template-edit-form">
     <template #title>
       Interview template list panel
     </template>
@@ -13,6 +13,7 @@
           class="py-2"
           :editable="editable"
           :addable="addable"
+          @add="addTemplate(interviewTemplate)"
           @edit="initInterviewTemplateEditPanel(interviewTemplate)"
           @display-question="initQuestionDisplayPanel"
           :interview-template="interviewTemplate"
@@ -31,6 +32,9 @@ import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
 import { PanelNames } from '@/components/panels'
 import Question from '@/api/Question/Question'
 import { usePanel } from '@/composables/usePanel'
+import { QuestionEvents } from '@/api/Question/events'
+import { useEmitter } from '@/composables/useEmitter'
+import { InterviewTemplateEvents } from '@/api/InterviewTemplate/events'
 export default {
   name: 'CfInterviewTemplateListPanel',
   components: { CfInterviewTemplateListItem, CfContainer },
@@ -46,6 +50,7 @@ export default {
   },
   setup () {
     const { $panel } = usePanel()
+    const { $emitter } = useEmitter()
     const interviewTemplateList: Ref<InterviewTemplate[]> = ref([])
     const isLoading = ref(false)
     const { interviewTemplateAPIHandlers } = useInterviewTemplate()
@@ -60,6 +65,9 @@ export default {
         id: interviewTemplate.id,
       })
     }
+    const addTemplate = (interviewTemplate: InterviewTemplate) => {
+      $emitter.emit(InterviewTemplateEvents.Add, interviewTemplate)
+    }
     const initQuestionDisplayPanel = (question: Question) => {
       $panel.init(PanelNames.QuestionsEditPanel, {
         id: question.id,
@@ -71,6 +79,7 @@ export default {
       isLoading,
       initInterviewTemplateEditPanel,
       initQuestionDisplayPanel,
+      addTemplate,
     }
   },
 

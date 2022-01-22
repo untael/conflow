@@ -49,7 +49,11 @@
           :minimizeable="false"
           :maximizeable="false"
       >
-        <component :is="panel.component" v-on="$attrs" v-bind="panel.props"/>
+        <component
+            :is="panel.component"
+            v-on="$attrs"
+            v-bind="panel.props"
+        />
       </cf-panel>
     </div>
     <div

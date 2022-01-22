@@ -4,82 +4,179 @@
       Interview Edit Form
     </template>
     <template #default>
-      <div class="py-2">
-        Interview name:
-        <va-input v-model="name"/>
-      </div>
-      <div class="py-2">
-        Candidate:
-        <va-select v-model="selectedCandidate" :options="candidates"/>
-      </div>
-      <div class="py-2">
-        Interviewers:
-        <va-select v-model="selectedInterviewers" :options="interviewers" multiple/>
-      </div>
-      <div class="py-2">
-        Note:
-        <va-input type="textarea" min-rows="2" autosize v-model="note"/>
-      </div>
-      <div class="py-2 d-flex">
-        <div>
-          Date:
-          <va-date-input
-              v-model="date"
-              :returnRaw="false"
-              mask="date"
-          />
-        </div>
-        <div class="ml-2">
-          Time:
-          <va-time-input
-              v-model="time"
-              :returnRaw="false"
-              manual-input
-          />
-        </div>
-      </div>
+      <div>
+        <cf-container-row>
+          Interview name:
+          <va-input v-model="interview.name"/>
+        </cf-container-row>
+        <cf-container-row class="flex">
+          <div class="mr-1 flex-grow">
+            Type:
+            <va-select
+                v-model="interview.type"
+                text-by="name"
+                :options="interviewTypes"
+            />
+          </div>
+          <div class="ml-1 flex-grow">
+            Candidate level:
+            <va-select
+                v-model="interview.candidate_levels"
+                text-by="name"
+                :options="candidateLevels"
+                multiple
+            />
+          </div>
+        </cf-container-row>
 
-      <cf-control-buttons @cancel="$router.back()" @save="onSave"/>
+        <cf-container-row class="flex">
+          <div class="mr-1 flex-grow">
+            Candidate:
+            <va-input v-model="interview.candidate"/>
+          </div>
+          <div class="ml-1 flex-grow">
+            Interviewers:
+            <va-select v-model="interview.interviewers" :options="[]" multiple/>
+          </div>
+        </cf-container-row>
+
+        <cf-container-row>
+          Note:
+          <va-input type="textarea" min-rows="2" autosize v-model="interview.note"/>
+        </cf-container-row>
+        <cf-container-row class="flex">
+          <div>
+            Date:
+            <va-date-input
+                v-model="interview.date"
+                :returnRaw="false"
+                mask="date"
+            />
+          </div>
+          <div class="ml-2">
+            Time:
+            <va-time-input
+                v-model="interview.time"
+                :returnRaw="false"
+                manual-input
+            />
+          </div>
+        </cf-container-row>
+
+        <cf-container-row>
+          Questions:
+          <div v-for="(question, index) in interview.getQuestions()" :key="`iq-${index}-${question.id}`">
+            <cf-question-item
+                can-be-removed
+                :question="question"
+                @remove="removeQuestion(question)"
+                class="py-2 grow"
+            />
+          </div>
+        </cf-container-row>
+
+        <va-button class="flex-none" @click="initQuestionsPanel" color="primary">Add more</va-button>
+      </div>
+    </template>
+
+    <template #control-buttons>
+      <cf-control-buttons @cancel="$router.back()" @save="onSave">
+        <template #customs>
+          <va-button class="flex-none" color="primary" @click="initInterviewTemplatePanel">
+            Add interview template
+          </va-button>
+        </template>
+      </cf-control-buttons>
     </template>
   </cf-container>
-
 </template>
 
 <script lang="ts">
-import { computed, ref } from 'vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
+import CfContainerRow from '@/components/layout/CfContainerRow.vue'
+import { useInterview } from '@/composables/useInterview'
+import { onMounted, Ref, ref } from 'vue'
+import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
+import { usePanel } from '@/composables/usePanel'
+import { PanelNames } from '@/components/panels'
+import { QuestionEvents } from '@/api/Question/events'
+import Question from '@/api/Question/Question'
+import { useEmitter } from '@/composables/useEmitter'
+import { InterviewTemplateEvents } from '@/api/InterviewTemplate/events'
+import CfQuestionItem from '@/components/question/CfQuestionItem.vue'
+import InterviewType from '@/api/InterviewType/InterviewType'
+import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
+import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
 
 
 export default {
   name: 'CfInterviewEditPanel',
-  components: { CfContainer, CfControlButtons },
+  components: { CfQuestionItem, CfContainerRow, CfContainer, CfControlButtons },
 
   setup () {
-    const name = ref('')
-    const computedName = computed(() => {
-      return name.value ? name.value : ''
-    })
-    const candidates = ref(['Pavel', 'Valeria', 'Yauheni'])
-    const selectedCandidate = ref('Pavel')
-    const interviewers = ref(['Andrii', 'Maxim', 'Alexander'])
-    const selectedInterviewers = ref(['Maxim', 'Alexander'])
-    const note = ref('')
-    const date = ref('')
-    const time = ref(new Date())
+    const { $panel } = usePanel()
+    const { $emitter } = useEmitter()
+    const { interview, interviewAPIHandlers } = useInterview()
+    const { interviewTemplateAPIHandlers } = useInterviewTemplate()
+    const interviewTypes: Ref<InterviewType[]> = ref([])
+    const candidateLevels: Ref<CandidateLevel[]> = ref([])
     const onSave = () => {
       console.log('save button clicked')
     }
+
+    onMounted(async () => {
+      await Promise.all([
+        await interviewTemplateAPIHandlers.getTypes(),
+        await interviewTemplateAPIHandlers.getCandidateLevels(),
+      ]).then((data) => {
+        interviewTypes.value = data[0]
+        candidateLevels.value = data[1]
+      })
+    })
+    const removeQuestion = (question: Question) => {
+      if (interview.value.interviewTemplate) {
+        const isTemplateQuestion = interview.value.interviewTemplate.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
+        if (isTemplateQuestion) {
+          console.log('question', question)
+          interview.value.interviewTemplate.questions = interview.value.interviewTemplate.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
+        }
+        return
+      }
+      interview.value.questions = interview.value.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
+    }
+    const initInterviewTemplatePanel = () => {
+      $panel.init(PanelNames.InterviewTemplateListPanel, {
+        addable: true,
+      })
+    }
+
+    $emitter.on(InterviewTemplateEvents.Add, (interviewTemplate: InterviewTemplate) => {
+      interview.value.interviewTemplate = interviewTemplate
+    })
+
+    $emitter.on(QuestionEvents.Add, (question: Question) => {
+      const isInList = interview.value.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
+      if (!isInList) {
+        interview.value.questions.push(question)
+      }
+    })
+
+    const initQuestionsPanel = () => {
+      $panel.init(PanelNames.QuestionsListPanel, {
+        addable: true,
+      })
+    }
+
     return {
+      PanelNames,
       onSave,
-      name,
-      candidates,
-      selectedCandidate,
-      interviewers,
-      selectedInterviewers,
-      note,
-      date,
-      time,
+      interview,
+      initInterviewTemplatePanel,
+      removeQuestion,
+      initQuestionsPanel,
+      interviewTypes,
+      candidateLevels,
     }
   },
 }

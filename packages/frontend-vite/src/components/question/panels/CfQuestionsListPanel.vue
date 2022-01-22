@@ -1,5 +1,5 @@
 <template>
-  <cf-container>
+  <cf-container :loading="isLoading">
     <template #title>
       Questions list
     </template>

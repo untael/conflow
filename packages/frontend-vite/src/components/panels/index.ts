@@ -24,6 +24,7 @@ export enum PanelNames {
   QuestionsDashboardPanel = 'Questions Dashboard Panel',
   QuestionsListPanel = 'Questions List Panel',
   QuestionsEditPanel = 'Questions Edit Panel',
+  QuestionsDisplayPanel = 'Questions Display Panel',
 }
 
 //Only panels, not their wrappers
@@ -47,6 +48,14 @@ export const panelsIterator = [
     name: PanelNames.QuestionsEditPanel,
     minimized: false,
     component: CfQuestionEditPanel,
+  }),
+  new Panel({
+    name: PanelNames.QuestionsDisplayPanel,
+    minimized: false,
+    component: CfQuestionEditPanel,
+    props: {
+      editable: false,
+    }
   }),
   new Panel({
     name: PanelNames.InterviewDashboardPanel,
