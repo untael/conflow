@@ -4,7 +4,7 @@ import Candidate from '@/api/User/Candidate/Candidate'
 import Employee from '@/api/User/Employee/Employee'
 import Business from '@/api/Business/Business'
 import Question from '@/api/Question/Question'
-import { Expose, Type } from 'class-transformer'
+import { Expose, Transform, Type } from 'class-transformer'
 import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
@@ -70,8 +70,9 @@ export const candidateLevelIterator = [
 ]
 
 interface IInterview extends IEvent {
+  id: string,
   type: InterviewType | null;
-  candidate_levels: CandidateLevel[];
+  candidate_levels?: CandidateLevel[];
   candidate?: Candidate | string;
   recruiters?: Employee[];
   interviewers?: Employee[];
@@ -83,6 +84,9 @@ interface IInterview extends IEvent {
 
 export default class Interview extends Event implements IInterview {
   @Expose()
+  id: string = ''
+
+  @Expose()
   @Type(() => InterviewType)
   type: InterviewType | null = null
 
@@ -92,6 +96,7 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   @Type(() => Candidate)
+  @Transform(({ value }) => value)
   candidate: Candidate | string = ''
 
   @Expose()
@@ -107,6 +112,13 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   @Type(() => Question)
+  @Transform(({ value }) => value.map((question: Question) => question.id), { toPlainOnly: true })
+  @Transform(({ value }) => value.map((question: Question) => {
+    return {
+      ...question,
+      is_template_question: true,
+    }
+  }), { toClassOnly: true })
   questions: Question[] = []
 
   @Expose()
@@ -116,24 +128,19 @@ export default class Interview extends Event implements IInterview {
   @Type(() => InterviewTemplate)
   interviewTemplate: InterviewTemplate | null = null
 
-  getQuestions (): Question[] {
-    return this.questions
-    // return this.interviewTemplate ? [...this.questions, ...this.interviewTemplate.questions] : this.questions
-  }
-
   discardInterviewTemplate () {
-    if (this.interviewTemplate?.name === this.name) this.name = ''
-    if (this.interviewTemplate?.type.id === this.type?.id) this.type = null
+    if (this.interviewTemplate?.name === this.name) {
+      this.name = ''
+    }
+    if (this.interviewTemplate?.type.id === this.type?.id) {
+      this.type = null
+    }
     this.candidate_levels = []
     this.questions = this.questions.filter((question) => !question.is_template_question)
-
     this.interviewTemplate = null
-
   }
 
   applyInterviewTemplate (interviewTemplate: InterviewTemplate) {
-    let props = ['name', 'type']
-
     this.interviewTemplate = interviewTemplate
 
     if (!this.name) {
@@ -157,7 +164,6 @@ export default class Interview extends Event implements IInterview {
           return true
         }))
     }
-
   }
 
   get title (): string {

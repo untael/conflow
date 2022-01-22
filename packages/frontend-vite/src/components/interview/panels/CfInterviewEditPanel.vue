@@ -1,7 +1,7 @@
 <template>
   <cf-container>
     <template #title>
-      Interview Edit Form
+      Interview Edit Panel
     </template>
     <template #default>
       <div>
@@ -9,14 +9,11 @@
           Interview name:
           <va-input v-model="interview.name"/>
         </cf-container-row>
+
         <cf-container-row class="flex">
           <div class="mr-1 flex-grow">
-            Type:
-            <va-select
-                v-model="interview.type"
-                text-by="name"
-                :options="interviewTypes"
-            />
+            Candidate:
+            <va-input v-model="interview.candidate"/>
           </div>
           <div class="ml-1 flex-grow">
             Candidate level:
@@ -31,8 +28,12 @@
 
         <cf-container-row class="flex">
           <div class="mr-1 flex-grow">
-            Candidate:
-            <va-input v-model="interview.candidate"/>
+            Type:
+            <va-select
+                v-model="interview.type"
+                text-by="name"
+                :options="interviewTypes"
+            />
           </div>
           <div class="ml-1 flex-grow">
             Interviewers:
@@ -65,7 +66,7 @@
 
         <cf-container-row>
           Questions:
-          <div v-for="(question, index) in interview.getQuestions()" :key="`iq-${index}-${question.id}`">
+          <div v-for="(question, index) in interview.questions" :key="`iq-${index}-${question.id}`">
             <cf-question-item
                 can-be-removed
                 :question="question"
@@ -121,8 +122,8 @@ export default {
     const { interviewTemplateAPIHandlers } = useInterviewTemplate()
     const interviewTypes: Ref<InterviewType[]> = ref([])
     const candidateLevels: Ref<CandidateLevel[]> = ref([])
-    const onSave = () => {
-      console.log('save button clicked')
+    const onSave = async () => {
+      await interviewAPIHandlers.create(interview.value)
     }
     const toggleTemplateText = computed(() => interview.value.interviewTemplate ? 'Discard' : 'Apply')
 

@@ -7,7 +7,7 @@
       <va-button class="flex-none" color="secondary" @click="$emit('cancel')">
         Cancel
       </va-button>
-      <va-button color="primary" class="flex-none ml-2" @click="$emit('save')" :loading="loading">
+      <va-button class="flex-none ml-2" color="primary" @click="$emit('save')" :loading="loading">
         Save
       </va-button>
     </div>

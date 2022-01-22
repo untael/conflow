@@ -19,12 +19,18 @@ export default class Event implements IEvent {
   @Expose()
   name = ''
 
-  @Expose({ name: '_date' })
-  @Transform(({ value }) => new Date(value), { toClassOnly: true })
+  @Expose()
+  @Transform(({ value }) => new Date(value))
   date: Date = new Date()
 
-  @Expose({ name: 'time' })
-  @Transform(({ value }) => new Date(value), { toClassOnly: true })
+  @Expose()
+  @Transform(({ value }) => {
+    const hours = new Date(value).getHours() < 10 ? '0' + new Date(value).getHours() : new Date(value).getHours()
+    const minutes = new Date(value).getMinutes() < 10 ? '0' + new Date(value).getMinutes() : new Date(value).getMinutes()
+    const seconds = new Date(value).getSeconds() < 10 ? '0' + new Date(value).getSeconds() : new Date(value).getSeconds()
+    const milliseconds = new Date(value).getMilliseconds()
+    return `${hours}:${minutes}:${seconds}.${milliseconds}`
+  })
   time: Date = new Date()
 
   @Expose({ name: '_created_at' })
