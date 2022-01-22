@@ -15,6 +15,7 @@ interface IQuestion {
   time_spent: number
   type: string
   tags: string[]
+  is_template_question: boolean
 }
 
 export default class Question implements IQuestion {
@@ -44,8 +45,9 @@ export default class Question implements IQuestion {
   @Expose()
   type: string = ''
   @Expose()
-  @Transform(({ value }) => value.map((tag: Tag) => tag.id), { toPlainOnly:true })
+  @Transform(({ value }) => value.map((tag: Tag) => tag.id), { toPlainOnly: true })
   tags: string[] = []
+  is_template_question: boolean = false
 
   get is_in_progress () {
     return !!this.date_start

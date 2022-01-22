@@ -18,6 +18,12 @@ export default class InterviewTemplate implements IInterviewTemplate {
   name: string = ''
   @Expose()
   @Transform(({ value }) => value.map((question: Question) => question.id), { toPlainOnly: true })
+  @Transform(({ value }) => value.map((question: Question) => {
+    return {
+      ...question,
+      is_template_question: true,
+    }
+  }), { toClassOnly: true })
   questions: Question[] = []
   @Expose()
   @Transform(({ value }) => value.map((level: CandidateLevel) => level.id), { toPlainOnly: true })

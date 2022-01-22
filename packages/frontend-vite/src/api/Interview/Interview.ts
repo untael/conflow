@@ -70,7 +70,7 @@ export const candidateLevelIterator = [
 ]
 
 interface IInterview extends IEvent {
-  type: InterviewType;
+  type: InterviewType | null;
   candidate_levels: CandidateLevel[];
   candidate?: Candidate | string;
   recruiters?: Employee[];
@@ -84,7 +84,7 @@ interface IInterview extends IEvent {
 export default class Interview extends Event implements IInterview {
   @Expose()
   @Type(() => InterviewType)
-  type: InterviewType = new InterviewType()
+  type: InterviewType | null = null
 
   @Expose()
   @Type(() => CandidateLevel)
@@ -117,7 +117,47 @@ export default class Interview extends Event implements IInterview {
   interviewTemplate: InterviewTemplate | null = null
 
   getQuestions (): Question[] {
-    return this.interviewTemplate ? [...this.questions, ...this.interviewTemplate.questions] : this.questions
+    return this.questions
+    // return this.interviewTemplate ? [...this.questions, ...this.interviewTemplate.questions] : this.questions
+  }
+
+  discardInterviewTemplate () {
+    if (this.interviewTemplate?.name === this.name) this.name = ''
+    if (this.interviewTemplate?.type.id === this.type?.id) this.type = null
+    this.candidate_levels = []
+    this.questions = this.questions.filter((question) => !question.is_template_question)
+
+    this.interviewTemplate = null
+
+  }
+
+  applyInterviewTemplate (interviewTemplate: InterviewTemplate) {
+    let props = ['name', 'type']
+
+    this.interviewTemplate = interviewTemplate
+
+    if (!this.name) {
+      this.name = interviewTemplate.name
+    }
+    if (!this.type) {
+      this.type = interviewTemplate.type
+    }
+    if (this.candidate_levels.length === 0) {
+      this.candidate_levels = [...interviewTemplate.candidate_levels]
+    }
+    if (this.questions.length === 0) {
+      this.questions = [...interviewTemplate.questions]
+    } else {
+      this.questions = this.questions.concat(
+        interviewTemplate.questions.filter((question) => {
+          for (let q of this.questions) {
+            if (q.id === question.id)
+              return false
+          }
+          return true
+        }))
+    }
+
   }
 
   get title (): string {

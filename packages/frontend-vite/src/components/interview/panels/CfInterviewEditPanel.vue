@@ -82,8 +82,8 @@
     <template #control-buttons>
       <cf-control-buttons @cancel="$router.back()" @save="onSave">
         <template #customs>
-          <va-button class="flex-none" color="primary" @click="initInterviewTemplatePanel">
-            Add interview template
+          <va-button class="flex-none" :color="interview.interviewTemplate ? 'danger' : 'primary'" @click="handleToggleTemplate">
+            {{ toggleTemplateText }} template
           </va-button>
         </template>
       </cf-control-buttons>
@@ -96,7 +96,7 @@ import CfContainer from '@/components/layout/CfContainer.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 import { useInterview } from '@/composables/useInterview'
-import { onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, Ref, ref } from 'vue'
 import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
 import { usePanel } from '@/composables/usePanel'
 import { PanelNames } from '@/components/panels'
@@ -124,6 +124,7 @@ export default {
     const onSave = () => {
       console.log('save button clicked')
     }
+    const toggleTemplateText = computed(() => interview.value.interviewTemplate ? 'Discard' : 'Apply')
 
     onMounted(async () => {
       await Promise.all([
@@ -134,6 +135,13 @@ export default {
         candidateLevels.value = data[1]
       })
     })
+    const handleToggleTemplate = () => {
+      if (interview.value.interviewTemplate) {
+        interview.value.discardInterviewTemplate()
+      } else {
+        initInterviewTemplatePanel()
+      }
+    }
     const removeQuestion = (question: Question) => {
       if (interview.value.interviewTemplate) {
         const isTemplateQuestion = interview.value.interviewTemplate.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
@@ -152,7 +160,7 @@ export default {
     }
 
     $emitter.on(InterviewTemplateEvents.Add, (interviewTemplate: InterviewTemplate) => {
-      interview.value.interviewTemplate = interviewTemplate
+      interview.value.applyInterviewTemplate(interviewTemplate)
     })
 
     $emitter.on(QuestionEvents.Add, (question: Question) => {
@@ -177,6 +185,8 @@ export default {
       initQuestionsPanel,
       interviewTypes,
       candidateLevels,
+      toggleTemplateText,
+      handleToggleTemplate,
     }
   },
 }
