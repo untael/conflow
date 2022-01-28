@@ -11,11 +11,11 @@
         </cf-container-row>
 
         <cf-container-row class="flex">
-          <div class="mr-1 flex-grow">
+          <div class="mr-1 flex-grow basis-1/2	">
             Candidate:
             <va-input v-model="interview.candidate"/>
           </div>
-          <div class="ml-1 flex-grow">
+          <div class="ml-1 flex-grow basis-1/2	">
             Candidate level:
             <va-select
                 v-model="interview.candidate_levels"
@@ -27,7 +27,7 @@
         </cf-container-row>
 
         <cf-container-row class="flex">
-          <div class="mr-1 flex-grow">
+          <div class="mr-1 flex-grow basis-1/2">
             Type:
             <va-select
                 v-model="interview.type"
@@ -35,7 +35,7 @@
                 :options="interviewTypes"
             />
           </div>
-          <div class="ml-1 flex-grow">
+          <div class="ml-1 flex-grow basis-1/2">
             Interviewers:
             <va-select v-model="interview.interviewers" :options="[]" multiple/>
           </div>
@@ -46,7 +46,7 @@
           <va-input type="textarea" min-rows="2" autosize v-model="interview.note"/>
         </cf-container-row>
         <cf-container-row class="flex">
-          <div>
+          <div class="basis-1/2	">
             Date:
             <va-date-input
                 v-model="interview.date"
@@ -54,7 +54,7 @@
                 mask="date"
             />
           </div>
-          <div class="ml-2">
+          <div class="ml-2 basis-1/2	">
             Time:
             <va-time-input
                 v-model="interview.time"
