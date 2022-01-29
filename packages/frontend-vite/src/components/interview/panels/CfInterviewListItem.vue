@@ -37,10 +37,10 @@
           Type:
         </div>
         <div class="py-2 text-xs flex items-center flex-none basis-2/3">
-          <div class="flex-none" v-if="interview.type.icon">
-            <va-icon class="mr-2" color="black" :name="interview.type.icon"></va-icon>
+          <div class="flex-none" v-if="interview?.type?.icon">
+            <va-icon class="mr-2" color="black" :name="interview?.type?.icon"></va-icon>
           </div>
-          <div class="flex-none">{{ interview.type.name }}</div>
+          <div class="flex-none">{{ interview?.type?.name }}</div>
         </div>
       </div>
 
@@ -86,7 +86,7 @@
               outline
               class="mr-2 flex-none"
           >
-            {{ interviewer.name }}
+            {{ interviewer.full_name }}
           </va-chip>
         </div>
       </div>
