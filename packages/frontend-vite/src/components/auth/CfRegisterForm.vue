@@ -14,6 +14,7 @@
         <router-link :to="{name: 'Login'}" class="font-medium">Sign in</router-link>
       </div>
       <va-button color="success" type="submit" @click="signUp">Submit</va-button>
+      <va-button :href="`${baseUrl}/connect/github`">Github</va-button>
     </va-card-content>
   </va-card>
 </template>
@@ -22,11 +23,13 @@
 import { ref } from 'vue'
 import { useValidation } from '@/composables/useValidation'
 import { useAuth } from '@/composables/useAuth'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'CfRegisterForm',
   setup () {
     const { register } = useAuth()
+    const route = useRoute()
     const { emailRules } = useValidation()
     const username = ref('')
     const email = ref('')
@@ -35,7 +38,9 @@ export default {
     const signUp = () => {
       // register(username.value, email.value, password.value)
     }
+    const baseUrl = window.location.origin
     return {
+      baseUrl,
       signUp,
       emailRules,
       email,
