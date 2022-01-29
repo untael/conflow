@@ -1,5 +1,5 @@
 <template>
-  <cf-container :loading="isLoading" class="cf-interview-template-edit-form">
+  <cf-container :loading="isLoading" class="cf-interview-template-list-panel">
     <template #title>
       Interview template list panel
     </template>

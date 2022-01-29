@@ -20,6 +20,8 @@ import CfQuestionEditPanelWrapper
   from '@/components/question/panels/CfQuestionEditPanelWrapper.vue'
 import CfInterviewEditPanelWrapper
   from '@/components/interview/CfInterviewEditPanelWrapper.vue'
+import CfInterviewListPanelWrapper
+  from '@/components/interview/CfInterviewListPanelWrapper.vue'
 import CfDashboardPanelWrapper
   from '@/components/dashboard/CfDashboardPanelWrapper.vue'
 import CfQuestionsDashboardPanelWrapper
@@ -120,9 +122,22 @@ const routes: Array<RouteRecordRaw> = [
             component: CfInterviewEditPanelWrapper,
           },
           {
+            path: ':id',
+            name: 'Interview display',
+            component: CfInterviewEditPanelWrapper,
+            props: {
+              editable: false,
+            },
+          },
+          {
+            path: ':id/edit',
+            name: 'Interview edit',
+            component: CfInterviewEditPanelWrapper,
+          },
+          {
             path: 'list',
             name: 'Interviews list',
-            component: CfQuestionsListPanelWrapper,
+            component: CfInterviewListPanelWrapper,
           },
           {
             path: 'instant',

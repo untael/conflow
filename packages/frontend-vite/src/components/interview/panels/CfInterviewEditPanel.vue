@@ -1,5 +1,5 @@
 <template>
-  <cf-container>
+  <cf-container :loading="isLoading">
     <template #title>
       Interview Edit Panel
     </template>
@@ -81,7 +81,11 @@
     </template>
 
     <template #control-buttons>
-      <cf-control-buttons @cancel="$router.back()" @save="onSave">
+      <cf-control-buttons
+          v-if="editable"
+          @cancel="$router.back()"
+          @save="onSave"
+      >
         <template #customs>
           <va-button class="flex-none" :color="interview.interviewTemplate ? 'danger' : 'primary'" @click="handleToggleTemplate">
             {{ toggleTemplateText }} template
@@ -109,25 +113,41 @@ import CfQuestionItem from '@/components/question/CfQuestionItem.vue'
 import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
+import { useRoute } from 'vue-router'
 
 
 export default {
   name: 'CfInterviewEditPanel',
   components: { CfQuestionItem, CfContainerRow, CfContainer, CfControlButtons },
-
-  setup () {
+  props: {
+    id: {
+      type: String,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  setup (props: any) {
+    const route = useRoute()
     const { $panel } = usePanel()
     const { $emitter } = useEmitter()
     const { interview, interviewAPIHandlers } = useInterview()
     const { interviewTemplateAPIHandlers } = useInterviewTemplate()
     const interviewTypes: Ref<InterviewType[]> = ref([])
     const candidateLevels: Ref<CandidateLevel[]> = ref([])
+    const isLoading = ref(false)
     const onSave = async () => {
       await interviewAPIHandlers.create(interview.value)
     }
     const toggleTemplateText = computed(() => interview.value.interviewTemplate ? 'Discard' : 'Apply')
 
     onMounted(async () => {
+      const interviewId = route.params.id as string
+      isLoading.value = true
+      if (interviewId || props.id) {
+        interview.value = await interviewAPIHandlers.getOne(interviewId || props.id)
+      }
       await Promise.all([
         await interviewTemplateAPIHandlers.getTypes(),
         await interviewTemplateAPIHandlers.getCandidateLevels(),
@@ -135,6 +155,7 @@ export default {
         interviewTypes.value = data[0]
         candidateLevels.value = data[1]
       })
+      isLoading.value = false
     })
     const handleToggleTemplate = () => {
       if (interview.value.interviewTemplate) {
@@ -178,6 +199,7 @@ export default {
     }
 
     return {
+      isLoading,
       PanelNames,
       onSave,
       interview,

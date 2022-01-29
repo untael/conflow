@@ -1,4 +1,4 @@
-import { Expose, Transform } from 'class-transformer'
+import { Expose, Transform, TransformPlainToInstance } from 'class-transformer'
 
 const options: any = { year: 'numeric', month: 'short', day: 'numeric' }
 
@@ -30,6 +30,9 @@ export default class Event implements IEvent {
     const seconds = new Date(value).getSeconds() < 10 ? '0' + new Date(value).getSeconds() : new Date(value).getSeconds()
     const milliseconds = new Date(value).getMilliseconds()
     return `${hours}:${minutes}:${seconds}.${milliseconds}`
+  }, { toPlainOnly: true })
+  @Transform(({ value, obj }) => {
+    return new Date(`${obj.date} ${value.substring(0, 5)}`)
   })
   time: Date = new Date()
 
@@ -44,9 +47,15 @@ export default class Event implements IEvent {
   @Expose({ name: 'duration' })
   duration: number = 0
 
-  // get date () {
-  //   return this._date.toLocaleString('en-US', options)
-  // }
+  get full_date () {
+    const formattedDate = this.date.toLocaleString('en-US', options)
+    const formattedTime = this.time.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+    return `${formattedDate} | ${formattedTime}`
+  }
+
   //
   // set date (value: string) {
   //   this._date = value.toLocaleString('en-US', options)

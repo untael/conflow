@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-
 import CfLoginForm from '@/components/auth/CfLoginForm.vue'
 import CfRegisterForm from '@/components/auth/CfRegisterForm.vue'
 import CfResetPasswordForm from '@/components/auth/CfResetPasswordForm.vue'

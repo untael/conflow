@@ -6,10 +6,9 @@
 import CfPanelWrapper from '@/components/layout/CfPanelWrapper.vue'
 import { PanelList, PanelNames } from '@/components/panels'
 import Panel from '@/api/Panel'
-import { useUrl } from '@/composables/useUrl'
 
 export default {
-  name: 'CfQuestionEditPanelWrapper',
+  name: 'CfInterviewListPanelWrapper',
   components: {
     CfPanelWrapper,
   },
@@ -24,11 +23,9 @@ export default {
     },
   },
   setup (props: any) {
-    const { id } = useUrl()
-    const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.InterviewEditPanel)
-    if (panel && id.value) {
+    const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.InterviewListPanel)
+    if (panel) {
       panel.props = props
-      panel.props.id = id.value
     }
     return {
       panel,

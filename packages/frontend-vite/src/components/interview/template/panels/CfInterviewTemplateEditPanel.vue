@@ -1,5 +1,5 @@
 <template>
-  <cf-container :loading="isLoading" class="cf-interview-template-edit-form">
+  <cf-container :loading="isLoading" class="cf-interview-template-edit-panel">
     <template #title>
       Interview template edit panel
     </template>
@@ -48,7 +48,11 @@
 
     </template>
     <template #control-buttons>
-      <cf-control-buttons @cancel="$router.back()" @save="onSave"/>
+      <cf-control-buttons
+          v-if="editable"
+          @cancel="$router.back()"
+          @save="onSave"
+      />
     </template>
   </cf-container>
 </template>
@@ -173,7 +177,7 @@ export default {
 </script>
 
 <style lang="scss">
-.cf-interview-template-edit-form {
+.cf-interview-template-edit-panel {
   --va-button-border-radius: 0.5rem;
 }
 
