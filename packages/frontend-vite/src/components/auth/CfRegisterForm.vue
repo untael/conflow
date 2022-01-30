@@ -14,7 +14,18 @@
         <router-link :to="{name: 'Login'}" class="font-medium">Sign in</router-link>
       </div>
       <va-button color="success" type="submit" @click="signUp">Submit</va-button>
-      <va-button :href="`${baseUrl}/connect/github`">Github</va-button>
+      <div class="text-center">
+        or
+      </div>
+      <div class="flex">
+        <a class="flex justify-center" :href="`${APIUrl}/connect/github`">
+          <cf-github-icon/>
+        </a>
+        <a class="flex justify-center" :href="`${APIUrl}/connect/google`">
+          <cf-google-icon/>
+        </a>
+      </div>
+
     </va-card-content>
   </va-card>
 </template>
@@ -24,11 +35,16 @@ import { ref } from 'vue'
 import { useValidation } from '@/composables/useValidation'
 import { useAuth } from '@/composables/useAuth'
 import { useRoute } from 'vue-router'
+import { useUrl } from '@/composables/useUrl'
+import CfGithubIcon from '@/components/CfGithubIcon.vue'
+import CfGoogleIcon from '@/components/CfGoogleIcon.vue'
 
 export default {
   name: 'CfRegisterForm',
+  components: { CfGoogleIcon, CfGithubIcon },
   setup () {
     const { register } = useAuth()
+    const { APIUrl } = useUrl()
     const route = useRoute()
     const { emailRules } = useValidation()
     const username = ref('')
@@ -38,15 +54,14 @@ export default {
     const signUp = () => {
       // register(username.value, email.value, password.value)
     }
-    const baseUrl = window.location.origin
     return {
-      baseUrl,
       signUp,
       emailRules,
       email,
       password,
       username,
       passwordConfirmation,
+      APIUrl,
     }
   },
 
