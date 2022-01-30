@@ -30,12 +30,18 @@ import CfInterviewDashboardPanelWrapper
   from '@/components/interview/CfInterviewDashboardPanelWrapper.vue'
 import CfInterviewTemplateListPanelWrapper
   from '@/components/interview/template/CfInterviewTemplateListPanelWrapper.vue'
+import CfProvidersRedirect from '@/views/CfProvidersRedirect.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
     component: CfAppWrapper,
     children: [
+      {
+        path: '/auth/github/redirect',
+        name: 'github',
+        component: CfNotFound,
+      },
       {
         path: '/:pathMatch(.*)*',
         name: 'Not found',
@@ -215,6 +221,22 @@ const routes: Array<RouteRecordRaw> = [
         component: CfAuthPage,
         props: {
           mode: 'reset-password',
+        },
+      },
+      {
+        path: '/auth/github/redirect',
+        name: 'Github redirect',
+        component: CfProvidersRedirect,
+        props: {
+          provider: 'github',
+        },
+      },
+      {
+        path: '/auth/google/callback',
+        name: 'Google redirect',
+        component: CfProvidersRedirect,
+        props: {
+          provider: 'google',
         },
       },
     ],
