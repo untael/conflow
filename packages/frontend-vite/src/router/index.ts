@@ -38,11 +38,6 @@ const routes: Array<RouteRecordRaw> = [
     component: CfAppWrapper,
     children: [
       {
-        path: '/auth/github/redirect',
-        name: 'github',
-        component: CfNotFound,
-      },
-      {
         path: '/:pathMatch(.*)*',
         name: 'Not found',
         component: CfNotFound,
