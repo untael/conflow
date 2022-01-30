@@ -21,11 +21,14 @@ export default {
     const router = useRouter()
     onMounted(() => {
       console.log('route.query', route.query)
-      switch (props) {
+      console.log('props', props)
+      switch (props.provider) {
         case 'google':
+          console.log('im here google', route.query.id_token as string)
           localStorage.setItem('token', route.query.id_token as string)
           break
         case 'github':
+          console.log('im here github', route.query.access_token as string)
           localStorage.setItem('token', route.query.access_token as string)
           break
         default:
