@@ -86,7 +86,7 @@
               outline
               class="mr-2 flex-none"
           >
-            {{ interviewer.full_name }}
+            {{ interviewer.username }}
           </va-chip>
         </div>
       </div>

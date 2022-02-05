@@ -219,7 +219,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/auth/github/redirect',
+        path: '/auth/github/callback',
         name: 'Github redirect',
         component: CfProvidersRedirect,
         props: {
@@ -236,7 +236,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-
 ]
 
 const router = createRouter({

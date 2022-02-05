@@ -168,7 +168,7 @@ export default class Interview extends Event implements IInterview {
 
   get title (): string {
     if (this.candidate instanceof Candidate) {
-      return this.name ? this.name : `${this.candidate.full_name} interview`
+      return this.name ? this.name : `${this.candidate.username} interview`
     }
     return this.name ? this.name : `${this.candidate} interview`
   }

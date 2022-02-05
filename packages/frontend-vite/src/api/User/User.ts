@@ -2,25 +2,27 @@ import { Expose } from 'class-transformer'
 
 export default interface IUser {
   id: string;
-  first_name: string;
-  last_name: string;
+  username: string;
   email: string;
   phone_number?: string;
+  provider?: string;
+  blocked: boolean;
+  confirmed: boolean;
 }
 
 export default class User implements IUser {
   @Expose()
-  id = ''
+  id: string = ''
   @Expose()
-  first_name = ''
+  username: string = ''
   @Expose()
-  last_name = ''
-  @Expose()
-  email = ''
+  email: string = ''
   @Expose()
   phone_number?: string = ''
-
-  public get full_name () {
-    return `${this.first_name} ${this.last_name}`
-  }
+  @Expose()
+  provider?: string = ''
+  @Expose()
+  blocked: boolean = false
+  @Expose()
+  confirmed: boolean = false
 }
