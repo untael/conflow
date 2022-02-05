@@ -23,8 +23,7 @@ export default {
     const { signUpByProviders, getMe } = useAuth()
     onMounted(async () => {
       await signUpByProviders(props.provider, route.query)
-      const user = await getMe()
-      console.log('user', user)
+      await getMe()
       router.push({ name: 'Dashboard' })
     })
     return {}

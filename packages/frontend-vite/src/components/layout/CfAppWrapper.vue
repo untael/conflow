@@ -15,9 +15,8 @@
 import CfFooter from '@/components/layout/CfFooter.vue'
 import CfHeader from '@/components/layout/CfHeader.vue'
 import CfTopbar from '@/components/layout/CfTopbar.vue'
-import { onMounted, provide, Ref, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useAuth } from '@/composables/useAuth'
-import User from '@/api/User/User'
 
 export default {
   name: 'CfAppWrapper',
@@ -28,10 +27,8 @@ export default {
   },
   setup () {
     const { getMe } = useAuth()
-    const user: Ref<User | null> = ref(null)
-    provide('currentUser', user)
     onMounted(async () => {
-      user.value = await getMe()
+      await getMe()
     })
     return {
     }

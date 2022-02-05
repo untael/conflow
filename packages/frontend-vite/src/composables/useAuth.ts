@@ -2,10 +2,24 @@ import axios from 'axios'
 import qs from 'qs'
 import { plainToClass } from 'class-transformer'
 import User from '@/api/User/User'
-import { Ref, ref } from 'vue'
+import { computed, reactive, Ref, ref } from 'vue'
+
+type AuthStorage = {
+  user: {
+    value: User | null,
+    isLoading: boolean
+  }
+}
+
+const authStorage: AuthStorage = {
+  user: reactive({
+    isLoading: false,
+    value: null,
+  }),
+}
 
 export const useAuth = () => {
-  const user: Ref<User | null> = ref(new User())
+  const currentUser = computed(() => authStorage.user)
 
   const signUpByProviders = async (provider: string, query: any) => {
     const stringifiedQuery = qs.stringify(query)
@@ -19,18 +33,25 @@ export const useAuth = () => {
     if (!token) {
       return null
     }
+    authStorage.user.isLoading = true
     const user: any = (await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     })).data
     const mappedUser = plainToClass(User, user, { excludeExtraneousValues: true })
-    return mappedUser
+    authStorage.user.value = mappedUser
+    authStorage.user.isLoading = false
   }
 
+  const signOut = () => {
+    localStorage.removeItem('token')
+    authStorage.user.value = null
+  }
   return {
-    user,
+    currentUser,
     signUpByProviders,
     getMe,
+    signOut,
   }
 }

@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer'
 
-export default interface IUser {
+interface IUser {
   id: string;
   username: string;
   email: string;

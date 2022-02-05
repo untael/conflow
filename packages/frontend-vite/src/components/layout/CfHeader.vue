@@ -2,20 +2,27 @@
   <header class="cf-header px-4 z-20 flex items-center shadow">
     <div class="cf-header__controls row items-center justify-between">
       <cf-logo/>
-      <div v-if="!user">
-        <va-button color="primary" class="mr-2" @click="$router.push({name: 'Sign up'})">
-          Sign up
-        </va-button>
-        <va-button color="success" @click="$router.push({name: 'Login'})">
-          Login
-        </va-button>
-      </div>
-      <div class="flex justify-center items-center" v-else>
-        <div class="mr-2">
-          {{ user?.username }}
+      <cf-spinner
+          color="rgb(44, 130, 224)"
+          :size="32"
+          v-if="currentUser.isLoading"
+      />
+      <template v-else>
+        <div v-if="!currentUser.value">
+          <va-button color="primary" class="mr-2" @click="$router.push({name: 'Sign up'})">
+            Sign up
+          </va-button>
+          <va-button color="success" @click="$router.push({name: 'Login'})">
+            Login
+          </va-button>
         </div>
-        <va-button rounded="true" flat icon="logout" @click="$router.push({name: 'Login'})"/>
-      </div>
+        <div class="flex justify-center items-center" v-else>
+          <div class="mr-2">
+            {{ currentUser.value.username }}
+          </div>
+          <va-button rounded="true" flat icon="logout" @click="signOut"/>
+        </div>
+      </template>
     </div>
   </header>
 </template>
@@ -23,16 +30,17 @@
 <script lang="ts">
 
 import CfLogo from '@/components/CfLogo.vue'
-import { inject } from 'vue'
-import User from '@/api/User/User'
+import { useAuth } from '@/composables/useAuth'
+import CfSpinner from '@/components/CfSpinner.vue'
 
 export default {
   name: 'CfHeader',
-  components: { CfLogo },
+  components: { CfSpinner, CfLogo },
   setup () {
-    const user: User | undefined = inject('currentUser')
+    const { currentUser, signOut } = useAuth()
     return {
-      user,
+      currentUser,
+      signOut,
     }
   },
 
