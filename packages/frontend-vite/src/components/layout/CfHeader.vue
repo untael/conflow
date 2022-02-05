@@ -12,7 +12,7 @@
       </div>
       <div class="flex justify-center items-center" v-else>
         <div class="mr-2">
-          {{ user.username }}
+          {{ user?.username }}
         </div>
         <va-button rounded="true" flat icon="logout" @click="$router.push({name: 'Login'})"/>
       </div>
@@ -24,12 +24,13 @@
 
 import CfLogo from '@/components/CfLogo.vue'
 import { inject } from 'vue'
+import User from '@/api/User/User'
 
 export default {
   name: 'CfHeader',
   components: { CfLogo },
   setup () {
-    const user = inject('currentUser')
+    const user: User | undefined = inject('currentUser')
     return {
       user,
     }

@@ -33,7 +33,6 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useValidation } from '@/composables/useValidation'
-import { useAuth } from '@/composables/useAuth'
 import { useRoute } from 'vue-router'
 import { useUrl } from '@/composables/useUrl'
 import CfGithubIcon from '@/components/CfGithubIcon.vue'
@@ -43,7 +42,6 @@ export default {
   name: 'CfRegisterForm',
   components: { CfGoogleIcon, CfGithubIcon },
   setup () {
-    const { register } = useAuth()
     const { APIUrl } = useUrl()
     const route = useRoute()
     const { emailRules } = useValidation()

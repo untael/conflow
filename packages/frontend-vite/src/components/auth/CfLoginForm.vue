@@ -27,12 +27,10 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useValidation } from '@/composables/useValidation'
-import { useAuth } from '@/composables/useAuth'
 
 export default {
   name: 'CfLoginForm',
   setup () {
-    const { login } = useAuth()
     const { emailRules } = useValidation()
     const email = ref('')
     const password = ref('')
