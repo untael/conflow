@@ -17,7 +17,7 @@
           </va-button>
         </div>
         <div class="flex justify-center items-center" v-else>
-          <div class="mr-2">
+          <div class="mr-2 cursor-pointer" @click="$router.push({name: 'User profile'})">
             {{ currentUser.value.username }}
           </div>
           <va-button rounded="true" flat icon="logout" @click="signOut"/>

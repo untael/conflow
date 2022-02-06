@@ -37,7 +37,13 @@
           </div>
           <div class="ml-1 flex-grow basis-1/2">
             Interviewers:
-            <va-select v-model="interview.interviewers" :options="[]" multiple/>
+            <va-select
+                v-model="interview.interviewers"
+                text-by="full_name"
+                track-by="id"
+                :options="interviewers"
+                multiple
+            />
           </div>
         </cf-container-row>
 
@@ -114,6 +120,8 @@ import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
 import { useRoute } from 'vue-router'
+import { useUser } from '@/composables/useUser'
+import User from '@/api/User/User'
 
 
 export default {
@@ -133,9 +141,11 @@ export default {
     const { $panel } = usePanel()
     const { $emitter } = useEmitter()
     const { interview, interviewAPIHandlers } = useInterview()
+    const { userAPIHandlers } = useUser()
     const { interviewTemplateAPIHandlers } = useInterviewTemplate()
     const interviewTypes: Ref<InterviewType[]> = ref([])
     const candidateLevels: Ref<CandidateLevel[]> = ref([])
+    const interviewers: Ref<User[]> = ref([])
     const isLoading = ref(false)
     const onSave = async () => {
       await interviewAPIHandlers.create(interview.value)
@@ -151,9 +161,11 @@ export default {
       await Promise.all([
         await interviewTemplateAPIHandlers.getTypes(),
         await interviewTemplateAPIHandlers.getCandidateLevels(),
+        await userAPIHandlers.getMany(),
       ]).then((data) => {
         interviewTypes.value = data[0]
         candidateLevels.value = data[1]
+        interviewers.value = data[2]
       })
       isLoading.value = false
     })
@@ -208,6 +220,7 @@ export default {
       initQuestionsPanel,
       interviewTypes,
       candidateLevels,
+      interviewers,
       toggleTemplateText,
       handleToggleTemplate,
     }

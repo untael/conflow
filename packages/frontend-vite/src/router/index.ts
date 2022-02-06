@@ -31,6 +31,8 @@ import CfInterviewDashboardPanelWrapper
 import CfInterviewTemplateListPanelWrapper
   from '@/components/interview/template/CfInterviewTemplateListPanelWrapper.vue'
 import CfProvidersRedirect from '@/views/CfProvidersRedirect.vue'
+import CfUserProfilePanelWrapper
+  from '@/components/profile/panels/CfUserProfilePanelWrapper.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -56,6 +58,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/tags',
         name: 'CfTagsList',
         component: CfTagsList,
+      },
+      {
+        path: '/me/profile',
+        name: 'User profile',
+        component: CfUserProfilePanelWrapper,
       },
       {
         path: '/addTag',
