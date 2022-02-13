@@ -76,7 +76,7 @@ interface IInterview extends IEvent {
   candidate?: Candidate | string;
   recruiters?: Employee[];
   interviewers?: Employee[];
-  business?: Business;
+  // business?: Business;
   questions?: Question[];
   note?: string;
   interviewTemplate?: InterviewTemplate | null;
@@ -88,15 +88,17 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   @Type(() => InterviewType)
+  @Transform(({ value }) => value.id, { toPlainOnly: true })
   type: InterviewType | null = null
 
   @Expose()
   @Type(() => CandidateLevel)
+  @Transform(({ value }) => value.id, { toPlainOnly: true })
   candidate_levels: CandidateLevel[] = []
 
   @Expose()
   @Type(() => Candidate)
-  @Transform(({ value }) => value)
+  @Transform(({ value }) => value, { toPlainOnly: true })
   candidate: Candidate | string = ''
 
   @Expose()
@@ -105,10 +107,11 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   @Type(() => Employee)
+  @Transform(({ value }) => value.map((interviewer: Question) => interviewer.id), { toPlainOnly: true })
   interviewers: Employee[] = []
 
-  @Expose()
-  business: Business = new Business()
+  // @Expose()
+  // business: Business = new Business()
 
   @Expose()
   @Type(() => Question)
@@ -124,7 +127,7 @@ export default class Interview extends Event implements IInterview {
   @Expose()
   note: string = ''
 
-  @Expose()
+  @Expose({ toClassOnly: true })
   @Type(() => InterviewTemplate)
   interviewTemplate: InterviewTemplate | null = null
 
