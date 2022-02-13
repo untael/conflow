@@ -29,11 +29,12 @@ export default class Event implements IEvent {
     const minutes = new Date(value).getMinutes() < 10 ? '0' + new Date(value).getMinutes() : new Date(value).getMinutes()
     const seconds = new Date(value).getSeconds() < 10 ? '0' + new Date(value).getSeconds() : new Date(value).getSeconds()
     const milliseconds = new Date(value).getMilliseconds()
-    return `${hours}:${minutes}:${seconds}.${milliseconds}`
+    const result = `${hours}:${minutes}:${seconds}.${milliseconds}`
+    return result
   }, { toPlainOnly: true })
   @Transform(({ value, obj }) => {
     return new Date(`${obj.date} ${value.substring(0, 5)}`)
-  })
+  }, { toClassOnly: true })
   time: Date = new Date()
 
   @Expose({ name: '_created_at' })

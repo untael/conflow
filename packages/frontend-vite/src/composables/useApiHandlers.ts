@@ -1,4 +1,4 @@
-import { classToPlain, plainToClass } from 'class-transformer'
+import { classToPlain, plainToClass, plainToInstance } from 'class-transformer'
 import axios from 'axios'
 import { useToast } from '@/composables/useToast'
 import { Ref, ref } from 'vue'
@@ -27,9 +27,10 @@ export const useApiHandlers = () => {
     const classInstance = getClassInstance(classValue)
     try {
       const plainEntity: any = (await axiosInstance.get(`/${classValue.endpoint}/${id}`)).data
-      const mappedEntity = plainToClass(classInstance, plainEntity, { excludeExtraneousValues: true })
+      const mappedEntity = plainToInstance(classInstance, plainEntity, { excludeExtraneousValues: true })
       return mappedEntity
     } catch (error) {
+      console.log('error', error)
       throw new Error()
     }
   }
