@@ -93,7 +93,7 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   @Type(() => CandidateLevel)
-  @Transform(({ value }) => value.id, { toPlainOnly: true })
+  @Transform(({ value }) => value.map((level: Question) => level.id), { toPlainOnly: true })
   candidate_levels: CandidateLevel[] = []
 
   @Expose()

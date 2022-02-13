@@ -16,7 +16,7 @@ export default {
   props: {
     editable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     addable: {
       type: Boolean,
