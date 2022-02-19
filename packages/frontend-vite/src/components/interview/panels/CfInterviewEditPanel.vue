@@ -162,10 +162,10 @@ export default {
         await interviewTemplateAPIHandlers.getTypes(),
         await interviewTemplateAPIHandlers.getCandidateLevels(),
         await userAPIHandlers.getMany(),
-      ]).then((data) => {
-        interviewTypes.value = data[0]
-        candidateLevels.value = data[1]
-        interviewers.value = data[2]
+      ]).then(([fetchedTypes, fetchedLevels, fetchedInterviewers]) => {
+        interviewTypes.value = fetchedTypes
+        candidateLevels.value = fetchedLevels
+        interviewers.value = fetchedInterviewers
       })
       isLoading.value = false
     })

@@ -69,6 +69,14 @@ export const candidateLevelIterator = [
   },
 ]
 
+export enum InterviewStatusEnum {
+  Incoming = 'incoming',
+  InProgress = 'in_progress',
+  Finished = 'finished'
+}
+
+type InterviewStatus = InterviewStatusEnum.Incoming | InterviewStatusEnum.InProgress | InterviewStatusEnum.Finished
+
 interface IInterview extends IEvent {
   id: string,
   type: InterviewType | null;
@@ -80,6 +88,7 @@ interface IInterview extends IEvent {
   questions?: Question[];
   note?: string;
   interviewTemplate?: InterviewTemplate | null;
+  status: InterviewStatus;
 }
 
 export default class Interview extends Event implements IInterview {
@@ -130,6 +139,9 @@ export default class Interview extends Event implements IInterview {
   @Expose({ toClassOnly: true })
   @Type(() => InterviewTemplate)
   interviewTemplate: InterviewTemplate | null = null
+
+  @Expose()
+  status: InterviewStatus = InterviewStatusEnum.Incoming
 
   discardInterviewTemplate () {
     if (this.interviewTemplate?.name === this.name) {

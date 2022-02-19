@@ -5,10 +5,10 @@
     </div>
     <div class="flex justify-end">
       <va-button class="flex-none" color="secondary" @click="$emit('cancel')">
-        Cancel
+        {{ cancelButtonText }}
       </va-button>
       <va-button class="flex-none ml-2" color="primary" @click="$emit('save')" :loading="loading">
-        Save
+        {{ saveButtonText }}
       </va-button>
     </div>
   </div>
@@ -22,8 +22,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    saveButtonText: {
+      type: String,
+      default: 'Save',
+    },
+    cancelButtonText: {
+      type: String,
+      default: 'Cancel',
+    },
   },
-  data () {
+  setup () {
     return {}
   },
 }

@@ -33,6 +33,8 @@ import CfInterviewTemplateListPanelWrapper
 import CfProvidersRedirect from '@/views/CfProvidersRedirect.vue'
 import CfUserProfilePanelWrapper
   from '@/components/profile/panels/CfUserProfilePanelWrapper.vue'
+import CfInterviewProcessPanelWrapper
+  from '@/components/interview/CfInterviewProcessPanelWrapper.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -107,11 +109,6 @@ const routes: Array<RouteRecordRaw> = [
               editable: true,
             },
           },
-          {
-            path: 'process',
-            name: 'Interview process',
-            component: CfInterviewProcessPage,
-          },
         ],
       },
       {
@@ -141,6 +138,11 @@ const routes: Array<RouteRecordRaw> = [
             path: ':id/edit',
             name: 'Interview edit',
             component: CfInterviewEditPanelWrapper,
+          },
+          {
+            path: ':id/process',
+            name: 'Interview process',
+            component: CfInterviewProcessPanelWrapper,
           },
           {
             path: 'list',
