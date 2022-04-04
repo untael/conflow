@@ -72,10 +72,11 @@ export const candidateLevelIterator = [
 export enum InterviewStatusEnum {
   Incoming = 'incoming',
   InProgress = 'in_progress',
-  Finished = 'finished'
+  Finished = 'finished',
+  Cancelled = 'cancelled'
 }
 
-type InterviewStatus = InterviewStatusEnum.Incoming | InterviewStatusEnum.InProgress | InterviewStatusEnum.Finished
+type InterviewStatus = InterviewStatusEnum.Incoming | InterviewStatusEnum.InProgress | InterviewStatusEnum.Finished | InterviewStatusEnum.Cancelled
 
 interface IInterview extends IEvent {
   id: string,

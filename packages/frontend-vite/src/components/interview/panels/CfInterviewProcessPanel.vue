@@ -1,5 +1,10 @@
 <template>
-  <cf-interview-process-incoming-form v-if="interview.status === 'incoming'" :interview="interview" :loading="isLoading"/>
+    <cf-interview-process-incoming-form
+        v-if="interview.status === 'incoming'"
+        :interview="interview"
+        :loading="isLoading"
+        @cancel="cancel"
+    />
 </template>
 
 <script lang="ts">
@@ -40,9 +45,13 @@ export default {
       isLoading.value = false
     })
 
+    const cancel = async () => {
+      interview.value = await interviewAPIHandlers.cancel()
+    }
     return {
       isLoading,
       interview,
+      cancel,
     }
   },
 

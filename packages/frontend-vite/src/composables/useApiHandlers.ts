@@ -64,15 +64,18 @@ export const useApiHandlers = () => {
     }
 
   }
-  const update = async (classValue: any) => {
+  const update = async (classValue: any): Promise<any> => {
+    const classInstance = getClassInstance(classValue)
     try {
       const plainValue = classToPlain(classValue)
-      await axiosInstance.put(`/${classValue.endpoint}/${plainValue.id}`, plainValue)
+      const plainEntity = (await axiosInstance.put(`/${classValue.endpoint}/${plainValue.id}`, plainValue)).data
       $toast.init({
         message: `${classValue.endpoint} was successfully updated`,
         color: 'success',
       })
+      return plainToInstance(classInstance, plainEntity, { excludeExtraneousValues: true })
     } catch (error) {
+      console.log('error', error)
       $toast.init({
         message: `${classValue.endpoint} was not updated`,
         color: 'danger',

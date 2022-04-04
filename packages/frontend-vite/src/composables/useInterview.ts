@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import Interview from '@/api/Interview/Interview'
+import Interview, { InterviewStatusEnum } from '@/api/Interview/Interview'
 import { useApiHandlers } from '@/composables/useApiHandlers'
 
 export const useInterview = () => {
@@ -20,6 +20,19 @@ export const useInterview = () => {
     },
     delete: (interview: Interview) => {
 
+    },
+    //ToDo: Move this to backend separate method
+    cancel: async () => {
+      const interviewToCancel = await getOne(interview.value as any, interview.value.id)
+      switch (interviewToCancel.status) {
+        case InterviewStatusEnum.Cancelled:
+          return interviewToCancel
+          break
+        case InterviewStatusEnum.Incoming:
+          interviewToCancel.status = InterviewStatusEnum.Cancelled
+          return await update(interviewToCancel)
+          break
+      }
     },
   }
 

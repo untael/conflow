@@ -4,10 +4,7 @@
       {{ interview.name }} Interview
     </template>
     <template #default>
-      <cf-container-row class="font-bold">
-        Interview summary:
-      </cf-container-row>
-      <cf-container-row>
+      <cf-container-row title="Interview summary:">
         <div class="flex justify-start items-center text-xs">
           <div class="py-2 flex-none basis-1/3">
             Date:
@@ -58,10 +55,7 @@
         </div>
       </cf-container-row>
 
-      <cf-container-row class="font-bold">
-        Candidate summary:
-      </cf-container-row>
-      <cf-container-row>
+      <cf-container-row title="Candidate summary:">
         <div class="flex justify-start items-center text-xs">
           <div class="py-2 flex-none basis-1/3">
             Name:
@@ -96,7 +90,7 @@
       <cf-control-buttons
           saveButtonText="Start"
           cancelButtonText="Abort"
-          @cancel="onCancel"
+          @cancel="cancelInterview"
           @save="onSave"
       />
     </template>
@@ -106,10 +100,13 @@
 <script lang="ts">
 import Interview from '@/api/Interview/Interview'
 import CfContainer from '@/components/layout/CfContainer.vue'
+import CfContainerRow from '@/components/layout/CfContainerRow.vue'
+import CfControlButtons from '@/components/layout/CfControlButtons.vue'
+import { useInterview } from '@/composables/useInterview'
 
 export default {
   name: 'CfInterviewProcessIncomingForm',
-  components: { CfContainer },
+  components: { CfControlButtons, CfContainerRow, CfContainer },
   props: {
     interview: {
       type: Interview,
@@ -119,16 +116,17 @@ export default {
       type: Boolean,
     },
   },
-  setup () {
+  setup (props: any, {emit}:any) {
+    const { interviewAPIHandlers } = useInterview();
     const onSave = () => {
 
     }
-    const onCancel = () => {
-
+    const cancelInterview = () => {
+      emit('cancel')
     }
     return {
       onSave,
-      onCancel,
+      cancelInterview,
     }
   },
 
