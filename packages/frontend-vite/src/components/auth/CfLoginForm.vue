@@ -13,6 +13,10 @@
       <va-button color="success" @click="signIn" gradient type="submit">Submit</va-button>
     </va-card-content>
 
+    <va-card-content class="d-flex flex-col">
+      <cf-auth-providers/>
+    </va-card-content>
+
     <hr>
 
     <va-card-content class="d-flex flex-col pt-4 divide-y">
@@ -27,9 +31,11 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useValidation } from '@/composables/useValidation'
+import CfAuthProviders from '@/components/auth/CfAuthProviders.vue'
 
 export default {
   name: 'CfLoginForm',
+  components: { CfAuthProviders },
   setup () {
     const { emailRules } = useValidation()
     const email = ref('')
