@@ -10,6 +10,8 @@
           v-for="(interview, index) in interviews"
           :key="`${index}-${interview.id}`"
           :interview="interview"
+          @preview="showInterviewPreview(interview)"
+
       />
     </template>
   </cf-container>
@@ -22,6 +24,8 @@ import Interview from '@/api/Interview/Interview'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfInterviewListItem
   from '@/components/interview/panels/CfInterviewListItem.vue'
+import { PanelNames } from '@/components/panels'
+import { usePanel } from '@/composables/usePanel'
 
 export default {
   name: 'CfInterviewListPanel',
@@ -30,14 +34,23 @@ export default {
     const { interviewAPIHandlers } = useInterview()
     const interviews: Ref<Interview[]> = ref([])
     const isLoading = ref(false)
+    const { $panel } = usePanel()
+
     onMounted(async () => {
       isLoading.value = true
       interviews.value = await interviewAPIHandlers.getMany()
       isLoading.value = false
     })
+    const showInterviewPreview = (interview:Interview) => {
+      console.log(123)
+      $panel.init(PanelNames.InterviewProcessPanel, {
+        id: interview.id,
+      })
+    }
     return {
       interviews,
       isLoading,
+      showInterviewPreview,
     }
   },
 

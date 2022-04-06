@@ -7,6 +7,7 @@
     <template #header>
       <div class="va-collapse__header__content">
         <div class="va-collapse__header__text">{{ interview.name }}</div>
+        <va-button  size="small" class="mx-1" flat icon="preview" @click.stop="$emit('preview')"/>
         <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
         <va-button v-if="addable" size="small" class="mx-1" flat icon="add" @click.stop="$emit('add')"/>
         <!--        <va-button v-if="canBeRemoved" size="small" class="mx-1" flat icon="remove" @click.stop="$emit('remove')"/>-->

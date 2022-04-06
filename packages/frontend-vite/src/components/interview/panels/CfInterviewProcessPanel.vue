@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useInterview } from '@/composables/useInterview'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 import CfInterviewProcessIncomingForm
@@ -33,6 +33,7 @@ export default {
   },
   setup (props: any) {
     const route = useRoute()
+    const router = useRouter()
     const isLoading = ref(false)
     const { interview, interviewAPIHandlers } = useInterview()
 
@@ -43,6 +44,23 @@ export default {
         interview.value = await interviewAPIHandlers.getOne(interviewId || props.id)
       }
       isLoading.value = false
+    })
+
+    const fetchInterview = async () => {
+      const interviewId = route.params.id as string
+      if (interviewId || props.id) {
+        try {
+          isLoading.value = true
+          interview.value = await interviewAPIHandlers.getOne(interviewId || props.id)
+          isLoading.value = false
+        } catch {
+          await router.push({ name: 'Not found' })
+        }
+      }
+    }
+
+    watch(props, async () => {
+      await fetchInterview()
     })
 
     const cancel = async () => {
