@@ -10,7 +10,9 @@
           v-for="(interview, index) in interviews"
           :key="`${index}-${interview.id}`"
           :interview="interview"
+          :editable="editable"
           @preview="showInterviewPreview(interview)"
+          @edit="editInterview(interview)"
 
       />
     </template>
@@ -30,6 +32,16 @@ import { usePanel } from '@/composables/usePanel'
 export default {
   name: 'CfInterviewListPanel',
   components: { CfInterviewListItem, CfContainer },
+  props: {
+    editable: {
+      type: Boolean,
+      default: false,
+    },
+    addable: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup () {
     const { interviewAPIHandlers } = useInterview()
     const interviews: Ref<Interview[]> = ref([])
@@ -41,9 +53,14 @@ export default {
       interviews.value = await interviewAPIHandlers.getMany()
       isLoading.value = false
     })
-    const showInterviewPreview = (interview:Interview) => {
-      console.log(123)
+    const showInterviewPreview = (interview: Interview) => {
       $panel.init(PanelNames.InterviewProcessPanel, {
+        id: interview.id,
+      })
+    }
+    const editInterview = (interview: Interview) => {
+      console.log(333)
+      $panel.init(PanelNames.InterviewEditPanel, {
         id: interview.id,
       })
     }
@@ -51,6 +68,7 @@ export default {
       interviews,
       isLoading,
       showInterviewPreview,
+      editInterview,
     }
   },
 

@@ -150,6 +150,12 @@ const routes: Array<RouteRecordRaw> = [
             component: CfInterviewListPanelWrapper,
           },
           {
+            path: 'list/editable',
+            name: 'Interviews list editable',
+            component: CfInterviewListPanelWrapper,
+            props: { editable: true },
+          },
+          {
             path: 'instant',
             name: 'Interview wizard',
             component: CfInterviewWizard,

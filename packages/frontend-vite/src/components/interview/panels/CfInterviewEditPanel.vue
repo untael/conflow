@@ -107,7 +107,7 @@ import CfContainer from '@/components/layout/CfContainer.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 import { useInterview } from '@/composables/useInterview'
-import { computed, onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, Ref, ref, watch } from 'vue'
 import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
 import { usePanel } from '@/composables/usePanel'
 import { PanelNames } from '@/components/panels'
@@ -119,7 +119,7 @@ import CfQuestionItem from '@/components/question/CfQuestionItem.vue'
 import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUser } from '@/composables/useUser'
 import User from '@/api/User/User'
 
@@ -138,6 +138,7 @@ export default {
   },
   setup (props: any) {
     const route = useRoute()
+    const router = useRouter()
     const { $panel } = usePanel()
     const { $emitter } = useEmitter()
     const { interview, interviewAPIHandlers } = useInterview()
@@ -209,6 +210,22 @@ export default {
         addable: true,
       })
     }
+    const fetchInterview = async () => {
+      const interviewId = route.params.id as string
+      if (interviewId || props.id) {
+        try {
+          isLoading.value = true
+          interview.value = await interviewAPIHandlers.getOne(interviewId || props.id)
+          isLoading.value = false
+        } catch {
+          await router.push({ name: 'Not found' })
+        }
+      }
+    }
+
+    watch(props, async () => {
+      await fetchInterview()
+    })
 
     return {
       isLoading,
