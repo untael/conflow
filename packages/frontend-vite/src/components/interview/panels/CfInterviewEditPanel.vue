@@ -149,7 +149,12 @@ export default {
     const interviewers: Ref<User[]> = ref([])
     const isLoading = ref(false)
     const onSave = async () => {
-      await interviewAPIHandlers.create(interview.value)
+      if (!props.id) {
+        await interviewAPIHandlers.create(interview.value)
+      } else {
+        await interviewAPIHandlers.update(interview.value)
+
+      }
     }
     const toggleTemplateText = computed(() => interview.value.interviewTemplate ? 'Discard' : 'Apply')
 
