@@ -1,10 +1,23 @@
 <template>
-    <cf-interview-process-incoming-form
-        v-if="interview.status === 'incoming'"
-        :interview="interview"
-        :loading="isLoading"
-        @cancel="cancel"
-    />
+  <cf-interview-incoming-form
+      v-if="interview.status === 'incoming'"
+      :interview="interview"
+      :loading="isLoading"
+      @cancel="cancel"
+  />
+  <cf-interview-progress-form
+      v-if="interview.status === 'in_progress'"
+      :interview="interview"
+      :loading="isLoading"
+      @cancel="cancel"
+  />
+  <cf-interview-cancelled-form
+      v-if="interview.status === 'cancelled'"
+      :interview="interview"
+      :loading="isLoading"
+      @cancel="cancel"
+  />
+
 </template>
 
 <script lang="ts">
@@ -14,16 +27,22 @@ import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useInterview } from '@/composables/useInterview'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
-import CfInterviewProcessIncomingForm
-  from '@/components/interview/panels/CfInterviewProcessIncomingForm.vue'
+import CfInterviewProgressForm
+  from '@/components/interview/panels/CfInterviewProgressForm.vue'
+import CfInterviewIncomingForm
+  from '@/components/interview/panels/CfInterviewIncomingForm.vue'
+import CfInterviewCancelledForm
+  from '@/components/interview/panels/CfInterviewCancelledForm.vue'
 
 export default {
   name: 'CfInterviewProcessPanel',
   components: {
-    CfInterviewProcessIncomingForm,
+    CfInterviewIncomingForm,
     CfContainerRow,
     CfControlButtons,
     CfContainer,
+    CfInterviewProgressForm,
+    CfInterviewCancelledForm,
   },
   props: {
     id: {

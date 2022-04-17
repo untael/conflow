@@ -105,7 +105,7 @@ import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import { useInterview } from '@/composables/useInterview'
 
 export default {
-  name: 'CfInterviewProcessIncomingForm',
+  name: 'CfInterviewIncomingForm',
   components: { CfControlButtons, CfContainerRow, CfContainer },
   props: {
     interview: {
@@ -116,8 +116,8 @@ export default {
       type: Boolean,
     },
   },
-  setup (props: any, {emit}:any) {
-    const { interviewAPIHandlers } = useInterview();
+  setup (props: any, { emit }: any) {
+    const { interviewAPIHandlers } = useInterview()
     const onSave = () => {
 
     }

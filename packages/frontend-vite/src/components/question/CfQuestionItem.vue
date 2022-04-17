@@ -77,6 +77,16 @@
               <div class="flex items-center flex-none test">
                 <va-rating color="#86a17d" v-model="question.mark" size="small"/>
               </div>
+              <va-chip :outline="!comment.chosen" v-for="(comment,index) in
+          shortComments"
+                       :key="index" @click="toggleShort(index)">
+                {{ comment.name }}
+              </va-chip>
+              <va-input
+                  class="mb-4"
+                  type="textarea"
+                  placeholder="Comment"
+              />
             </div>
           </div>
         </div>
@@ -87,7 +97,7 @@
 
 <script lang="ts">
 import Question from '@/api/Question/Question'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 
 export default {
@@ -124,12 +134,29 @@ export default {
     }
   },
   setup (props: any) {
+    onMounted(() => {
+      console.log('kjhjhgj', props.question)
+    })
+    const shortComments = ref([{ name: 'fast', chosen: false }, {
+      name: 'clever',
+      chosen: false,
+    },
+      { name: 'best practice', chosen: false },
+      { name: 'slow', chosen: false },
+      { name: 'mistakes', chosen: false }, { name: 'hints', chosen: false }])
     const showAnswer = ref(false)
     const questionIcon = ref('')
+    let outlineChip = ref(true)
+    const toggleShort = (index: number) => {
+      shortComments.value[index].chosen = !shortComments.value[index].chosen
+    }
     questionIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
     return {
       questionIcon,
       showAnswer,
+      shortComments,
+      toggleShort,
+      outlineChip,
     }
   },
 }

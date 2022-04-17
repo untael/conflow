@@ -76,7 +76,11 @@ export enum InterviewStatusEnum {
   Cancelled = 'cancelled'
 }
 
-type InterviewStatus = InterviewStatusEnum.Incoming | InterviewStatusEnum.InProgress | InterviewStatusEnum.Finished | InterviewStatusEnum.Cancelled
+type InterviewStatus =
+  InterviewStatusEnum.Incoming
+  | InterviewStatusEnum.InProgress
+  | InterviewStatusEnum.Finished
+  | InterviewStatusEnum.Cancelled
 
 interface IInterview extends IEvent {
   id: string,
@@ -126,12 +130,12 @@ export default class Interview extends Event implements IInterview {
   @Expose()
   @Type(() => Question)
   @Transform(({ value }) => value.map((question: Question) => question.id), { toPlainOnly: true })
-  @Transform(({ value }) => value.map((question: Question) => {
-    return {
-      ...question,
-      is_template_question: true,
-    }
-  }), { toClassOnly: true })
+    // @Transform(({ value }) => value.map((question: Question) => {
+    //   return {
+    //     ...question,
+    //     is_template_question: true,
+    //   }
+    // }), { toClassOnly: true })
   questions: Question[] = []
 
   @Expose()
