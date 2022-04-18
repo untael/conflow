@@ -17,7 +17,6 @@
       :loading="isLoading"
       @cancel="cancel"
   />
-
 </template>
 
 <script lang="ts">
@@ -35,7 +34,7 @@ import CfInterviewCancelledForm
   from '@/components/interview/panels/CfInterviewCancelledForm.vue'
 
 export default {
-  name: 'CfInterviewProcessPanel',
+  name: 'CfInterviewPreviewPanel',
   components: {
     CfInterviewIncomingForm,
     CfContainerRow,

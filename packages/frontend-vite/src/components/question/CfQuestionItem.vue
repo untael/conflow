@@ -46,48 +46,53 @@
               {{ tag.name }}
             </va-chip>
           </div>
-          <div v-if="canBeStarted" class="py-2 flex items-center">
-            <div v-if="!question.is_completed" class="flex justify-end">
-              <va-button
-                  v-if="!question.is_in_progress"
-                  @click="question.start()"
-                  color="#86a17d"
-                  size="small"
-                  class="flex-none"
-                  :rounded="false"
-                  outline
-                  icon="play_arrow"
-              />
-              <va-button
-                  v-if="question.is_in_progress"
-                  @click="question.end()"
-                  color="#c31020"
-                  size="small"
-                  class="flex-none"
-                  :rounded="false"
-                  outline
-                  icon="stop"
-              />
-            </div>
-
-            <div v-else class="flex flex-col flex-none ml-auto items-start justify-between text-xs">
+        </div>
+        <div v-if="canBeStarted" class="py-2 flex items-center">
+          <div v-if="!question.is_completed" class="flex px-2">
+            <va-button
+                v-if="!question.is_in_progress"
+                @click="question.start()"
+                color="#86a17d"
+                size="small"
+                class="flex-none"
+                :rounded="false"
+                outline
+                icon="play_arrow"
+            />
+            <va-button
+                v-if="question.is_in_progress"
+                @click="question.end()"
+                color="#c31020"
+                size="small"
+                class="flex-none"
+                :rounded="false"
+                outline
+                icon="stop"
+            />
+          </div>
+          <div v-else class="flex flex-col flex-none items-start justify-between text-xs">
+            <div class="d-flex justify-between items-center">
               <div class="flex-none text-center test">
                 Time spent: {{ question.formatted_time_spent }}
               </div>
               <div class="flex items-center flex-none test">
                 <va-rating color="#86a17d" v-model="question.mark" size="small"/>
               </div>
-              <va-chip :outline="!comment.chosen" v-for="(comment,index) in
-          shortComments"
-                       :key="index" @click="toggleShort(index)">
+            </div>
+            <div>
+              <va-chip
+                  :outline="!comment.chosen"
+                  v-for="(comment,index) in shortComments"
+                  :key="index" @click="toggleShort(index)"
+              >
                 {{ comment.name }}
               </va-chip>
-              <va-input
-                  class="mb-4"
-                  type="textarea"
-                  placeholder="Comment"
-              />
             </div>
+            <va-input
+                class="mb-4"
+                type="textarea"
+                placeholder="Comment"
+            />
           </div>
         </div>
       </div>

@@ -18,8 +18,8 @@ import CfInterviewListPanel
   from '@/components/interview/panels/CfInterviewListPanel.vue'
 import CfUserProfilePanel
   from '@/components/profile/panels/CfUserProfilePanel.vue'
-import CfInterviewProcessPanel
-  from '@/components/interview/panels/CfInterviewProcessPanel.vue'
+import CfInterviewPreviewPanel
+  from '@/components/interview/panels/CfInterviewPreviewPanel.vue'
 
 export enum PanelNames {
   DashboardPanel = 'Dashboard Panel',
@@ -29,7 +29,7 @@ export enum PanelNames {
   InterviewTemplateEditPanel = 'Interview Template Edit Panel',
   InterviewTemplateListPanel = 'Interview Template List Panel',
   InterviewEditPanel = 'Interview Edit Panel',
-  InterviewProcessPanel = 'Interview Process Panel',
+  InterviewPreviewPanel = 'Interview Process Panel',
   QuestionsDashboardPanel = 'Questions Dashboard Panel',
   QuestionsListPanel = 'Questions List Panel',
   QuestionsEditPanel = 'Questions Edit Panel',
@@ -54,9 +54,9 @@ export const panelsIterator = [
     component: CfInterviewListPanel,
   }),
   new Panel({
-    name: PanelNames.InterviewProcessPanel,
+    name: PanelNames.InterviewPreviewPanel,
     minimized: false,
-    component: CfInterviewProcessPanel,
+    component: CfInterviewPreviewPanel,
   }),
   new Panel({
     name: PanelNames.QuestionsDashboardPanel,

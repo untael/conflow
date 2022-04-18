@@ -9,13 +9,13 @@ import Panel from '@/api/Panel'
 import { useUrl } from '@/composables/useUrl'
 
 export default {
-  name: 'CfInterviewProcessPanelWrapper',
+  name: 'CfInterviewPreviewPanelWrapper',
   components: {
     CfPanelWrapper,
   },
   setup () {
     const { id } = useUrl()
-    const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.InterviewProcessPanel)
+    const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.InterviewPreviewPanel)
     if (panel && id.value) {
       panel.props.id = id.value
     }

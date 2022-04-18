@@ -1,6 +1,6 @@
 <template>
   <div class="py-2">
-    <div class="font-bold">
+    <div class="font-bold" v-if="title">
       {{ title }}
     </div>
     <slot/>

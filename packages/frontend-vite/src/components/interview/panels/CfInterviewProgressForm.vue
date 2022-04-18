@@ -65,8 +65,6 @@
               :question="question"
               class="py-2 grow"
           />
-
-
         </div>
       </cf-container-row>
     </template>

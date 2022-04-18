@@ -1,7 +1,7 @@
 <template>
   <cf-container>
     <template #title>
-      Interview process page
+      Interview preview page
     </template>
 
     <div v-for="(question, i) in questions" :key="i">

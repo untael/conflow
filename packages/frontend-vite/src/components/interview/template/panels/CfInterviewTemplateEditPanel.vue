@@ -5,46 +5,46 @@
     </template>
 
     <template #default>
-        <div>
-          <cf-container-row>
-            Name:
-            <va-input v-model="interviewTemplate.name"/>
-          </cf-container-row>
+      <div>
+        <cf-container-row>
+          Name:
+          <va-input v-model="interviewTemplate.name"/>
+        </cf-container-row>
 
-          <cf-container-row class="flex">
-            <div class="mr-1 flex-grow">
-              Type:
-              <va-select
-                  v-model="interviewTemplate.type"
-                  text-by="name"
-                  :options="interviewTypes"
-              />
-            </div>
-            <div class="ml-1 flex-grow">
-              Candidate level:
-              <va-select
-                  v-model="interviewTemplate.candidate_levels"
-                  text-by="name"
-                  :options="candidateLevels"
-                  multiple
-              />
-            </div>
-          </cf-container-row>
+        <cf-container-row class="flex">
+          <div class="mr-1 flex-grow">
+            Type:
+            <va-select
+                v-model="interviewTemplate.type"
+                text-by="name"
+                :options="interviewTypes"
+            />
+          </div>
+          <div class="ml-1 flex-grow">
+            Candidate level:
+            <va-select
+                v-model="interviewTemplate.candidate_levels"
+                text-by="name"
+                :options="candidateLevels"
+                multiple
+            />
+          </div>
+        </cf-container-row>
 
-          <cf-container-row>
-            Questions:
-            <div v-for="(question, index) in interviewTemplate.questions" :key="`iq-${index}-${question.id}`">
-              <cf-question-item
-                  can-be-removed
-                  @remove="removeTemplateQuestion(question)"
-                  :question="question"
-                  class="py-2 grow"
-              />
-            </div>
-          </cf-container-row>
+        <cf-container-row>
+          Questions:
+          <div v-for="(question, index) in interviewTemplate.questions" :key="`iq-${index}-${question.id}`">
+            <cf-question-item
+                can-be-removed
+                @remove="removeTemplateQuestion(question)"
+                :question="question"
+                class="py-2 grow"
+            />
+          </div>
+        </cf-container-row>
 
-          <va-button @click="initQuestionsPanel" color="primary">Add more</va-button>
-        </div>
+        <va-button @click="initQuestionsPanel" color="primary">Add more</va-button>
+      </div>
 
     </template>
     <template #control-buttons>

@@ -6,8 +6,13 @@
   >
     <template #header>
       <div class="va-collapse__header__content">
-        <div class="va-collapse__header__text">{{ interview.name }}</div>
-        <va-button  size="small" class="mx-1" flat icon="preview" @click.stop="$emit('preview')"/>
+        <div class="va-collapse__header__text d-flex items-center">
+          <va-icon class="va-collapse__header__icon mx-1" :color="interviewIconParams.color" :name="interviewIconParams.name"/>
+          <div>
+            {{ interview.name }}
+          </div>
+        </div>
+        <va-button size="small" class="mx-1" flat icon="preview" @click.stop="$emit('preview')"/>
         <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
         <va-button v-if="addable" size="small" class="mx-1" flat icon="add" @click.stop="$emit('add')"/>
         <!--        <va-button v-if="canBeRemoved" size="small" class="mx-1" flat icon="remove" @click.stop="$emit('remove')"/>-->
@@ -126,8 +131,11 @@
 </template>
 
 <script lang="ts">
-import Interview from '@/api/Interview/Interview'
-import { ref } from 'vue'
+import Interview, {
+  InterviewStatus,
+  InterviewStatusEnum,
+} from '@/api/Interview/Interview'
+import { computed, ref } from 'vue'
 
 export default {
   name: 'CfInterviewListItem',
@@ -145,10 +153,39 @@ export default {
       default: false,
     },
   },
-  setup () {
+  setup (props: any) {
     const value = ref(false)
+    const interviewIconParams = computed(() => {
+      switch(props.interview.status) {
+        case InterviewStatusEnum.Incoming:
+          return {
+            color: 'info',
+            name: 'schedule'
+          }
+          break;
+        case InterviewStatusEnum.InProgress:
+          return {
+            color: 'warning',
+            name: 'interpreter_mode'
+          }
+          break;
+        case InterviewStatusEnum.Finished:
+          return {
+            color: 'success',
+            name: 'task'
+          }
+          break;
+        case InterviewStatusEnum.Cancelled:
+          return {
+            color: 'danger',
+            name: 'person_remove'
+          }
+          break;
+      }
+    })
     return {
-      value
+      value,
+      interviewIconParams,
     }
   },
 

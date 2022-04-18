@@ -54,7 +54,7 @@ export default {
       isLoading.value = false
     })
     const showInterviewPreview = (interview: Interview) => {
-      $panel.init(PanelNames.InterviewProcessPanel, {
+      $panel.init(PanelNames.InterviewPreviewPanel, {
         id: interview.id,
       })
     }

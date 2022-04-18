@@ -1,8 +1,7 @@
-<template class="interviewName">
-  <cf-container :loading="isLoading">
+<template>
+  <cf-container class="cf-interview-cancelled-form" :loading="isLoading">
     <template #title>
-      {{ interview.name }} Interview <span class="cancelled"> Cancelled
-    </span>
+      {{ interview.name }} Interview
     </template>
     <template #default>
       <cf-container-row title="Interview summary:">
@@ -88,9 +87,9 @@
     </template>
 
     <template #control-buttons>
-      <cf-control-buttons
-          cancelButtonText="Hide"
-      />
+      <div class="my-4 text-center text-rose-500 text-5xl">
+        Cancelled
+      </div>
     </template>
   </cf-container>
 </template>
@@ -132,7 +131,6 @@ export default {
 </script>
 
 <style lang="scss">
-.cancelled {
-  color: rgba(255, 0, 0, 0.13);
+.cf-interview-cancelled-form {
 }
 </style>

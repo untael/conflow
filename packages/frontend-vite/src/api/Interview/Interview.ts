@@ -76,7 +76,7 @@ export enum InterviewStatusEnum {
   Cancelled = 'cancelled'
 }
 
-type InterviewStatus =
+export type InterviewStatus =
   InterviewStatusEnum.Incoming
   | InterviewStatusEnum.InProgress
   | InterviewStatusEnum.Finished
