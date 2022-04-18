@@ -12,8 +12,6 @@
     "start": "wt -d packages/frontend --title conflow-frontend cmd /k yarn serve --port 8080; split-pane -d packages/backend --title conflow-backend cmd /k yarn develop",
     "serve:fe": "yarn workspace @conflow/frontend-vite dev",
     "build:fe": "yarn workspace @conflow/frontend-vite build",
-    "serve:be": "yarn workspace @conflow/backend develop",
-    "build:be": "yarn workspace @conflow/backend build"
   },
   "workspaces": [
     "packages/*"
