@@ -72,11 +72,11 @@
 
         <cf-container-row>
           Questions:
-          <div v-for="(question, index) in interview.questions" :key="`iq-${index}-${question.id}`">
+          <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.question.id}`">
             <cf-question-item
                 can-be-removed
-                :question="question"
-                @remove="removeQuestion(question)"
+                :question="interviewQuestion.question"
+                @remove="removeQuestion(interviewQuestion)"
                 class="py-2 grow"
             />
           </div>
@@ -122,6 +122,7 @@ import { useInterviewTemplate } from '@/composables/useInterviewTemplate'
 import { useRoute, useRouter } from 'vue-router'
 import { useUser } from '@/composables/useUser'
 import User from '@/api/User/User'
+import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
 
 
 export default {
@@ -182,16 +183,15 @@ export default {
         initInterviewTemplatePanel()
       }
     }
-    const removeQuestion = (question: Question) => {
-      if (interview.value.interviewTemplate) {
-        const isTemplateQuestion = interview.value.interviewTemplate.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
-        if (isTemplateQuestion) {
-          console.log('question', question)
-          interview.value.interviewTemplate.questions = interview.value.interviewTemplate.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
-        }
-        return
-      }
-      interview.value.questions = interview.value.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
+    const removeQuestion = (interviewQuestion: InterviewQuestion) => {
+      // if (interview.value.interviewTemplate) {
+      //   const isTemplateQuestion = interview.value.interviewTemplate.questions.find((existingQuestion: Question) => existingQuestion.id === interviewQuestion.question.id)
+      //   if (isTemplateQuestion) {
+      //     interview.value.interviewTemplate.questions = interview.value.interviewTemplate.questions.filter((existingQuestion: Question) => existingQuestion.id !== question.id)
+      //   }
+      //   return
+      // }
+      interview.value.questions = interview.value.questions.filter((existingQuestion: InterviewQuestion) => existingQuestion.question.id !== interviewQuestion.question.id)
     }
     const initInterviewTemplatePanel = () => {
       $panel.init(PanelNames.InterviewTemplateListPanel, {
@@ -204,9 +204,11 @@ export default {
     })
 
     $emitter.on(QuestionEvents.Add, (question: Question) => {
-      const isInList = interview.value.questions.find((existingQuestion: Question) => existingQuestion.id === question.id)
+      const isInList = interview.value.questions.find((interviewQuestion: InterviewQuestion) => interviewQuestion.question.id === question.id)
       if (!isInList) {
-        interview.value.questions.push(question)
+        const questionToAdd = new InterviewQuestion()
+        questionToAdd.question = question
+        interview.value.questions.push(questionToAdd)
       }
     })
 

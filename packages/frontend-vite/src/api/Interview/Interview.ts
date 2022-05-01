@@ -8,6 +8,7 @@ import { Expose, Transform, Type } from 'class-transformer'
 import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
+import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
 
 
 export enum InterviewTypeEnum {
@@ -90,7 +91,7 @@ interface IInterview extends IEvent {
   recruiters?: Employee[];
   interviewers?: Employee[];
   // business?: Business;
-  questions?: Question[];
+  questions?: InterviewQuestion[];
   note?: string;
   interviewTemplate?: InterviewTemplate | null;
   status: InterviewStatus;
@@ -128,15 +129,15 @@ export default class Interview extends Event implements IInterview {
   // business: Business = new Business()
 
   @Expose()
-  @Type(() => Question)
-  @Transform(({ value }) => value.map((question: Question) => question.id), { toPlainOnly: true })
+  @Type(() => InterviewQuestion)
+  @Transform(({ value }) => value.map((question: InterviewQuestion) => question.id), { toPlainOnly: true })
     // @Transform(({ value }) => value.map((question: Question) => {
     //   return {
     //     ...question,
     //     is_template_question: true,
     //   }
     // }), { toClassOnly: true })
-  questions: Question[] = []
+  questions: InterviewQuestion[] = []
 
   @Expose()
   note: string = ''
@@ -172,18 +173,24 @@ export default class Interview extends Event implements IInterview {
     if (this.candidate_levels.length === 0) {
       this.candidate_levels = [...interviewTemplate.candidate_levels]
     }
+    let questionsToAdd = []
     if (this.questions.length === 0) {
-      this.questions = [...interviewTemplate.questions]
+      questionsToAdd = interviewTemplate.questions.map((question: Question) => {
+        const questionToAdd = new InterviewQuestion()
+        questionToAdd.question = question
+        return questionToAdd
+      })
     } else {
-      this.questions = this.questions.concat(
-        interviewTemplate.questions.filter((question) => {
-          for (let q of this.questions) {
-            if (q.id === question.id)
-              return false
-          }
-          return true
-        }))
+      interviewTemplate.questions.forEach((question: Question) => {
+        const isInList = this.questions.find((interviewQuestion: InterviewQuestion) => interviewQuestion.question.id === question.id)
+        if (!isInList) {
+          const questionToAdd = new InterviewQuestion()
+          questionToAdd.question = question
+          questionsToAdd.push(questionToAdd)
+        }
+      })
     }
+    this.questions = [...questionsToAdd]
   }
 
   get title (): string {

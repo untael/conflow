@@ -106,7 +106,7 @@ import { onMounted, ref } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 
 export default {
-  name: 'CfQuestionItem',
+  name: 'CfInterviewQuestionItem',
   components: { CfCodeBlock },
   props: {
     question: {
