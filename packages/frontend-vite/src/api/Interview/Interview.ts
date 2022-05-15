@@ -130,7 +130,7 @@ export default class Interview extends Event implements IInterview {
 
   @Expose()
   @Type(() => InterviewQuestion)
-  @Transform(({ value }) => value.map((question: InterviewQuestion) => question.id), { toPlainOnly: true })
+  // @Transform(({ value }) => value.map((question: InterviewQuestion) => question.id), { toPlainOnly: true })
     // @Transform(({ value }) => value.map((question: Question) => {
     //   return {
     //     ...question,
@@ -157,11 +157,15 @@ export default class Interview extends Event implements IInterview {
       this.type = null
     }
     this.candidate_levels = []
-    this.questions = this.questions.filter((question) => !question.is_template_question)
+    this.questions = this.questions.filter((interviewQuestion) => !interviewQuestion.question.is_template_question)
     this.interviewTemplate = null
   }
 
   applyInterviewTemplate (interviewTemplate: InterviewTemplate) {
+    if (this.interviewTemplate) {
+      this.discardInterviewTemplate()
+    }
+
     this.interviewTemplate = interviewTemplate
 
     if (!this.name) {
@@ -173,7 +177,7 @@ export default class Interview extends Event implements IInterview {
     if (this.candidate_levels.length === 0) {
       this.candidate_levels = [...interviewTemplate.candidate_levels]
     }
-    let questionsToAdd = []
+    let questionsToAdd: InterviewQuestion[] = []
     if (this.questions.length === 0) {
       questionsToAdd = interviewTemplate.questions.map((question: Question) => {
         const questionToAdd = new InterviewQuestion()
@@ -190,7 +194,7 @@ export default class Interview extends Event implements IInterview {
         }
       })
     }
-    this.questions = [...questionsToAdd]
+    this.questions = [...this.questions,...questionsToAdd]
   }
 
   get title (): string {

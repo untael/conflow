@@ -59,7 +59,6 @@ export default {
       })
     }
     const editInterview = (interview: Interview) => {
-      console.log(333)
       $panel.init(PanelNames.InterviewEditPanel, {
         id: interview.id,
       })

@@ -84,6 +84,15 @@
           </div>
         </div>
       </cf-container-row>
+
+      <cf-container-row title="Questions:">
+        <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.question.id}`">
+          <cf-question-item
+              :question="interviewQuestion.question"
+              class="py-2 grow"
+          />
+        </div>
+      </cf-container-row>
     </template>
 
     <template #control-buttons>
@@ -103,10 +112,11 @@ import CfContainer from '@/components/layout/CfContainer.vue'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import { useInterview } from '@/composables/useInterview'
+import CfQuestionItem from '@/components/question/CfQuestionItem.vue'
 
 export default {
   name: 'CfInterviewIncomingForm',
-  components: { CfControlButtons, CfContainerRow, CfContainer },
+  components: { CfQuestionItem, CfControlButtons, CfContainerRow, CfContainer },
   props: {
     interview: {
       type: Interview,

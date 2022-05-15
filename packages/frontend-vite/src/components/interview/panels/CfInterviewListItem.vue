@@ -98,7 +98,7 @@
       </div>
 
 
-      <div class="flex justify-start items-start px-2">
+      <div class="flex justify-start items-start px-2" v-if="interview.note">
         <div class="py-2 flex-none basis-1/3">
           Note:
         </div>
@@ -113,16 +113,16 @@
         </div>
         <div class="py-2 text-xs flex items-center flex-wrap basis-2/3">
           <va-chip
-              v-for="(question, index) in interview.questions"
+              v-for="(interviewQuestion, index) in interview.questions"
               :key="index"
               color="#d1d5db"
               size="small"
               square
               outline
               class="mr-2 my-1 cursor-pointer flex-none"
-              @click="$emit('display-question', question)"
+              @click="$emit('display-question', interviewQuestion.question)"
           >
-            {{ question.name }}
+            {{ interviewQuestion.question.name }}
           </va-chip>
         </div>
       </div>

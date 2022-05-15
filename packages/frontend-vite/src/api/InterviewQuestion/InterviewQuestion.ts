@@ -15,8 +15,8 @@ export default class InterviewQuestion implements IInterviewQuestion {
   id = ''
   @Expose()
   @Type(() => Question)
-  @Transform(({ value }) => value.map((question: Question) => question.id), { toPlainOnly: true })
-  question = ''
+  @Transform(({ value }) => value.id, { toPlainOnly: true })
+  question: Question = new Question()
   @Expose()
   mark?: number = 0
   @Expose()
