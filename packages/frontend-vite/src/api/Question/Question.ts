@@ -10,9 +10,6 @@ interface IQuestion {
   mark?: number
   rating?: number
   code?: string
-  date_start: Date | null
-  date_end: Date | null
-  time_spent: number
   type: string
   tags: string[]
   is_template_question: boolean

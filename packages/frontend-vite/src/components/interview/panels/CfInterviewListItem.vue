@@ -181,6 +181,12 @@ export default {
             name: 'person_remove'
           }
           break;
+        default:
+          return {
+            color: 'info',
+            name: 'schedule'
+          }
+          break;
       }
     })
     return {

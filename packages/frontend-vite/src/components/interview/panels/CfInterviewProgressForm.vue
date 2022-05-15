@@ -61,7 +61,7 @@
         Questions:
         <div v-for="(question, index) in interview.questions" :key="`iq-${index}-${question.id}`">
           <cf-interview-question-item
-              canBeStarted="true"
+              can-be-started
               :question="question"
               class="py-2 grow"
           />
