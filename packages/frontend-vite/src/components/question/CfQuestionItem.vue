@@ -106,7 +106,7 @@
 
 <script lang="ts">
 import Question, { QuestionStatus } from '@/api/Question/Question'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, SetupContext } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 
 export default {
@@ -142,7 +142,7 @@ export default {
       value: false,
     }
   },
-  setup (props: any, { emit: any }) {
+  setup (props: any, { emit }: SetupContext) {
     const value = ref(false);
     const shortComments = ref([{ name: 'fast', chosen: false }, {
       name: 'clever',
