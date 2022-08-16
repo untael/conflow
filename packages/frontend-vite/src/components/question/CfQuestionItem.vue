@@ -142,7 +142,7 @@ export default {
       value: false,
     }
   },
-  setup (props: any, { emit }) {
+  setup (props: any, { emit: any }) {
     const value = ref(false);
     const shortComments = ref([{ name: 'fast', chosen: false }, {
       name: 'clever',
