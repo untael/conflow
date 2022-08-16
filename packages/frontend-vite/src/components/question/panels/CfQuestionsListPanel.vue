@@ -15,6 +15,8 @@
           :addable="addable"
           @edit="editQuestion(question)"
           @add="addQuestion(question)"
+          @approve="approveQuestion(question)"
+          @decline="declineQuestion(question)"
       />
     </template>
   </cf-container>
@@ -49,7 +51,7 @@ export default {
   setup () {
     const { $emitter } = useEmitter()
     const { $panel } = usePanel()
-    const { getQuestions } = useQuestion()
+    const { getQuestions, updateQuestion } = useQuestion()
     const questions: Ref<Question[]> = ref([])
     const isLoading = ref(false)
     onMounted(async () => {
@@ -65,11 +67,21 @@ export default {
         id: question.id,
       })
     }
+    const approveQuestion = async (question: Question) => {
+      await updateQuestion(new Question({...question, status: 'approved'}))
+      questions.value = await getQuestions()
+    }
+    const declineQuestion = async (question: Question) => {
+      await updateQuestion(new Question({...question, status: 'declined'}))
+      questions.value = await getQuestions()
+    }
     return {
       addQuestion,
       editQuestion,
       isLoading,
       questions,
+      approveQuestion,
+      declineQuestion
     }
   },
 

@@ -122,7 +122,7 @@
               class="mr-2 my-1 cursor-pointer flex-none"
               @click="$emit('display-question', interviewQuestion.question)"
           >
-            {{ interviewQuestion.question.name }}
+            {{ interviewQuestion.question?.name }}
           </va-chip>
         </div>
       </div>

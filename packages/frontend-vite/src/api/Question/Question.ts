@@ -2,6 +2,11 @@ import { Expose, Transform } from 'class-transformer'
 import Tag from '@/api/Question/Tag'
 import { js_beautify as jsFormatter } from 'js-beautify'
 
+export enum QuestionStatus {
+  Pending = 'pending',
+  Approved = 'approved',
+  Declined = 'declined'
+}
 interface IQuestion {
   id: string;
   name: string
@@ -13,6 +18,7 @@ interface IQuestion {
   type: string
   tags: string[]
   is_template_question: boolean
+  status: QuestionStatus
 }
 
 export default class Question implements IQuestion {
@@ -35,7 +41,8 @@ export default class Question implements IQuestion {
   @Transform(({ value }) => value.map((tag: Tag) => tag.id), { toPlainOnly: true })
   tags: string[] = []
   is_template_question: boolean = false
-
+  @Expose()
+  status: QuestionStatus = QuestionStatus.Pending
 
   get endpoint (): string {
     return 'questions'

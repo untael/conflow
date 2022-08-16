@@ -5,7 +5,7 @@
       color-all
   >
     <template #header>
-      <div class="va-collapse__header__content pl-0">
+      <div class="va-collapse__header__content pl-0" :class="collapseHeaderClass">
         <va-icon class="va-collapse__header__icon" color="black" :name="questionIcon"></va-icon>
         <div class="va-collapse__header__text">{{ question.name }}</div>
         <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
@@ -45,6 +45,10 @@
             >
               {{ tag.name }}
             </va-chip>
+          </div>
+          <div class="py-2 flex items-center flex-none" v-if="question.status === QuestionStatus.Pending && editable">
+            <va-button class="cf-question-item__status-button--decline" rounded icon="close" color="danger" size="1.5rem" @click="onDecline"/>
+            <va-button class="cf-question-item__status-button--approve" rounded icon="check" color="success" size="1.5rem" @click="onApprove"/>
           </div>
         </div>
         <div v-if="canBeStarted" class="py-2 flex items-center">
@@ -101,8 +105,8 @@
 </template>
 
 <script lang="ts">
-import Question from '@/api/Question/Question'
-import { onMounted, ref } from 'vue'
+import Question, { QuestionStatus } from '@/api/Question/Question'
+import { computed, onMounted, ref } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 
 export default {
@@ -138,7 +142,8 @@ export default {
       value: false,
     }
   },
-  setup (props: any) {
+  setup (props: any, { emit }) {
+    const value = ref(false);
     const shortComments = ref([{ name: 'fast', chosen: false }, {
       name: 'clever',
       chosen: false,
@@ -153,12 +158,32 @@ export default {
       shortComments.value[index].chosen = !shortComments.value[index].chosen
     }
     questionIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
+
+    const collapseHeaderClass = computed(() => {
+      return {
+        'cf-question-item--pending': props.question.status === QuestionStatus.Pending,
+        'cf-question-item--approved': props.question.status === QuestionStatus.Approved,
+        'cf-question-item--declined': props.question.status === QuestionStatus.Declined,
+      }
+    })
+
+    const onDecline = () => {
+      emit('decline');
+    }
+    const onApprove = () => {
+      emit('approve');
+    }
     return {
       questionIcon,
       showAnswer,
       shortComments,
       toggleShort,
       outlineChip,
+      value,
+      collapseHeaderClass,
+      QuestionStatus,
+      onDecline,
+      onApprove
     }
   },
 }
@@ -178,8 +203,29 @@ export default {
   --va-collapse-header-content-icon-margin-left: 1rem;
   --va-collapse-header-content-border-radius: var(--cf-border-radius);
   --va-collapse-header-content-box-shadow: none;
-
   --va-button-outline-border: 1px;
+
+  &__status-button {
+    &--approve {
+      border-top-right-radius: var(--va-button-square-border-radius);
+      border-bottom-right-radius: var(--va-button-square-border-radius);
+    }
+    &--decline {
+      border-top-left-radius: var(--va-button-square-border-radius);
+      border-bottom-left-radius: var(--va-button-square-border-radius);
+    }
+  }
+  &--pending {
+    border-left: 0.25rem solid var(--va-info);
+  }
+
+  &--approved {
+    border-left: 0.25rem solid var(--va-success);
+  }
+
+  &--declined {
+    border-left: 0.25rem solid var(--va-danger);
+  }
 
   .va-collapse__header {
     position: relative;
