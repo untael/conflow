@@ -5,10 +5,10 @@
       <cf-spinner
           color="rgb(44, 130, 224)"
           :size="32"
-          v-if="currentUser.isLoading"
+          v-if="isUserLoading"
       />
       <template v-else>
-        <div v-if="!currentUser.value">
+        <div v-if="!currentUser">
           <va-button color="primary" class="mr-2" @click="$router.push({name: 'Sign up'})">
             Sign up
           </va-button>
@@ -18,7 +18,7 @@
         </div>
         <div class="flex justify-center items-center" v-else>
           <div class="mr-2 cursor-pointer" @click="$router.push({name: 'User profile'})">
-            {{ currentUser.value.username }}
+            {{ currentUser.full_name }}
           </div>
           <va-button rounded="true" flat icon="logout" @click="signOut"/>
         </div>
@@ -37,9 +37,10 @@ export default {
   name: 'CfHeader',
   components: { CfSpinner, CfLogo },
   setup () {
-    const { currentUser, signOut } = useAuth()
+    const { currentUser, isUserLoading, signOut } = useAuth()
     return {
       currentUser,
+      isUserLoading,
       signOut,
     }
   },

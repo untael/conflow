@@ -74,9 +74,9 @@ export default {
     }
 
     //ToDo refactor
-    watch(currentUser.value, async () => {
-      if (currentUser.value.value) {
-        user.value = new User(currentUser.value.value)
+    watch(currentUser, async () => {
+      if (currentUser.value) {
+        user.value = new User(currentUser.value)
       }
     }, { immediate: true })
     return {

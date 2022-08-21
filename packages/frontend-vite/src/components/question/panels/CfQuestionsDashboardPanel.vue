@@ -31,7 +31,7 @@ export default {
       {
         title: 'Questions list',
         icon: 'format_list_bulleted',
-        route: 'Questions list',
+        route: 'Question list editable',
         badgeText: 'WIP',
       },
     ])

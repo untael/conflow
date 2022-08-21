@@ -1,5 +1,5 @@
 <template>
-  <cf-panel-wrapper v-if="panel" :panel="panel" :authRequired="authRequired"/>
+  <cf-panel-wrapper v-if="panel" :panel="panel"/>
 </template>
 
 <script lang="ts">
@@ -8,7 +8,7 @@ import { PanelList, PanelNames } from '@/components/panels'
 import Panel from '@/api/Panel'
 
 export default {
-  name: 'CfQuestionsListPanelWrapper',
+  name: 'CfInterviewResultsPanelWrapper',
   components: {
     CfPanelWrapper,
   },
@@ -21,13 +21,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    authRequired: {
-      type: Boolean,
-      default: false,
-    }
   },
   setup (props: any) {
-    const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.QuestionsListPanel)
+    const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.InterviewResultsPanel)
     if (panel) {
       panel.props = props
     }

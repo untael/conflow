@@ -43,5 +43,4 @@ export default class User implements IUser {
   constructor (data?: Partial<User>) {
     Object.assign(this, data)
   }
-
 }

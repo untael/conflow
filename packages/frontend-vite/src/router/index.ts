@@ -35,6 +35,9 @@ import CfUserProfilePanelWrapper
   from '@/components/profile/panels/CfUserProfilePanelWrapper.vue'
 import CfInterviewPreviewPanelWrapper
   from '@/components/interview/CfInterviewPreviewPanelWrapper.vue'
+import CfInterviewResultsPanelWrapper
+  from '@/components/interview/CfInterviewResultsPanelWrapper.vue'
+import { useAuth } from '@/composables/useAuth'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -107,7 +110,11 @@ const routes: Array<RouteRecordRaw> = [
             component: CfQuestionsListPanelWrapper,
             props: {
               editable: true,
+              authRequired: true,
             },
+            meta: {
+              requiresAuth: true,
+            }
           },
         ],
       },
@@ -203,7 +210,7 @@ const routes: Array<RouteRecordRaw> = [
               {
                 name: 'Interview Results',
                 path: 'results',
-                component: CfInterviewResultsPage,
+                component: CfInterviewResultsPanelWrapper,
               },
             ],
           },
@@ -257,5 +264,20 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     const { currentUser } = useAuth();
+//     //ToDo refactor that
+//     console.log('currentUser.value', currentUser.value)
+//     if(!currentUser.value) {
+//       next('/sign-in')
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
 
 export default router

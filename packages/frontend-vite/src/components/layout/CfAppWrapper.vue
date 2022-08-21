@@ -15,7 +15,6 @@
 import CfFooter from '@/components/layout/CfFooter.vue'
 import CfHeader from '@/components/layout/CfHeader.vue'
 import CfTopbar from '@/components/layout/CfTopbar.vue'
-import { onMounted } from 'vue'
 import { useAuth } from '@/composables/useAuth'
 
 export default {
@@ -26,13 +25,14 @@ export default {
     CfHeader,
   },
   setup () {
-    const { getMe } = useAuth()
-    onMounted(async () => {
-      await getMe()
-    })
     return {
     }
   },
+  async beforeRouteEnter(to: any, from:any, next:any) {
+    const { getMe } = useAuth()
+    await getMe()
+    next();
+  }
 }
 </script>
 

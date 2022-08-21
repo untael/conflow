@@ -50,6 +50,14 @@
             <va-button class="cf-question-item__status-button--decline" rounded icon="close" color="danger" size="1.5rem" @click="onDecline"/>
             <va-button class="cf-question-item__status-button--approve" rounded icon="check" color="success" size="1.5rem" @click="onApprove"/>
           </div>
+          <div class="py-2 flex flex-col flex-center items-center flex-none" v-else-if="question.decision_maker">
+            <div class="text-xs">
+              Decision by:
+            </div>
+            <div>
+              {{question.decision_maker.full_name}}
+            </div>
+          </div>
         </div>
         <div v-if="canBeStarted" class="py-2 flex items-center">
           <div v-if="!question.is_completed" class="flex px-2">
@@ -106,8 +114,9 @@
 
 <script lang="ts">
 import Question, { QuestionStatus } from '@/api/Question/Question'
-import { computed, onMounted, ref, SetupContext } from 'vue'
+import { computed, ref, SetupContext, onMounted } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
+import User from '@/api/User/User'
 
 export default {
   name: 'CfQuestionItem',
@@ -173,6 +182,7 @@ export default {
     const onApprove = () => {
       emit('approve');
     }
+
     return {
       questionIcon,
       showAnswer,

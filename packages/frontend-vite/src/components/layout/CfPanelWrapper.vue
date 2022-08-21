@@ -38,10 +38,7 @@
 
     <div
         class="cf-panel-wrapper__panel cf-panel-wrapper__panel--main w-full max-w-screen-md md:max-w-screen-sm md:block md:mt-8"
-        :class="[
-            childPanels.length && activePanelName !== panel.name ? 'hidden' : 'block',
-            childPanels.length ? 'md:w-5/12' : 'md:w-9/12 md:max-w-screen-md',
-        ]"
+        v-if="authRequired && !currentUser"
     >
       <cf-panel
           :panel="panel"
@@ -49,49 +46,67 @@
           :minimizeable="false"
           :maximizeable="false"
       >
-        <component
-            :is="panel.component"
-            v-on="$attrs"
-            v-bind="panel.props"
-        />
+        <cf-auth-required-panel/>
       </cf-panel>
     </div>
-    <div
-        v-if="childPanels.length"
-        class="cf-panel-wrapper__panel cf-panel-wrapper__panel--child flex md:w-5/12 max-w-screen-md md:max-w-screen-sm"
-    >
-      <template
-          v-for="(childPanel, index) in childPanels"
-          :key="`${childPanel.name}-${index}`"
+    <template v-else>
+      <div
+          class="cf-panel-wrapper__panel cf-panel-wrapper__panel--main w-full max-w-screen-md md:max-w-screen-sm md:block md:mt-8"
+          :class="[
+            childPanels.length && activePanelName !== panel.name ? 'hidden' : 'block',
+            childPanels.length ? 'md:w-5/12' : 'md:w-9/12 md:max-w-screen-md',
+        ]"
       >
         <cf-panel
-            :class="{
+            :panel="panel"
+            :closeable="false"
+            :minimizeable="false"
+            :maximizeable="false"
+        >
+          <component
+              :is="panel.component"
+              v-on="$attrs"
+              v-bind="panel.props"
+          />
+        </cf-panel>
+      </div>
+      <div
+          v-if="childPanels.length"
+          class="cf-panel-wrapper__panel cf-panel-wrapper__panel--child flex md:w-5/12 max-w-screen-md md:max-w-screen-sm"
+      >
+        <template
+            v-for="(childPanel, index) in childPanels"
+            :key="`${childPanel.name}-${index}`"
+        >
+          <cf-panel
+              :class="{
               'hidden': activePanelName !== childPanel.name || !childPanels.length,
               'w-10/12': childPanels.length > 1,
               'block': childPanels.length,
               'w-full': childPanels.length === 1,
             }"
-            :panel="childPanel"
-            :minimizeable="childPanels.length > 1"
-        >
-          <component :is="childPanel.component" v-on="$attrs" v-bind="childPanel.props"/>
-        </cf-panel>
-      </template>
-      <div v-if="childPanels.length > 1" class="cf-panel-wrapper__bookmarks hidden md:block w-2/12">
-        <div
-            class="cf-panel-wrapper__bookmarks--ribbon mb-1 py-1 px-1 bg-white hover:bg-blue-300"
-            v-for="panelName in childPanelNames"
-            :key="panelName"
-            :class="[activePanelName === panelName ? 'bg-blue-800 text-white hover:bg-blue-800' : '']"
-            @click="activePanelName = panelName"
-        >
-          {{ panelName }}
-        </div>
-        <div class="cf-panel-wrapper__bookmarks--ribbon pb-1 px-1 bg-white text-center hover:bg-red-200" @click="childPanels = []">
-          Close all
+              :panel="childPanel"
+              :minimizeable="childPanels.length > 1"
+          >
+            <component :is="childPanel.component" v-on="$attrs" v-bind="childPanel.props"/>
+          </cf-panel>
+        </template>
+        <div v-if="childPanels.length > 1" class="cf-panel-wrapper__bookmarks hidden md:block w-2/12">
+          <div
+              class="cf-panel-wrapper__bookmarks--ribbon mb-1 py-1 px-1 bg-white hover:bg-blue-300"
+              v-for="panelName in childPanelNames"
+              :key="panelName"
+              :class="[activePanelName === panelName ? 'bg-blue-800 text-white hover:bg-blue-800' : '']"
+              @click="activePanelName = panelName"
+          >
+            {{ panelName }}
+          </div>
+          <div class="cf-panel-wrapper__bookmarks--ribbon pb-1 px-1 bg-white text-center hover:bg-red-200" @click="childPanels = []">
+            Close all
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -101,18 +116,25 @@ import { PanelList, PanelNames } from '@/components/panels'
 import { useToast } from '@/composables/useToast'
 import Panel from '@/api/Panel'
 import CfPanel from '@/components/layout/CfPanel.vue'
+import CfAuthRequiredPanel from '@/views/CfAuthRequiredPanel.vue'
+import { useAuth } from '@/composables/useAuth'
 
 export default {
   name: 'CfPanelWrapper',
-  components: { CfPanel },
+  components: { CfAuthRequiredPanel, CfPanel },
   props: {
     panel: {
       type: Panel,
       required: true,
     },
+    authRequired: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup (props: any) {
     const { $toast } = useToast()
+    const { currentUser } = useAuth()
     const childPanels: Ref<Panel[]> = ref([])
     const activePanelName = ref(props.panel.name)
     const minimize = (panel: Panel) => {
@@ -172,6 +194,7 @@ export default {
       activePanelName,
       childPanelNames,
       childPanels,
+      currentUser,
     }
   },
 

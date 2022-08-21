@@ -1,6 +1,7 @@
-import { Expose, Transform } from 'class-transformer'
+import { Expose, Transform, Type } from 'class-transformer'
 import Tag from '@/api/Question/Tag'
 import { js_beautify as jsFormatter } from 'js-beautify'
+import User from '@/api/User/User'
 
 export enum QuestionStatus {
   Pending = 'pending',
@@ -19,6 +20,7 @@ interface IQuestion {
   tags: string[]
   is_template_question: boolean
   status: QuestionStatus
+  decision_maker: User | null
 }
 
 export default class Question implements IQuestion {
@@ -43,6 +45,9 @@ export default class Question implements IQuestion {
   is_template_question: boolean = false
   @Expose()
   status: QuestionStatus = QuestionStatus.Pending
+  @Expose()
+  @Type(() => User)
+  decision_maker: User | null = null
 
   get endpoint (): string {
     return 'questions'

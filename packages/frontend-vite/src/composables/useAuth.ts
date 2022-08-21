@@ -2,24 +2,26 @@ import axios from 'axios'
 import qs from 'qs'
 import { plainToInstance } from 'class-transformer'
 import User from '@/api/User/User'
-import { computed, reactive } from 'vue'
+import { computed, ref, Ref, reactive, isRef } from 'vue'
 
 type AuthStorage = {
-  user: {
-    value: User | null,
-    isLoading: boolean
-  }
+  user: any | null
+  isLoading: boolean
 }
 
-const authStorage: AuthStorage = {
-  user: reactive({
-    isLoading: false,
-    value: null,
-  }),
-}
+const authStorage = reactive<AuthStorage>({
+  user: null,
+  isLoading: false,
+})
+
+console.log('authStorage', authStorage)
 
 export const useAuth = () => {
-  const currentUser = computed(() => authStorage.user)
+  const currentUser = computed(() => {
+    console.log('authStorage.user 2', authStorage.user)
+    return authStorage.user
+  })
+  const isUserLoading = computed(() => authStorage.isLoading)
 
   const signUpByProviders = async (provider: string, query: any) => {
     const stringifiedQuery = qs.stringify(query)
@@ -34,15 +36,17 @@ export const useAuth = () => {
       return null
     }
     try {
-      authStorage.user.isLoading = true
+      authStorage.isLoading = true
       const user: any = (await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       })).data
       const mappedUser = plainToInstance(User, user as User, { excludeExtraneousValues: true })
-      authStorage.user.value = mappedUser
-      authStorage.user.isLoading = false
+      authStorage.user = mappedUser
+      // authStorage.user = { id: '123' }
+      console.log('authStorage.user', authStorage.user)
+      authStorage.isLoading = false
       return mappedUser
     } catch (err) {
       throw err
@@ -51,11 +55,12 @@ export const useAuth = () => {
 
   const signOut = () => {
     localStorage.removeItem('token')
-    authStorage.user.value = null
+    authStorage.user = null
   }
 
   return {
     currentUser,
+    isUserLoading,
     signUpByProviders,
     getMe,
     signOut,

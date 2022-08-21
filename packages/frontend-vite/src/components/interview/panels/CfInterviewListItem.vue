@@ -135,7 +135,7 @@ import Interview, {
   InterviewStatus,
   InterviewStatusEnum,
 } from '@/api/Interview/Interview'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 export default {
   name: 'CfInterviewListItem',
@@ -188,6 +188,10 @@ export default {
           }
           break;
       }
+    })
+
+    onMounted(() => {
+      console.log('props.interview.type', props.interview.type)
     })
     return {
       value,
