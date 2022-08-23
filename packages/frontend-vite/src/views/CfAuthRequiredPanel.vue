@@ -1,7 +1,24 @@
 <template>
-  <cf-container class="cf-auth-required-panel">
+  <cf-container contentClass="h-full" class="cf-auth-required-panel">
     <template #default>
-      This page required auth
+      <div class="flex flex-col items-center justify-center text-center">
+        <div class="flex-none mb-4">
+          <va-icon name="lock" size="8rem"/>
+        </div>
+        <div class="text-2xl flex-none mb-4">
+          Authentication is required to view this page.
+        </div>
+        <div class="text-xl flex-none">
+          Please
+          <va-button color="primary" flat text-color="primary" :to="{name: 'Login'}">
+            Sign in
+          </va-button>
+          or
+          <va-button color="success" flat text-color="success" :to="{name: 'Sign up'}">
+            Sign up
+          </va-button>
+        </div>
+      </div>
     </template>
   </cf-container>
 </template>
@@ -19,9 +36,7 @@ export default {
 
   setup (props: any) {
 
-    return {
-
-    }
+    return {}
   },
 }
 </script>

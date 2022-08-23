@@ -12,7 +12,7 @@
               color="rgb(44, 130, 224)"
           />
         </div>
-        <div v-else class="flex flex-col justify-between">
+        <div v-else class="flex flex-col justify-between" :class="contentClass">
           <slot/>
         </div>
       </va-card-content>
@@ -33,6 +33,9 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+    contentClass: {
+      type: [String, Array, Object],
     },
   },
 }
