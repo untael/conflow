@@ -17,7 +17,7 @@ interface IQuestion {
   rating?: number
   code?: string
   type: string
-  tags: string[]
+  tags: Tag[]
   is_template_question: boolean
   status: QuestionStatus
   decision_maker: User | null
@@ -41,12 +41,13 @@ export default class Question implements IQuestion {
   type: string = ''
   @Expose()
   @Transform(({ value }) => value.map((tag: Tag) => tag.id), { toPlainOnly: true })
-  tags: string[] = []
+  tags: Tag[] = []
   is_template_question: boolean = false
   @Expose()
   status: QuestionStatus = QuestionStatus.Pending
   @Expose()
   @Type(() => User)
+  @Transform(({ value }) => value ? value.id : null, { toPlainOnly: true })
   decision_maker: User | null = null
 
   get endpoint (): string {

@@ -6,7 +6,6 @@ import { Ref, ref } from 'vue'
 export const useApiHandlers = () => {
   const { $toast } = useToast()
   const token: Ref<string> = ref('')
-  console.log('token.value', token.value)
 
   const getToken = () => {
     return localStorage.getItem('token') || ''

@@ -9,6 +9,7 @@ import InterviewType from '@/api/InterviewType/InterviewType'
 import CandidateLevel from '@/api/CandidateLevel/CandidateLevel'
 import InterviewTemplate from '@/api/InterviewTemplate/InterviewTemplate'
 import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
+import { InterviewUserReport } from '@/api/Interview/InterviewUserReport'
 
 
 export enum InterviewTypeEnum {
@@ -16,6 +17,7 @@ export enum InterviewTypeEnum {
   Screening = 'Screening',
   Technical = 'Deep technical'
 }
+
 
 export const interviewTypesIterator = [
   {
@@ -95,6 +97,7 @@ interface IInterview extends IEvent {
   note?: string;
   interviewTemplate?: InterviewTemplate | null;
   status: InterviewStatus;
+  user_reports: InterviewUserReport[];
 }
 
 export default class Interview extends Event implements IInterview {
@@ -131,12 +134,12 @@ export default class Interview extends Event implements IInterview {
   @Expose()
   @Type(() => InterviewQuestion)
   // @Transform(({ value }) => value.map((question: InterviewQuestion) => question.id), { toPlainOnly: true })
-    // @Transform(({ value }) => value.map((question: Question) => {
-    //   return {
-    //     ...question,
-    //     is_template_question: true,
-    //   }
-    // }), { toClassOnly: true })
+  // @Transform(({ value }) => value.map((question: Question) => {
+  //     return {
+  //       ...question,
+  //       is_template_question: true,
+  //     }
+  //   }), { toClassOnly: true })
   questions: InterviewQuestion[] = []
 
   @Expose()
@@ -149,6 +152,9 @@ export default class Interview extends Event implements IInterview {
   @Expose()
   status: InterviewStatus = InterviewStatusEnum.Incoming
 
+  @Expose()
+  user_reports: InterviewUserReport[] = []
+
   discardInterviewTemplate () {
     if (this.interviewTemplate?.name === this.name) {
       this.name = ''
@@ -157,7 +163,7 @@ export default class Interview extends Event implements IInterview {
       this.type = null
     }
     this.candidate_levels = []
-    this.questions = this.questions.filter((interviewQuestion) => !interviewQuestion.question.is_template_question)
+    this.questions = this.questions.filter((interviewQuestion) => !interviewQuestion.data.is_template_question)
     this.interviewTemplate = null
   }
 
@@ -181,15 +187,15 @@ export default class Interview extends Event implements IInterview {
     if (this.questions.length === 0) {
       questionsToAdd = interviewTemplate.questions.map((question: Question) => {
         const questionToAdd = new InterviewQuestion()
-        questionToAdd.question = question
+        questionToAdd.data = question
         return questionToAdd
       })
     } else {
       interviewTemplate.questions.forEach((question: Question) => {
-        const isInList = this.questions.find((interviewQuestion: InterviewQuestion) => interviewQuestion.question.id === question.id)
+        const isInList = this.questions.find((interviewQuestion: InterviewQuestion) => interviewQuestion.data.id === question.id)
         if (!isInList) {
           const questionToAdd = new InterviewQuestion()
-          questionToAdd.question = question
+          questionToAdd.data = question
           questionsToAdd.push(questionToAdd)
         }
       })

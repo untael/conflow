@@ -5,7 +5,7 @@
       color-all
   >
     <template #header>
-      <div class="va-collapse__header__content pl-0" :class="collapseHeaderClass">
+      <div class="va-collapse__header pl-0" :class="collapseHeaderClass">
         <va-icon class="va-collapse__header__icon" color="black" :name="questionIcon"></va-icon>
         <div class="va-collapse__header__text">{{ question.name }}</div>
         <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
@@ -241,7 +241,7 @@ export default {
     position: relative;
   }
 
-  .va-collapse__header__content {
+  .va-collapse__header {
     @apply bg-gray-200
   }
 

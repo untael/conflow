@@ -54,7 +54,6 @@ export default {
 
     const saveInterview = () => {
       questions.value.forEach(({ question, answer, answerRating }) => {
-        console.log(question, answer, answerRating)
       })
     }
     const addQuestion = () => {

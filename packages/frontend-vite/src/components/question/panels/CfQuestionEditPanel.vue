@@ -94,7 +94,7 @@
 
 <script lang="ts">
 import CfContainer from '@/components/layout/CfContainer.vue'
-import Question from '@/api/Question/Question'
+import Question, { QuestionStatus } from '@/api/Question/Question'
 import { computed, onMounted, Ref, ref, watch } from 'vue'
 import { useQuestion } from '@/composables/useQuestion'
 import { useTag } from '@/composables/useTag'
@@ -105,6 +105,8 @@ import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import { useRoute, useRouter } from 'vue-router'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
+import { QuestionEvents } from '@/api/Question/events'
+import { useEmitter } from '@/composables/useEmitter'
 
 export default {
   name: 'CfQuestionEditPanel',
@@ -125,6 +127,7 @@ export default {
     },
   },
   setup (props: any) {
+    const { $emitter } = useEmitter()
     const route = useRoute()
     const router = useRouter()
     const showAddAnswer = ref(false)
@@ -185,8 +188,13 @@ export default {
           await createQuestion(data)
           question.value = new Question({})
         } else {
+          if (data.decision_maker) {
+            data.status = QuestionStatus.Pending
+            data.decision_maker = null
+          }
           await updateQuestion(data)
         }
+        $emitter.emit(QuestionEvents.Update, question.value)
       } catch (error) {
       } finally {
         isQuestionCreateInProgress.value = false

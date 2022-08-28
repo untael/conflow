@@ -14,11 +14,9 @@ const authStorage = reactive<AuthStorage>({
   isLoading: false,
 })
 
-console.log('authStorage', authStorage)
 
 export const useAuth = () => {
   const currentUser = computed(() => {
-    console.log('authStorage.user 2', authStorage.user)
     return authStorage.user
   })
   const isUserLoading = computed(() => authStorage.isLoading)
@@ -45,7 +43,6 @@ export const useAuth = () => {
       const mappedUser = plainToInstance(User, user as User, { excludeExtraneousValues: true })
       authStorage.user = mappedUser
       // authStorage.user = { id: '123' }
-      console.log('authStorage.user', authStorage.user)
       authStorage.isLoading = false
       return mappedUser
     } catch (err) {

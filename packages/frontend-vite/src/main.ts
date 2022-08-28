@@ -2,8 +2,10 @@ import 'reflect-metadata'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index'
-import { VuesticPlugin } from 'vuestic-ui'
-import 'vuestic-ui/dist/vuestic-ui.css'
+import { createVuestic } from 'vuestic-ui'
+import 'vuestic-ui/css'
+// import { VuesticPlugin } from 'vuestic-ui'
+// import 'vuestic-ui/dist/vuestic-ui.css'
 import './main.scss'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'codemirror-editor-vue3/dist/style.css'
@@ -12,7 +14,7 @@ import mitt, { Emitter } from 'mitt'
 import { Events } from '@/api/emitter'
 
 const app = createApp(App)
-app.use(VuesticPlugin, {
+app.use(createVuestic(), {
   colors: {
     primary: '#1e40af',
     success: '#065f46',

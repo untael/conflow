@@ -1,5 +1,5 @@
 <template>
-  <cf-container :loading="isLoading">
+  <cf-container class="cf-interview-progress-form" :loading="isLoading">
     <template #title>
       {{ interview.name }} Interview
     </template>
@@ -57,8 +57,7 @@
           </div>
         </div>
       </cf-container-row>
-      <cf-container-row>
-        Questions:
+      <cf-container-row title="Questions:">
         <div v-for="(question, index) in interview.questions" :key="`iq-${index}-${question.id}`">
           <cf-interview-question-item
               can-be-started
@@ -67,13 +66,36 @@
           />
         </div>
       </cf-container-row>
+      <cf-container-row title="Results:">
+        <div
+            v-for="(topic, index) in topicReport"
+            :key="`${topic.name}-${index}`"
+        >
+          <va-slider
+              class="mb-3"
+              v-model="topic.mark"
+              pins
+              :min="0"
+              :max="10"
+              :label="topic.name"
+              track-label-visible
+          >
+            <template #append>
+              <va-input v-model="topic.note" placeholder="Note" type="textarea"></va-input>
+            </template>
+          </va-slider>
+        </div>
+        <div>
+          <va-switch label="Is candidate good for us?" left-label v-model="opinionCheck"/>
+        </div>
+      </cf-container-row>
     </template>
 
 
     <template #control-buttons>
       <cf-control-buttons
-          saveButtonText="Save"
-          cancelButtonText="Cancel"
+          saveButtonText="End"
+          cancelButtonText="Abort"
           @cancel="cancelInterview"
           @save="onSave"
       />
@@ -82,16 +104,23 @@
 </template>
 
 <script lang="ts">
-import Interview from '@/api/Interview/Interview'
+import Interview, { InterviewStatusEnum } from '@/api/Interview/Interview'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfContainerRow from '@/components/layout/CfContainerRow.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import { useInterview } from '@/composables/useInterview'
 import CfInterviewQuestionItem
   from '@/components/interview/panels/CfInterviewQuestionItem.vue'
+import { ref } from 'vue'
+import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
+import {
+  InterviewUserReport,
+  TopicReport,
+} from '@/api/Interview/InterviewUserReport'
+import { useAuth } from '@/composables/useAuth'
 
 export default {
-  name: 'CfInterviewIncomingForm',
+  name: 'CfInterviewProgressForm',
   components: { CfInterviewQuestionItem, CfControlButtons, CfContainerRow, CfContainer },
   props: {
     interview: {
@@ -104,20 +133,50 @@ export default {
   },
   setup (props: any, { emit }: any) {
     const { interview, interviewAPIHandlers } = useInterview()
+    const { currentUser } = useAuth()
     const onSave = () => {
-      console.log('save changes')
+      if(!props.interview.user_reports.some((report: InterviewUserReport) => report.user.id === currentUser.value.id))
+        props.interview.user_reports.push(
+            new InterviewUserReport({
+              user: currentUser.value,
+              topic_report: topicReport.value,
+              opinion_check: opinionCheck.value,
+            })
+        )
+      props.interview.status = InterviewStatusEnum.Finished
     }
     const cancelInterview = () => {
       // emit('cancel')
       console.log('cancel changes')
     }
 
+    const uniqueTopics = new Set()
+    props.interview.questions.forEach((question: InterviewQuestion) => {
+      question.data.tags.forEach(tag => {
+        uniqueTopics.add(tag.name)
+      })
+    })
+    const extractedTopics: TopicReport[] = Array.from(uniqueTopics).reduce((acc: any, item) => {
+      acc.push({
+        name: item,
+        mark: 0,
+        note: ''
+      })
+      return acc
+    }, []) as TopicReport[]
+    extractedTopics.push({
+      name: 'Total',
+      mark: 0,
+      note: ''
+    })
 
-    let ratingValue = 0
+    const topicReport = ref(extractedTopics)
+    const opinionCheck = ref(false)
     return {
       onSave,
       cancelInterview,
-      ratingValue,
+      topicReport,
+      opinionCheck,
     }
   },
 
@@ -125,5 +184,10 @@ export default {
 </script>
 
 <style lang="scss">
-
+.cf-interview-progress-form {
+  .va-slider {
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+  }
+}
 </style>

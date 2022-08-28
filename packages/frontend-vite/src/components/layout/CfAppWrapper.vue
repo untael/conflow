@@ -16,6 +16,7 @@ import CfFooter from '@/components/layout/CfFooter.vue'
 import CfHeader from '@/components/layout/CfHeader.vue'
 import CfTopbar from '@/components/layout/CfTopbar.vue'
 import { useAuth } from '@/composables/useAuth'
+import { ref } from 'vue'
 
 export default {
   name: 'CfAppWrapper',
@@ -25,7 +26,9 @@ export default {
     CfHeader,
   },
   setup () {
+    const loading = ref(false)
     return {
+      loading,
     }
   },
   async beforeRouteEnter(to: any, from:any, next:any) {

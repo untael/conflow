@@ -86,9 +86,9 @@
       </cf-container-row>
 
       <cf-container-row title="Questions:">
-        <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.question.id}`">
+        <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.data.id}`">
           <cf-question-item
-              :question="interviewQuestion.question"
+              :question="interviewQuestion.data"
               class="py-2 grow"
           />
         </div>

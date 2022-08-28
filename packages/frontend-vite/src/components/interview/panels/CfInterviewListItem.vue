@@ -5,7 +5,7 @@
       color-all
   >
     <template #header>
-      <div class="va-collapse__header__content">
+      <div class="va-collapse__header">
         <div class="va-collapse__header__text d-flex items-center">
           <va-icon class="va-collapse__header__icon mx-1" :color="interviewIconParams.color" :name="interviewIconParams.name"/>
           <div>
@@ -120,9 +120,9 @@
               square
               outline
               class="mr-2 my-1 cursor-pointer flex-none"
-              @click="$emit('display-question', interviewQuestion.question)"
+              @click="$emit('display-question', interviewQuestion.data)"
           >
-            {{ interviewQuestion.question?.name }}
+            {{ interviewQuestion.data?.name }}
           </va-chip>
         </div>
       </div>
@@ -191,7 +191,6 @@ export default {
     })
 
     onMounted(() => {
-      console.log('props.interview.type', props.interview.type)
     })
     return {
       value,

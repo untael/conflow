@@ -64,6 +64,7 @@ export const useQuestion = () => {
         color: 'success',
       })
     } catch (error) {
+      console.log('error', error)
       $toast.init({
         message: 'Question was not updated',
         color: 'danger',

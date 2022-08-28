@@ -33,6 +33,7 @@ import CfQuestionItem from '@/components/question/CfQuestionItem.vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfSpinner from '@/components/CfSpinner.vue'
 import Question from '@/api/Question/Question'
+import { useAuth } from '@/composables/useAuth'
 
 
 export default {
@@ -50,6 +51,7 @@ export default {
   },
   setup () {
     const { $emitter } = useEmitter()
+    const { currentUser } = useAuth()
     const { $panel } = usePanel()
     const { getQuestions, updateQuestion } = useQuestion()
     const questions: Ref<Question[]> = ref([])
@@ -68,13 +70,17 @@ export default {
       })
     }
     const approveQuestion = async (question: Question) => {
-      await updateQuestion(new Question({...question, status: 'approved'}))
+      await updateQuestion(new Question({...question, status: 'approved', decision_maker: currentUser.value }))
       questions.value = await getQuestions()
     }
     const declineQuestion = async (question: Question) => {
-      await updateQuestion(new Question({...question, status: 'declined'}))
+      await updateQuestion(new Question({...question, status: 'declined', decision_maker: currentUser.value}))
       questions.value = await getQuestions()
     }
+
+    $emitter.on(QuestionEvents.Update, async () => {
+      questions.value = await getQuestions()
+    })
     return {
       addQuestion,
       editQuestion,

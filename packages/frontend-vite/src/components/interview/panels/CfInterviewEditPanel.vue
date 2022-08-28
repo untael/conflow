@@ -72,10 +72,10 @@
 
         <cf-container-row>
           Questions:
-          <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.question.id}`">
+          <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.data.id}`">
             <cf-question-item
                 can-be-removed
-                :question="interviewQuestion.question"
+                :question="interviewQuestion.data"
                 @remove="removeQuestion(interviewQuestion)"
                 class="py-2 grow"
             />
@@ -191,7 +191,7 @@ export default {
       //   }
       //   return
       // }
-      interview.value.questions = interview.value.questions.filter((existingQuestion: InterviewQuestion) => existingQuestion.question.id !== interviewQuestion.question.id)
+      interview.value.questions = interview.value.questions.filter((existingQuestion: InterviewQuestion) => existingQuestion.data.id !== interviewQuestion.data.id)
     }
     const initInterviewTemplatePanel = () => {
       $panel.init(PanelNames.InterviewTemplateListPanel, {
@@ -204,10 +204,10 @@ export default {
     })
 
     $emitter.on(QuestionEvents.Add, (question: Question) => {
-      const isInList = interview.value.questions.find((interviewQuestion: InterviewQuestion) => interviewQuestion.question.id === question.id)
+      const isInList = interview.value.questions.find((interviewQuestion: InterviewQuestion) => interviewQuestion.data.id === question.id)
       if (!isInList) {
         const questionToAdd = new InterviewQuestion()
-        questionToAdd.question = question
+        questionToAdd.data = question
         interview.value.questions.push(questionToAdd)
       }
     })

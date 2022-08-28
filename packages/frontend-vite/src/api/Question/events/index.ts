@@ -5,6 +5,7 @@ export enum QuestionEvents {
   Edit = 'Edit question',
   Remove = 'Remove question',
   Add = 'Add question',
+  Update = 'Update question'
 }
 
 export type QuestionEventTypes = {
@@ -12,4 +13,5 @@ export type QuestionEventTypes = {
   [QuestionEvents.Edit]: Question,
   [QuestionEvents.Remove]: Question,
   [QuestionEvents.Add]: Question,
+  [QuestionEvents.Update]: Question,
 }

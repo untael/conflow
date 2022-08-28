@@ -226,7 +226,6 @@ export default {
         margin: 2rem .5rem 0 .5rem;
       }
     }
-
   }
 
   .va-tabs__slider-wrapper {

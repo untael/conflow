@@ -3,7 +3,7 @@ import { Expose, Transform, Type } from 'class-transformer'
 
 export interface IInterviewQuestion {
   id: string,
-  question: Question,
+  data: Question,
   date_start: Date | null,
   date_end: Date | null,
   time_spent: number
@@ -13,10 +13,10 @@ export interface IInterviewQuestion {
 export default class InterviewQuestion implements IInterviewQuestion {
   @Expose()
   id = ''
-  @Expose()
+  @Expose({ name: 'data'})
   @Type(() => Question)
   @Transform(({ value }) => value.id, { toPlainOnly: true })
-  question: Question = new Question()
+  data: Question = new Question()
   @Expose()
   mark?: number = 0
   @Expose()

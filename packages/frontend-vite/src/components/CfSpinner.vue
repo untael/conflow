@@ -40,7 +40,6 @@ export default {
 
     })
     const squareStyle = computed(() => {
-      console.log('props.color', props.color)
       return {
         height: `${props.size * 0.25 / 1.3}px`,
         width: `${props.size * 0.25 / 1.3}px`,

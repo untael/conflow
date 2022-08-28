@@ -1,13 +1,13 @@
 <template>
   <va-collapse
-      class="cf-question-item shadow-none"
+      class="cf-interview-question-item shadow-none"
       v-model="value"
       color-all
   >
     <template #header>
-      <div class="va-collapse__header__content pl-0">
+      <div class="va-collapse__header pl-0">
         <va-icon class="va-collapse__header__icon" color="black" :name="questionIcon"></va-icon>
-        <div class="va-collapse__header__text">{{ question.name }}</div>
+        <div class="va-collapse__header__text">{{ question.data.name }}</div>
         <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
         <va-button v-if="addable" size="small" class="mx-1" flat icon="add" @click.stop="$emit('add')"/>
         <va-button v-if="canBeRemoved" size="small" class="mx-1" flat icon="remove" @click.stop="$emit('remove')"/>
@@ -16,26 +16,26 @@
     </template>
     <div class="pt-2 text-sm bg-gray-50">
       <div class="px-2 py-2">
-        {{ question.description }}
+        {{ question.data.description }}
       </div>
 
       <div class="px-2 py-2">
-        <cf-code-block :read-only="true" :id="question.id" autoheight showCopyButton v-model="question.code"/>
+        <cf-code-block :read-only="true" :id="question.data.id" autoheight showCopyButton v-model="question.data.code"/>
       </div>
 
-      <div class="px-2 py-2" v-if="question.answer">
+      <div class="px-2 py-2" v-if="question.data.answer">
         <va-checkbox label="Show answer" v-model="showAnswer"/>
       </div>
 
       <div class="px-2 py-2" v-if="showAnswer">
-        <cf-code-block :read-only="true" :id="`${question.id}-answer`" autoheight showCopyButton v-model="question.answer"/>
+        <cf-code-block :read-only="true" :id="`${question.data.id}-answer`" autoheight showCopyButton v-model="question.data.answer"/>
       </div>
 
       <div>
         <div class="flex justify-between px-2 bg-gray-100">
           <div class="py-2 text-xs flex items-center flex-none">
             <va-chip
-                v-for="(tag, index) in question.tags"
+                v-for="(tag, index) in question.data.tags"
                 :key="index"
                 color="#d1d5db"
                 size="small"
@@ -88,11 +88,13 @@
                 {{ comment.name }}
               </va-chip>
             </div>
-            <va-input
-                class="mb-4"
-                type="textarea"
-                placeholder="Comment"
-            />
+            <div>
+              <va-input
+                  class="mb-4"
+                  type="textarea"
+                  placeholder="Comment"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -101,9 +103,9 @@
 </template>
 
 <script lang="ts">
-import Question from '@/api/Question/Question'
 import { onMounted, ref } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
+import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
 
 export default {
   name: 'CfInterviewQuestionItem',
@@ -113,7 +115,7 @@ export default {
       type: Object,
       required: true,
       validator: (value: any) => {
-        return value instanceof Question
+        return value instanceof InterviewQuestion
       },
     },
     canBeStarted: {
@@ -152,7 +154,8 @@ export default {
     const toggleShort = (index: number) => {
       shortComments.value[index].chosen = !shortComments.value[index].chosen
     }
-    questionIcon.value = props.question.type === 'Verbal' ? 'hearing' : 'keyboard'
+    questionIcon.value = props.question.data.type === 'Verbal' ? 'hearing' : 'keyboard'
+
     return {
       questionIcon,
       showAnswer,
@@ -173,7 +176,7 @@ export default {
   text-transform: uppercase;
 }
 
-.cf-question-item {
+.cf-interview-question-item {
   --va-collapse-header-content-icon-margin-right: 1rem;
   --va-collapse-header-content-icon-margin-left: 1rem;
   --va-collapse-header-content-border-radius: var(--cf-border-radius);
@@ -185,7 +188,7 @@ export default {
     position: relative;
   }
 
-  .va-collapse__header__content {
+  .va-collapse__header {
     @apply bg-gray-200
   }
 

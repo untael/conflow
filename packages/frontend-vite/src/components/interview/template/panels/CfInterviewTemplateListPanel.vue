@@ -66,7 +66,6 @@ export default {
       })
     }
     const addTemplate = (interviewTemplate: InterviewTemplate) => {
-      console.log('interviewTemplate', interviewTemplate)
       $emitter.emit(InterviewTemplateEvents.Add, interviewTemplate)
     }
     const initQuestionDisplayPanel = (question: Question) => {

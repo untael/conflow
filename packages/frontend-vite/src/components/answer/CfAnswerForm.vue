@@ -6,7 +6,7 @@
       color-all
   >
     <template v-slot:header>
-      <div class="va-collapse__header__content">
+      <div class="va-collapse__header">
         <!--v-if-->
         <div
             class="va-collapse__header__text d-flex justify-between items-center"
@@ -100,7 +100,7 @@ export default {
     position: relative;
   }
 
-  .va-collapse__header__content {
+  .va-collapse__header {
     @apply bg-gray-200
   }
 

@@ -5,7 +5,7 @@
       color-all
   >
     <template #header>
-      <div class="va-collapse__header__content">
+      <div class="va-collapse__header">
         <div class="va-collapse__header__text">{{ interviewTemplate.name }}</div>
         <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
         <va-button v-if="addable" size="small" class="mx-1" flat icon="add" @click.stop="$emit('add')"/>
