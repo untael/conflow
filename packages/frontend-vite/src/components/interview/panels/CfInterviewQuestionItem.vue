@@ -51,7 +51,7 @@
           <div v-if="!question.is_completed" class="flex px-2">
             <va-button
                 v-if="!question.is_in_progress"
-                @click="question.start()"
+                @click="startQuestion"
                 color="#86a17d"
                 size="small"
                 class="flex-none"
@@ -59,9 +59,10 @@
                 outline
                 icon="play_arrow"
             />
+
             <va-button
                 v-if="question.is_in_progress"
-                @click="question.end()"
+                @click="endQuestion"
                 color="#c31020"
                 size="small"
                 class="flex-none"
@@ -69,28 +70,30 @@
                 outline
                 icon="stop"
             />
+            <span class="ml-2">{{ formattedTimer }}</span>
           </div>
           <div v-else class="flex flex-col flex-none items-start justify-between text-xs">
-            <div class="d-flex justify-between items-center">
-              <div class="flex-none text-center test">
+            <div class="d-flex justify-between items-center mx-2">
+              <div class="flex-none text-center test mr-2">
                 Time spent: {{ question.formatted_time_spent }}
               </div>
               <div class="flex items-center flex-none test">
-                <va-rating color="#86a17d" v-model="question.mark" size="small"/>
+                <va-rating color="#2C82E0" v-model="question.mark" size="small"/>
               </div>
             </div>
-            <div>
+            <div class="ma-2">
+              <span v-for="(comment,index) in shortComments"
+                    :key="index" class="mr-1" >
               <va-chip
                   :outline="!comment.chosen"
-                  v-for="(comment,index) in shortComments"
-                  :key="index" @click="toggleShort(index)"
+                  @click="toggleShort(index)"
               >
                 {{ comment.name }}
-              </va-chip>
+              </va-chip></span>
             </div>
-            <div>
+            <div class="w-full ma-2">
               <va-input
-                  class="mb-4"
+                  class="mb-4 w-full"
                   type="textarea"
                   placeholder="Comment"
               />
@@ -103,7 +106,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import CfCodeBlock from '@/components/CfCodeBlock.vue'
 import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
 
@@ -155,13 +158,38 @@ export default {
       shortComments.value[index].chosen = !shortComments.value[index].chosen
     }
     questionIcon.value = props.question.data.type === 'Verbal' ? 'hearing' : 'keyboard'
-
+    const timer = ref(0)
+    const formattedTimer = ref('')
+    const timerId = ref(0)
+    const startTimer = () => {
+      timerId.value = setInterval(() => {
+        timer.value++
+        const minutes = Math.floor(timer.value / 60)
+        const seconds = Math.floor(timer.value % 60)
+        formattedTimer.value = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+      }, 1000)
+    }
+    const startQuestion = () => {
+      timer.value=0
+      formattedTimer.value="0:00"
+      props.question.start()
+      startTimer()
+    }
+    const endQuestion = () => {
+      clearInterval(timerId.value)
+      props.question.end()
+    }
     return {
       questionIcon,
       showAnswer,
       shortComments,
       toggleShort,
       outlineChip,
+      startQuestion,
+      timer,
+      timerId,
+      endQuestion,
+      formattedTimer
     }
   },
 }
