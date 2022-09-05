@@ -55,7 +55,7 @@
               Decision by:
             </div>
             <div>
-              {{question.decision_maker.full_name}}
+              {{ question.decision_maker.full_name }}
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default {
     }
   },
   setup (props: any, { emit }: SetupContext) {
-    const value = ref(false);
+    const value = ref(false)
     const shortComments = ref([{ name: 'fast', chosen: false }, {
       name: 'clever',
       chosen: false,
@@ -177,10 +177,10 @@ export default {
     })
 
     const onDecline = () => {
-      emit('decline');
+      emit('decline')
     }
     const onApprove = () => {
-      emit('approve');
+      emit('approve')
     }
 
     return {
@@ -193,7 +193,7 @@ export default {
       collapseHeaderClass,
       QuestionStatus,
       onDecline,
-      onApprove
+      onApprove,
     }
   },
 }
@@ -220,11 +220,13 @@ export default {
       border-top-right-radius: var(--va-button-square-border-radius);
       border-bottom-right-radius: var(--va-button-square-border-radius);
     }
+
     &--decline {
       border-top-left-radius: var(--va-button-square-border-radius);
       border-bottom-left-radius: var(--va-button-square-border-radius);
     }
   }
+
   &--pending {
     border-left: 0.25rem solid var(--va-info);
   }

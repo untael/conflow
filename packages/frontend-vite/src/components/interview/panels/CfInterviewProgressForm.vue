@@ -121,7 +121,12 @@ import { useAuth } from '@/composables/useAuth'
 
 export default {
   name: 'CfInterviewProgressForm',
-  components: { CfInterviewQuestionItem, CfControlButtons, CfContainerRow, CfContainer },
+  components: {
+    CfInterviewQuestionItem,
+    CfControlButtons,
+    CfContainerRow,
+    CfContainer,
+  },
   props: {
     interview: {
       type: Interview,
@@ -135,13 +140,13 @@ export default {
     const { interview, interviewAPIHandlers } = useInterview()
     const { currentUser } = useAuth()
     const onSave = () => {
-      if(!props.interview.user_reports.some((report: InterviewUserReport) => report.user.id === currentUser.value.id))
+      if (!props.interview.user_reports.some((report: InterviewUserReport) => report.user.id === currentUser.value.id))
         props.interview.user_reports.push(
             new InterviewUserReport({
               user: currentUser.value,
               topic_report: topicReport.value,
               opinion_check: opinionCheck.value,
-            })
+            }),
         )
       props.interview.status = InterviewStatusEnum.Finished
     }
@@ -160,14 +165,14 @@ export default {
       acc.push({
         name: item,
         mark: 0,
-        note: ''
+        note: '',
       })
       return acc
     }, []) as TopicReport[]
     extractedTopics.push({
       name: 'Total',
       mark: 0,
-      note: ''
+      note: '',
     })
 
     const topicReport = ref(extractedTopics)

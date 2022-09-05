@@ -156,37 +156,37 @@ export default {
   setup (props: any) {
     const value = ref(false)
     const interviewIconParams = computed(() => {
-      switch(props.interview.status) {
+      switch (props.interview.status) {
         case InterviewStatusEnum.Incoming:
           return {
             color: 'info',
-            name: 'schedule'
+            name: 'schedule',
           }
-          break;
+          break
         case InterviewStatusEnum.InProgress:
           return {
             color: 'warning',
-            name: 'interpreter_mode'
+            name: 'interpreter_mode',
           }
-          break;
+          break
         case InterviewStatusEnum.Finished:
           return {
             color: 'success',
-            name: 'task'
+            name: 'task',
           }
-          break;
+          break
         case InterviewStatusEnum.Cancelled:
           return {
             color: 'danger',
-            name: 'person_remove'
+            name: 'person_remove',
           }
-          break;
+          break
         default:
           return {
             color: 'info',
-            name: 'schedule'
+            name: 'schedule',
           }
-          break;
+          break
       }
     })
 

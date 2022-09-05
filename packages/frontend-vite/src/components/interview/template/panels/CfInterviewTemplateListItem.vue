@@ -20,7 +20,7 @@
         </div>
         <div class="py-2 text-xs flex items-center flex-none basis-2/3">
           {{ interviewTemplate.name }}
-          </div>
+        </div>
       </div>
       <div class="flex justify-start items-start px-2">
         <div class="py-2 flex-none basis-1/3">

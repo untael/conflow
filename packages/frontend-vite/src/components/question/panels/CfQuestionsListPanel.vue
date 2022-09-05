@@ -48,8 +48,12 @@ export default {
       type: Boolean,
       default: false,
     },
+    filters: {
+      type: [Object, Boolean],
+      default: false,
+    },
   },
-  setup () {
+  setup (props: any) {
     const { $emitter } = useEmitter()
     const { currentUser } = useAuth()
     const { $panel } = usePanel()
@@ -58,7 +62,7 @@ export default {
     const isLoading = ref(false)
     onMounted(async () => {
       isLoading.value = true
-      questions.value = await getQuestions()
+      questions.value = await getQuestions(props.filters)
       isLoading.value = false
     })
     const addQuestion = (question: Question) => {
@@ -70,11 +74,19 @@ export default {
       })
     }
     const approveQuestion = async (question: Question) => {
-      await updateQuestion(new Question({...question, status: 'approved', decision_maker: currentUser.value }))
+      await updateQuestion(new Question({
+        ...question,
+        status: 'approved',
+        decision_maker: currentUser.value,
+      }))
       questions.value = await getQuestions()
     }
     const declineQuestion = async (question: Question) => {
-      await updateQuestion(new Question({...question, status: 'declined', decision_maker: currentUser.value}))
+      await updateQuestion(new Question({
+        ...question,
+        status: 'declined',
+        decision_maker: currentUser.value,
+      }))
       questions.value = await getQuestions()
     }
 
@@ -87,7 +99,7 @@ export default {
       isLoading,
       questions,
       approveQuestion,
-      declineQuestion
+      declineQuestion,
     }
   },
 

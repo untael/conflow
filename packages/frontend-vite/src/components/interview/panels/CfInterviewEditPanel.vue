@@ -6,76 +6,78 @@
     <template #default>
       <div>
         <div class="w-1/2 pr-2">
-        <cf-container-row title="Interview name:">
-          <va-input class="w-full" v-model="interview.name"/>
-        </cf-container-row></div>
+          <cf-container-row title="Interview name:">
+            <va-input class="w-full" v-model="interview.name"/>
+          </cf-container-row>
+        </div>
         <div class="flex">
-        <div class="mr-3">
-          <cf-container-row title="Candidate:">
-            <div>
-              <va-input v-model="interview.candidate" class="w-full"/>
-            </div>
-          </cf-container-row>
-          <cf-container-row title="Type:">
-            <div>
-              <va-select
-                  class="w-full"
-                  v-model="interview.type"
-                  text-by="name"
-                  :options="interviewTypes"
-              />
-            </div>
-          </cf-container-row>
-        </div>
-        <div >
-          <cf-container-row  title="Candidate level:">
-          <div >
-            <va-select
-                class="w-full"
-                v-model="interview.candidate_levels"
-                text-by="name"
-                :options="candidateLevels"
-                multiple
-            />
+          <div class="mr-3">
+            <cf-container-row title="Candidate:">
+              <div>
+                <va-input v-model="interview.candidate" class="w-full"/>
+              </div>
+            </cf-container-row>
+            <cf-container-row title="Type:">
+              <div>
+                <va-select
+                    class="w-full"
+                    v-model="interview.type"
+                    text-by="name"
+                    :options="interviewTypes"
+                />
+              </div>
+            </cf-container-row>
           </div>
-          </cf-container-row>
-          <cf-container-row  title="Interviewers:">
-            <div>
-              <va-select
-                  class="w-full"
-                  v-model="interview.interviewers"
-                  text-by="full_name"
-                  track-by="id"
-                  :options="interviewers"
-                  multiple
-              />
-            </div>
-          </cf-container-row>
+          <div>
+            <cf-container-row title="Candidate level:">
+              <div>
+                <va-select
+                    class="w-full"
+                    v-model="interview.candidate_levels"
+                    text-by="name"
+                    :options="candidateLevels"
+                    multiple
+                />
+              </div>
+            </cf-container-row>
+            <cf-container-row title="Interviewers:">
+              <div>
+                <va-select
+                    class="w-full"
+                    v-model="interview.interviewers"
+                    text-by="full_name"
+                    track-by="id"
+                    :options="interviewers"
+                    multiple
+                />
+              </div>
+            </cf-container-row>
+          </div>
         </div>
-      </div>
-        <cf-container-row  title="Note:">
+        <cf-container-row title="Note:">
           <va-input type="textarea" min-rows="2" autosize v-model="interview.note" class="w-full"/>
         </cf-container-row>
         <div class="flex">
           <cf-container-row title="Date:">
-          <div>
-            <va-date-input
-                class="w-full"
-                v-model="interview.date"
-                :returnRaw="false"
-                mask="date"
-            />
-          </div>
-        </cf-container-row>
+            <div class="mr-3">
+              <va-date-input
+                  class="w-full"
+                  v-model="interview.date"
+                  :returnRaw="false"
+                  mask="date"
+              />
+            </div>
+          </cf-container-row>
           <cf-container-row title="Time:">
-            <div class="ml-3">
+            <div>
               <va-time-input
                   class="w-full"
                   v-model="interview.time"
                   :returnRaw="false"
                   manual-input
               />
-            </div></cf-container-row>
+            </div>
+          </cf-container-row>
         </div>
 
         <cf-container-row title="Questions:">
@@ -221,7 +223,7 @@ export default {
 
     const initQuestionsPanel = () => {
       $panel.init(PanelNames.QuestionsListPanel, {
-        addable: true,
+        addable: true, filters: { status: 'approved' },
       })
     }
     const fetchInterview = async () => {

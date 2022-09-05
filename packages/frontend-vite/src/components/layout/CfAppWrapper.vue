@@ -31,11 +31,11 @@ export default {
       loading,
     }
   },
-  async beforeRouteEnter(to: any, from:any, next:any) {
+  async beforeRouteEnter (to: any, from: any, next: any) {
     const { getMe } = useAuth()
     await getMe()
-    next();
-  }
+    next()
+  },
 }
 </script>
 

@@ -87,7 +87,7 @@ export const panelsIterator = [
     component: CfQuestionEditPanel,
     props: {
       editable: false,
-    }
+    },
   }),
   new Panel({
     name: PanelNames.InterviewDashboardPanel,

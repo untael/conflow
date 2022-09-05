@@ -83,7 +83,7 @@
             </div>
             <div class="ma-2">
               <span v-for="(comment,index) in shortComments"
-                    :key="index" class="mr-1" >
+                    :key="index" class="mr-1">
               <va-chip
                   :outline="!comment.chosen"
                   @click="toggleShort(index)"
@@ -170,8 +170,8 @@ export default {
       }, 1000)
     }
     const startQuestion = () => {
-      timer.value=0
-      formattedTimer.value="0:00"
+      timer.value = 0
+      formattedTimer.value = '0:00'
       props.question.start()
       startTimer()
     }
@@ -189,7 +189,7 @@ export default {
       timer,
       timerId,
       endQuestion,
-      formattedTimer
+      formattedTimer,
     }
   },
 }

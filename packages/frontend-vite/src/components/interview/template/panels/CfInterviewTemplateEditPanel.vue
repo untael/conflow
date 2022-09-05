@@ -13,27 +13,27 @@
         </div>
 
         <div class="flex">
-        <cf-container-row  title="Type:">
-          <div class="mr-3 flex-grow">
-            <va-select
-                class="w-full"
-                v-model="interviewTemplate.type"
-                text-by="name"
-                :options="interviewTypes"
-            />
-          </div>
-        </cf-container-row>
-        <cf-container-row title="Candidate level:">
-          <div >
-            <va-select
-                class="w-full"
-                v-model="interviewTemplate.candidate_levels"
-                text-by="name"
-                :options="candidateLevels"
-                multiple
-            />
-          </div>
-        </cf-container-row>
+          <cf-container-row title="Type:">
+            <div class="mr-3 flex-grow">
+              <va-select
+                  class="w-full"
+                  v-model="interviewTemplate.type"
+                  text-by="name"
+                  :options="interviewTypes"
+              />
+            </div>
+          </cf-container-row>
+          <cf-container-row title="Candidate level:">
+            <div>
+              <va-select
+                  class="w-full"
+                  v-model="interviewTemplate.candidate_levels"
+                  text-by="name"
+                  :options="candidateLevels"
+                  multiple
+              />
+            </div>
+          </cf-container-row>
         </div>
         <cf-container-row title="Questions:">
 

@@ -24,12 +24,17 @@ export const useQuestion = () => {
       // ToDo refactor
       let query = `?`
       if(filters) {
-        filters.tags.forEach((tag: string, i: number, arr: any[]) => {
-          query += `${filters.fieldName}=${tag}`
-          if (i !== arr.length - 1) {
-            query += '&'
-          }
-        })
+        if(filters.tags) {
+          filters.tags.forEach((tag: string, i: number, arr: any[]) => {
+            query += `${filters.fieldName}=${tag}`
+            if (i !== arr.length - 1) {
+              query += '&'
+            }
+          })
+        }
+        if(filters.status) {
+            query += `status=${filters.status}`
+        }
       }
       const plainQuestions: any[] = (await axios.get(`${import.meta.env.VITE_API_URL}/questions${query}`)).data
       const mappedQuestions = plainToClass(Question, plainQuestions, { excludeExtraneousValues: true })

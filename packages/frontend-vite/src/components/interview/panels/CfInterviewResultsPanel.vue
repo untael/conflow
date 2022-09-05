@@ -4,27 +4,25 @@
       Interview result
     </template>
     <template #default>
-<!--      <div v-for="(question, i) in questions" :key="i">-->
-<!--        <cf-answer-form-->
-<!--            :question="question"-->
-<!--            class="py-2"-->
-<!--        />-->
-<!--      </div>-->
+      <!--      <div v-for="(question, i) in questions" :key="i">-->
+      <!--        <cf-answer-form-->
+      <!--            :question="question"-->
+      <!--            class="py-2"-->
+      <!--        />-->
+      <!--      </div>-->
     </template>
   </cf-container>
 </template>
 <script lang="ts">
-import CfAnswerForm from '../../answer/CfAnswerForm.vue';
-import Question from "@/api/Question/Question";
-import CfContainer from "@/components/layout/CfContainer.vue";
+import CfAnswerForm from '../../answer/CfAnswerForm.vue'
+import Question from '@/api/Question/Question'
+import CfContainer from '@/components/layout/CfContainer.vue'
 
 export default {
   name: 'CfInterviewResultsPanel',
-  components: {CfAnswerForm, CfContainer},
-  setup() {
-    return {
-
-    }
+  components: { CfAnswerForm, CfContainer },
+  setup () {
+    return {}
   },
   // data() {
   //   let questions = (new Array(5)).fill(new Question({

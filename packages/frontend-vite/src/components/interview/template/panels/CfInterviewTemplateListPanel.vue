@@ -35,6 +35,7 @@ import { usePanel } from '@/composables/usePanel'
 import { QuestionEvents } from '@/api/Question/events'
 import { useEmitter } from '@/composables/useEmitter'
 import { InterviewTemplateEvents } from '@/api/InterviewTemplate/events'
+
 export default {
   name: 'CfInterviewTemplateListPanel',
   components: { CfInterviewTemplateListItem, CfContainer },
@@ -55,7 +56,7 @@ export default {
     const isLoading = ref(false)
     const { interviewTemplateAPIHandlers } = useInterviewTemplate()
 
-    onMounted(async() => {
+    onMounted(async () => {
       isLoading.value = true
       interviewTemplateList.value = await interviewTemplateAPIHandlers.getMany()
       isLoading.value = false

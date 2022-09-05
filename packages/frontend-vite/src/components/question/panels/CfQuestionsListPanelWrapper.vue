@@ -24,7 +24,7 @@ export default {
     authRequired: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   setup (props: any) {
     const panel = PanelList.find((panel: Panel) => panel.name === PanelNames.QuestionsListPanel)
