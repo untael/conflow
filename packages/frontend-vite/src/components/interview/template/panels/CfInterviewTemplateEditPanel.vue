@@ -6,23 +6,27 @@
 
     <template #default>
       <div>
-        <cf-container-row>
-          Name:
-          <va-input v-model="interviewTemplate.name"/>
-        </cf-container-row>
+        <div class="w-1/2 pr-2">
+          <cf-container-row title="Name:">
+            <va-input class="w-full" v-model="interviewTemplate.name"/>
+          </cf-container-row>
+        </div>
 
-        <cf-container-row class="flex">
-          <div class="mr-1 flex-grow">
-            Type:
+        <div class="flex">
+        <cf-container-row  title="Type:">
+          <div class="mr-3 flex-grow">
             <va-select
+                class="w-full"
                 v-model="interviewTemplate.type"
                 text-by="name"
                 :options="interviewTypes"
             />
           </div>
-          <div class="ml-1 flex-grow">
-            Candidate level:
+        </cf-container-row>
+        <cf-container-row title="Candidate level:">
+          <div >
             <va-select
+                class="w-full"
                 v-model="interviewTemplate.candidate_levels"
                 text-by="name"
                 :options="candidateLevels"
@@ -30,9 +34,9 @@
             />
           </div>
         </cf-container-row>
+        </div>
+        <cf-container-row title="Questions:">
 
-        <cf-container-row>
-          Questions:
           <div v-for="(question, index) in interviewTemplate.questions" :key="`iq-${index}-${question.id}`">
             <cf-question-item
                 can-be-removed

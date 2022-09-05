@@ -5,17 +5,19 @@
     </template>
     <template #default>
       <va-form ref="questionCreateForm">
-        <cf-container-row>
-          Name:
+        <cf-container-row title="Name:">
+
           <va-input
+              class="w-1/2"
               v-model="question.name"
               :rules="[validationRules]"
           />
         </cf-container-row>
 
-        <cf-container-row>
-          Description:
+        <cf-container-row title="Description:">
+
           <va-input
+              class="w-full"
               v-model="question.description"
               type="textarea"
               autosize
@@ -59,8 +61,8 @@
                          v-model="question.answer" @loaded="setCodemirrorLoading" :showCopyButton="false"/>
         </cf-container-row>
 
-        <cf-container-row>
-          Question type:
+        <cf-container-row title="Question type:">
+
 
           <va-select
               :options="types"
@@ -69,8 +71,8 @@
           />
         </cf-container-row>
 
-        <cf-container-row>
-          Tags:
+        <cf-container-row title="Tags:">
+
           <va-select
               :options="tags"
               v-model="question.tags"

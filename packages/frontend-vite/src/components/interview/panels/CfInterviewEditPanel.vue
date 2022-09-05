@@ -5,73 +5,80 @@
     </template>
     <template #default>
       <div>
-        <cf-container-row>
-          Interview name:
-          <va-input v-model="interview.name"/>
-        </cf-container-row>
-
-        <cf-container-row class="flex">
-          <div class="mr-1 flex-grow basis-1/2	">
-            Candidate:
-            <va-input v-model="interview.candidate"/>
-          </div>
-          <div class="ml-1 flex-grow basis-1/2	">
-            Candidate level:
+        <div class="w-1/2 pr-2">
+        <cf-container-row title="Interview name:">
+          <va-input class="w-full" v-model="interview.name"/>
+        </cf-container-row></div>
+        <div class="flex">
+        <div class="mr-3">
+          <cf-container-row title="Candidate:">
+            <div>
+              <va-input v-model="interview.candidate" class="w-full"/>
+            </div>
+          </cf-container-row>
+          <cf-container-row title="Type:">
+            <div>
+              <va-select
+                  class="w-full"
+                  v-model="interview.type"
+                  text-by="name"
+                  :options="interviewTypes"
+              />
+            </div>
+          </cf-container-row>
+        </div>
+        <div >
+          <cf-container-row  title="Candidate level:">
+          <div >
             <va-select
+                class="w-full"
                 v-model="interview.candidate_levels"
                 text-by="name"
                 :options="candidateLevels"
                 multiple
             />
           </div>
+          </cf-container-row>
+          <cf-container-row  title="Interviewers:">
+            <div>
+              <va-select
+                  class="w-full"
+                  v-model="interview.interviewers"
+                  text-by="full_name"
+                  track-by="id"
+                  :options="interviewers"
+                  multiple
+              />
+            </div>
+          </cf-container-row>
+        </div>
+      </div>
+        <cf-container-row  title="Note:">
+          <va-input type="textarea" min-rows="2" autosize v-model="interview.note" class="w-full"/>
         </cf-container-row>
-
-        <cf-container-row class="flex">
-          <div class="mr-1 flex-grow basis-1/2">
-            Type:
-            <va-select
-                v-model="interview.type"
-                text-by="name"
-                :options="interviewTypes"
-            />
-          </div>
-          <div class="ml-1 flex-grow basis-1/2">
-            Interviewers:
-            <va-select
-                v-model="interview.interviewers"
-                text-by="full_name"
-                track-by="id"
-                :options="interviewers"
-                multiple
-            />
-          </div>
-        </cf-container-row>
-
-        <cf-container-row>
-          Note:
-          <va-input type="textarea" min-rows="2" autosize v-model="interview.note"/>
-        </cf-container-row>
-        <cf-container-row class="flex">
-          <div class="basis-1/2	">
-            Date:
+        <div class="flex">
+          <cf-container-row title="Date:">
+          <div>
             <va-date-input
+                class="w-full"
                 v-model="interview.date"
                 :returnRaw="false"
                 mask="date"
             />
           </div>
-          <div class="ml-2 basis-1/2	">
-            Time:
-            <va-time-input
-                v-model="interview.time"
-                :returnRaw="false"
-                manual-input
-            />
-          </div>
         </cf-container-row>
+          <cf-container-row title="Time:">
+            <div class="ml-3">
+              <va-time-input
+                  class="w-full"
+                  v-model="interview.time"
+                  :returnRaw="false"
+                  manual-input
+              />
+            </div></cf-container-row>
+        </div>
 
-        <cf-container-row>
-          Questions:
+        <cf-container-row title="Questions:">
           <div v-for="(interviewQuestion, index) in interview.questions" :key="`iq-${index}-${interviewQuestion.data.id}`">
             <cf-question-item
                 can-be-removed
@@ -251,5 +258,6 @@ export default {
   },
 }
 </script>
+
 
 
