@@ -4,44 +4,46 @@
       User Profile Panel
     </template>
     <template #default>
-      <cf-container-row>
-        Username:
+      <cf-container-row class="w-1/2 pr-2" title="Username:">
         <va-input
+            class="w-full"
             v-model="user.username"
         />
       </cf-container-row>
-
-      <cf-container-row class="flex">
-        <div class="mr-1 flex-grow basis-1/2">
-          First name:
-          <va-input
-              v-model="user.first_name"
-          />
+      <div class="flex">
+        <div>
+          <cf-container-row class="mr-3" title="First name:">
+            <va-input
+                class="w-full"
+                v-model="user.first_name"
+            />
+          </cf-container-row>
+          <cf-container-row class="mr-3" title="Phone:">
+            <va-input
+                class="w-full"
+                v-model="user.phone_number"
+                type="number"
+            />
+          </cf-container-row>
         </div>
-        <div class="ml-1 flex-grow basis-1/2">
-          Last name:
-          <va-input
-              v-model="user.last_name"
-          />
+        <div>
+          <cf-container-row title="Last name:">
+            <va-input
+                class="w-full"
+                v-model="user.last_name"
+            />
+          </cf-container-row>
+          <cf-container-row title="Provider:">
+            <div v-if="user.provider">
+              <va-input
+                  class="w-full"
+                  disabled
+                  :model-value="user.provider"
+              />
+            </div>
+          </cf-container-row>
         </div>
-      </cf-container-row>
-
-      <cf-container-row class="flex">
-        <div class="mr-1 flex-grow basis-1/2">
-          Phone:
-          <va-input
-              v-model="user.phone_number"
-              type="number"
-          />
-        </div>
-        <div class="ml-1 flex-grow basis-1/2" v-if="user.provider">
-          Provider:
-          <va-input
-              disabled
-              :model-value="user.provider"
-          />
-        </div>
-      </cf-container-row>
+      </div>
     </template>
     <template #control-buttons>
 
