@@ -1,5 +1,5 @@
 import Question from '@/api/Question/Question'
-import { Expose, Transform, Type } from 'class-transformer'
+import { Expose, Transform, Type, Exclude } from 'class-transformer'
 
 export interface IInterviewQuestion {
   id: string,
@@ -10,6 +10,7 @@ export interface IInterviewQuestion {
   mark?: number
 }
 
+@Exclude()
 export default class InterviewQuestion implements IInterviewQuestion {
   @Expose()
   id = ''
@@ -19,12 +20,10 @@ export default class InterviewQuestion implements IInterviewQuestion {
   data: Question = new Question()
   @Expose()
   mark?: number = 0
-  @Expose()
   date_start: Date | null = null
-  @Expose()
   date_end: Date | null = null
-  @Expose()
-  @Transform(({ value }) => +value)
+  // @Expose()
+  // @Transform(({ value }) => +value)
   time_spent: number = 0
 
   get is_in_progress () {

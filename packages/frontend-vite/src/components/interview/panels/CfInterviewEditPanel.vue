@@ -158,18 +158,18 @@ export default {
     const candidateLevels: Ref<CandidateLevel[]> = ref([])
     const interviewers: Ref<User[]> = ref([])
     const isLoading = ref(false)
+    const interviewId = route.params.id as string
     const onSave = async () => {
-      if (!props.id) {
-        await interviewAPIHandlers.create(interview.value)
-      } else {
+      if (interview.value.id || props.id) {
         await interviewAPIHandlers.update(interview.value)
+      } else {
+        await interviewAPIHandlers.create(interview.value)
 
       }
     }
     const toggleTemplateText = computed(() => interview.value.interviewTemplate ? 'Discard' : 'Apply')
 
     onMounted(async () => {
-      const interviewId = route.params.id as string
       isLoading.value = true
       if (interviewId || props.id) {
         interview.value = await interviewAPIHandlers.getOne(interviewId || props.id)

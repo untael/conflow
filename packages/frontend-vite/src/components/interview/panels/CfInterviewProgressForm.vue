@@ -18,6 +18,34 @@
           </div>
         </div>
 
+        <div class="flex justify-start items-center text-xs">
+          <div class="py-2 flex-none basis-1/3">
+            Date:
+          </div>
+          <div class="py-2 flex items-center flex-none basis-2/3">
+            {{ interview.full_date }}
+          </div>
+        </div>
+
+        <div class="flex justify-start items-center text-xs">
+          <div class="py-2 flex-none basis-1/3">
+            Interviewers:
+          </div>
+          <div class="py-2 text-xs flex items-center flex-none basis-2/3">
+            <va-chip
+                v-for="(interviewer, index) in interview.interviewers"
+                :key="index"
+                color="#d1d5db"
+                size="small"
+                square
+                outline
+                class="mr-2 flex-none"
+            >
+              {{ interviewer.full_name }}
+            </va-chip>
+          </div>
+        </div>
+
         <div class="flex justify-start items-center text-xs" v-if="interview.note">
           <div class="py-2 flex-none basis-1/3">
             Note:
@@ -57,7 +85,8 @@
           </div>
         </div>
       </cf-container-row>
-      <cf-container-row title="Questions:">
+
+      <cf-container-row title="Questions:" v-if="!preview">
         <div v-for="(question, index) in interview.questions" :key="`iq-${index}-${question.id}`">
           <cf-interview-question-item
               can-be-started
@@ -66,9 +95,9 @@
           />
         </div>
       </cf-container-row>
-      <cf-container-row title="Results:">
+      <cf-container-row title="Results:" v-if="!preview">
         <div
-            v-for="(topic, index) in topicReport"
+            v-for="(topic, index) in topicReports"
             :key="`${topic.name}-${index}`"
         >
           <va-slider
@@ -94,11 +123,17 @@
 
     <template #control-buttons>
       <cf-control-buttons
-          saveButtonText="End"
+          :saveButtonText="preview ? 'Join' : 'End'"
           cancelButtonText="Abort"
           @cancel="cancelInterview"
           @save="onSave"
-      />
+      >
+        <template #customs v-if="!preview">
+          <va-button class="flex-none" color="success" @click="sendUserReport">
+            Send report
+          </va-button>
+        </template>
+      </cf-control-buttons>
     </template>
   </cf-container>
 </template>
@@ -115,9 +150,10 @@ import { ref } from 'vue'
 import InterviewQuestion from '@/api/InterviewQuestion/InterviewQuestion'
 import {
   InterviewUserReport,
-  TopicReport,
 } from '@/api/Interview/InterviewUserReport'
 import { useAuth } from '@/composables/useAuth'
+import { useRouter } from 'vue-router'
+import TopicReport from '@/api/Interview/TopicReport'
 
 export default {
   name: 'CfInterviewProgressForm',
@@ -135,20 +171,19 @@ export default {
     isLoading: {
       type: Boolean,
     },
+    preview: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup (props: any, { emit }: any) {
+    const router = useRouter()
     const { interview, interviewAPIHandlers } = useInterview()
     const { currentUser } = useAuth()
     const onSave = () => {
-      if (!props.interview.user_reports.some((report: InterviewUserReport) => report.user.id === currentUser.value.id))
-        props.interview.user_reports.push(
-            new InterviewUserReport({
-              user: currentUser.value,
-              topic_report: topicReport.value,
-              opinion_check: opinionCheck.value,
-            }),
-        )
-      props.interview.status = InterviewStatusEnum.Finished
+      if (props.preview) {
+        router.push({path: `/interviews/${props.interview.id}/process`})
+      }
     }
     const cancelInterview = () => {
       // emit('cancel')
@@ -170,18 +205,48 @@ export default {
       return acc
     }, []) as TopicReport[]
     extractedTopics.push({
+      id: '',
       name: 'Total',
       mark: 0,
       note: '',
     })
 
-    const topicReport = ref(extractedTopics)
+    const existingUserReport = props.interview.user_reports.find((report: InterviewUserReport) => report.user === currentUser.value.id)
+    const topicReports = existingUserReport ? ref(existingUserReport.topic_reports) : ref(extractedTopics)
     const opinionCheck = ref(false)
+
+    const sendUserReport = async () => {
+      if (!props.interview.user_reports.some((report: InterviewUserReport) => report.user === currentUser.value.id))
+        if (existingUserReport) {
+          props.interview.user_reports.forEach((report: InterviewUserReport) => {
+            if (report.user === currentUser.value.id) {
+              report = new InterviewUserReport({
+                id: report.id,
+                user: currentUser.value.id,
+                topic_reports: topicReports.value,
+                opinion_check: opinionCheck.value,
+              })
+            }
+          })
+        } else {
+          props.interview.user_reports.push(
+              new InterviewUserReport({
+                user: currentUser.value.id,
+                topic_reports: topicReports.value,
+                opinion_check: opinionCheck.value,
+              }),
+          )
+        }
+      // props.interview.status = InterviewStatusEnum.Finished
+      await interviewAPIHandlers.update(props.interview)
+      emit('refreshInterview')
+    }
     return {
       onSave,
       cancelInterview,
-      topicReport,
+      topicReports,
       opinionCheck,
+      sendUserReport,
     }
   },
 

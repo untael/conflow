@@ -48,7 +48,6 @@ export default {
     const { getMe } = useAuth()
     await getMe()
     next((vm:any) => {
-      // setTimeout(()=>{ vm.loading = false },2000)
       vm.loading = false
     })
   },

@@ -47,59 +47,59 @@
             </va-chip>
           </div>
         </div>
-        <div v-if="canBeStarted" class="py-2 flex items-center">
-          <div v-if="!question.is_completed" class="flex px-2">
-            <va-button
-                v-if="!question.is_in_progress"
-                @click="startQuestion"
-                color="#86a17d"
-                size="small"
-                class="flex-none"
-                :rounded="false"
-                outline
-                icon="play_arrow"
-            />
+<!--        <div v-if="canBeStarted" class="py-2 flex items-center">-->
+<!--          <div v-if="!question.is_completed" class="flex px-2">-->
+<!--            <va-button-->
+<!--                v-if="!question.is_in_progress"-->
+<!--                @click="startQuestion"-->
+<!--                color="#86a17d"-->
+<!--                size="small"-->
+<!--                class="flex-none"-->
+<!--                :rounded="false"-->
+<!--                outline-->
+<!--                icon="play_arrow"-->
+<!--            />-->
 
-            <va-button
-                v-if="question.is_in_progress"
-                @click="endQuestion"
-                color="#c31020"
-                size="small"
-                class="flex-none"
-                :rounded="false"
-                outline
-                icon="stop"
-            />
-            <span class="ml-2">{{ formattedTimer }}</span>
-          </div>
-          <div v-else class="flex flex-col flex-none items-start justify-between text-xs">
-            <div class="d-flex justify-between items-center mx-2">
-              <div class="flex-none text-center test mr-2">
-                Time spent: {{ question.formatted_time_spent }}
-              </div>
-              <div class="flex items-center flex-none test">
-                <va-rating color="#2C82E0" v-model="question.mark" size="small"/>
-              </div>
-            </div>
-            <div class="ma-2">
-              <span v-for="(comment,index) in shortComments"
-                    :key="index" class="mr-1">
-              <va-chip
-                  :outline="!comment.chosen"
-                  @click="toggleShort(index)"
-              >
-                {{ comment.name }}
-              </va-chip></span>
-            </div>
-            <div class="w-full ma-2">
-              <va-input
-                  class="mb-4 w-full"
-                  type="textarea"
-                  placeholder="Comment"
-              />
-            </div>
-          </div>
-        </div>
+<!--            <va-button-->
+<!--                v-if="question.is_in_progress"-->
+<!--                @click="endQuestion"-->
+<!--                color="#c31020"-->
+<!--                size="small"-->
+<!--                class="flex-none"-->
+<!--                :rounded="false"-->
+<!--                outline-->
+<!--                icon="stop"-->
+<!--            />-->
+<!--            <span class="ml-2">{{ formattedTimer }}</span>-->
+<!--          </div>-->
+<!--          <div v-else class="flex flex-col flex-none items-start justify-between text-xs">-->
+<!--            <div class="d-flex justify-between items-center mx-2">-->
+<!--              <div class="flex-none text-center test mr-2">-->
+<!--                Time spent: {{ question.formatted_time_spent }}-->
+<!--              </div>-->
+<!--              <div class="flex items-center flex-none test">-->
+<!--                <va-rating color="#2C82E0" v-model="question.mark" size="small"/>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="ma-2">-->
+<!--              <span v-for="(comment,index) in shortComments"-->
+<!--                    :key="index" class="mr-1">-->
+<!--              <va-chip-->
+<!--                  :outline="!comment.chosen"-->
+<!--                  @click="toggleShort(index)"-->
+<!--              >-->
+<!--                {{ comment.name }}-->
+<!--              </va-chip></span>-->
+<!--            </div>-->
+<!--            <div class="w-full ma-2">-->
+<!--              <va-input-->
+<!--                  class="mb-4 w-full"-->
+<!--                  type="textarea"-->
+<!--                  placeholder="Comment"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
   </va-collapse>

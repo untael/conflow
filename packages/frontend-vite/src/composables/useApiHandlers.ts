@@ -2,6 +2,7 @@ import { classToPlain, plainToClass, plainToInstance } from 'class-transformer'
 import axios from 'axios'
 import { useToast } from '@/composables/useToast'
 import { Ref, ref } from 'vue'
+import { InterviewUserReport } from '@/api/Interview/InterviewUserReport'
 
 export const useApiHandlers = () => {
   const { $toast } = useToast()
@@ -61,12 +62,13 @@ export const useApiHandlers = () => {
         color: 'danger',
       })
     }
-
   }
+
   const update = async (classValue: any): Promise<any> => {
     const classInstance = getClassInstance(classValue)
     try {
       const plainValue = classToPlain(classValue)
+      console.log('plainValue', plainValue)
       const plainEntity = (await axiosInstance.put(`/${classValue.endpoint}/${plainValue.id}`, plainValue)).data
       $toast.init({
         message: `${classValue.endpoint} was successfully updated`,
@@ -80,7 +82,6 @@ export const useApiHandlers = () => {
         color: 'danger',
       })
     }
-
   }
 
   // const delete = (interviewTemplate: InterviewTemplate) => {

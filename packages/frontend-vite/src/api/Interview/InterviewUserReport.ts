@@ -1,16 +1,10 @@
-import User from '@/api/User/User'
 import { Expose, Transform, Type } from 'class-transformer'
-
-export type TopicReport = {
-  name: string
-  mark: number
-  note: string
-}
+import TopicReport from '@/api/Interview/TopicReport'
 
 export interface IInterviewUserReport {
   id: string,
-  user: User,
-  topic_report: TopicReport[],
+  user: string,
+  topic_reports: TopicReport[],
   opinion_check: boolean,
 }
 
@@ -19,11 +13,11 @@ export class InterviewUserReport implements IInterviewUserReport {
   id: string = ''
 
   @Expose()
-  @Transform(({ value }) => value.map((user: User) => user.id), { toPlainOnly: true })
-  user: User = new User()
+  user: string = ''
 
   @Expose()
-  topic_report: TopicReport[] = []
+  @Type(() => TopicReport)
+  topic_reports: TopicReport[] = []
 
   @Expose()
   opinion_check: boolean = false

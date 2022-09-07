@@ -4,23 +4,27 @@
       :interview="interview"
       :loading="isLoading"
       @cancel="cancel"
+      :preview="isPreview"
   />
   <cf-interview-progress-form
       v-if="interview.status === 'in_progress'"
       :interview="interview"
       :loading="isLoading"
       @cancel="cancel"
+      :preview="isPreview"
+      @refreshInterview="refreshInterview"
   />
   <cf-interview-cancelled-form
       v-if="interview.status === 'cancelled'"
       :interview="interview"
       :loading="isLoading"
       @cancel="cancel"
+      :preview="isPreview"
   />
 </template>
 
 <script lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import CfContainer from '@/components/layout/CfContainer.vue'
 import CfControlButtons from '@/components/layout/CfControlButtons.vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -72,7 +76,7 @@ export default {
           interview.value = await interviewAPIHandlers.getOne(interviewId || props.id)
           isLoading.value = false
         } catch {
-          await router.push({ name: 'Not found' })
+          router.push({ name: 'Not found' })
         }
       }
     }
@@ -84,10 +88,21 @@ export default {
     const cancel = async () => {
       interview.value = await interviewAPIHandlers.cancel()
     }
+
+    const refreshInterview = async () => {
+      await fetchInterview()
+    }
+
+    const isPreview = computed(() => {
+      return route.name === 'Interviews list'
+    })
+
     return {
       isLoading,
       interview,
       cancel,
+      isPreview,
+      refreshInterview,
     }
   },
 

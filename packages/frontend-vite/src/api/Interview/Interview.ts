@@ -153,6 +153,7 @@ export default class Interview extends Event implements IInterview {
   status: InterviewStatus = InterviewStatusEnum.Incoming
 
   @Expose()
+  @Type(() => InterviewUserReport)
   user_reports: InterviewUserReport[] = []
 
   discardInterviewTemplate () {
