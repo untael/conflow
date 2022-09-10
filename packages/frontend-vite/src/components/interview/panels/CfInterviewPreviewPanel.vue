@@ -21,6 +21,13 @@
       @cancel="cancel"
       :preview="isPreview"
   />
+  <cf-interview-finished-form
+      v-if="interview.status === 'finished'"
+      :interview="interview"
+      :loading="isLoading"
+      @cancel="cancel"
+      :preview="isPreview"
+  />
 </template>
 
 <script lang="ts">
@@ -36,6 +43,8 @@ import CfInterviewIncomingForm
   from '@/components/interview/panels/CfInterviewIncomingForm.vue'
 import CfInterviewCancelledForm
   from '@/components/interview/panels/CfInterviewCancelledForm.vue'
+import CfInterviewFinishedForm
+  from '@/components/interview/panels/CfInterviewFinishedForm.vue'
 
 export default {
   name: 'CfInterviewPreviewPanel',
@@ -46,6 +55,7 @@ export default {
     CfContainer,
     CfInterviewProgressForm,
     CfInterviewCancelledForm,
+    CfInterviewFinishedForm,
   },
   props: {
     id: {

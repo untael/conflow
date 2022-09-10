@@ -148,7 +148,12 @@ const routes: Array<RouteRecordRaw> = [
           },
           {
             path: ':id/process',
-            name: 'Interview preview',
+            name: 'Interview process',
+            component: CfInterviewPreviewPanelWrapper,
+          },
+          {
+            path: ':id/finished',
+            name: 'Interview finish',
             component: CfInterviewPreviewPanelWrapper,
           },
           {
