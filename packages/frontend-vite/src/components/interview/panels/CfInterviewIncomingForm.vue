@@ -100,7 +100,7 @@
           saveButtonText="Start"
           cancelButtonText="Abort"
           @cancel="cancelInterview"
-          @save="onSave"
+          @save="startInterview"
       />
     </template>
   </cf-container>
@@ -128,14 +128,14 @@ export default {
   },
   setup (props: any, { emit }: any) {
     const { interviewAPIHandlers } = useInterview()
-    const onSave = () => {
-
+    const startInterview = () => {
+      emit('start')
     }
     const cancelInterview = () => {
       emit('cancel')
     }
     return {
-      onSave,
+      startInterview,
       cancelInterview,
     }
   },

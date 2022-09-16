@@ -180,10 +180,12 @@ export default {
     const router = useRouter()
     const { interview, interviewAPIHandlers } = useInterview()
     const { currentUser } = useAuth()
-    const onSave = () => {
+    const onSave = async () => {
       if (props.preview) {
         router.push({path: `/interviews/${props.interview.id}/process`})
+        return
       }
+      emit('finish')
     }
     const cancelInterview = () => {
       // emit('cancel')

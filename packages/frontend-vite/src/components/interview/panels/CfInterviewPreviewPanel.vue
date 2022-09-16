@@ -4,6 +4,7 @@
       :interview="interview"
       :loading="isLoading"
       @cancel="cancel"
+      @start="start"
       :preview="isPreview"
   />
   <cf-interview-progress-form
@@ -11,6 +12,7 @@
       :interview="interview"
       :loading="isLoading"
       @cancel="cancel"
+      @finish="finish"
       :preview="isPreview"
       @refreshInterview="refreshInterview"
   />
@@ -95,8 +97,18 @@ export default {
       await fetchInterview()
     })
 
+    const finish = async () => {
+      interview.value = await interviewAPIHandlers.finish()
+          await refreshInterview()
+    }
+
     const cancel = async () => {
       interview.value = await interviewAPIHandlers.cancel()
+      await refreshInterview()
+    }
+    const start = async () => {
+      interview.value = await interviewAPIHandlers.start()
+      await refreshInterview()
     }
 
     const refreshInterview = async () => {
@@ -111,6 +123,8 @@ export default {
       isLoading,
       interview,
       cancel,
+      finish,
+      start,
       isPreview,
       refreshInterview,
     }

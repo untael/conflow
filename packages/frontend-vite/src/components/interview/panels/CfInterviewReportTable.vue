@@ -32,6 +32,7 @@ import Interview from '@/api/Interview/Interview'
 import TopicReport from '@/api/Interview/TopicReport'
 import { InterviewUserReport } from '@/api/Interview/InterviewUserReport'
 import User from '@/api/User/User'
+import { computed } from 'vue'
 
 export default {
   name: 'CfInterviewReportTable',
@@ -53,25 +54,29 @@ export default {
       avgMark: number,
     }
 
-    const emptyTopicReport = props.interview.user_reports[0].topic_reports.map((topic: TopicReport) => {
-      return { name: topic.name, data: [], avgMark: 0 }
-    })
-    const finalReport = emptyTopicReport.map((currTopic: UnifiedTopicReport) => {
-      props.interview.user_reports.forEach((userReport: InterviewUserReport) => {
-        const currentTopicData = userReport.topic_reports.find((topicReport) => {
-          return topicReport.name === currTopic.name
-        })
-        currTopic.data.push({
-          userId: userReport.user,
-          mark: currentTopicData ? currentTopicData.mark : 0,
-          note: currentTopicData ? currentTopicData.note : '',
-        })
+    const emptyTopicReport = computed(() => {
+      return props.interview.user_reports[0].topic_reports.map((topic: TopicReport) => {
+        return { name: topic.name, data: [], avgMark: 0 }
       })
-      currTopic.avgMark = Math.round(currTopic.data.reduce((sum: number, curr: ReportData) => {
-        return sum + curr.mark
-      }, 0) / currTopic.data.length)
+    })
+    const finalReport = computed(() => {
+      return emptyTopicReport.value.map((currTopic: UnifiedTopicReport) => {
+        props.interview.user_reports.forEach((userReport: InterviewUserReport) => {
+          const currentTopicData = userReport.topic_reports.find((topicReport) => {
+            return topicReport.name === currTopic.name
+          })
+          currTopic.data.push({
+            userId: userReport.user,
+            mark: currentTopicData ? currentTopicData.mark : 0,
+            note: currentTopicData ? currentTopicData.note : '',
+          })
+        })
+        currTopic.avgMark = Math.round(currTopic.data.reduce((sum: number, curr: ReportData) => {
+          return sum + curr.mark
+        }, 0) / currTopic.data.length)
 
-      return currTopic
+        return currTopic
+      })
     })
 
     const getUserName = (userId: string) => {

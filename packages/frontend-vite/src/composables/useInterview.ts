@@ -34,6 +34,34 @@ export const useInterview = () => {
           break
       }
     },
+
+    //ToDo: Move this to backend separate method
+    start: async () => {
+      const interviewToStart = await getOne(interview.value as any, interview.value.id)
+      switch (interviewToStart.status) {
+        case InterviewStatusEnum.InProgress:
+          return interviewToStart
+          break
+        case InterviewStatusEnum.Incoming:
+          interviewToStart.status = InterviewStatusEnum.InProgress
+          return await update(interviewToStart)
+          break
+      }
+    },
+
+    //ToDo: Move this to backend separate method
+    finish: async () => {
+      const interviewToFinish = await getOne(interview.value as any, interview.value.id)
+      switch (interviewToFinish.status) {
+        case InterviewStatusEnum.Finished:
+          return interviewToFinish
+          break
+        case InterviewStatusEnum.InProgress:
+          interviewToFinish.status = InterviewStatusEnum.Finished
+          return await update(interviewToFinish)
+          break
+      }
+    },
   }
 
   return {
