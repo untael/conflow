@@ -1,9 +1,9 @@
 <template>
   <div class="cf-panel md:my-4 md:mx-auto h-full border-0 flex flex-col relative">
     <div class="flex z-10 flex-none absolute cf-panel__controls">
-      <!--      <va-button v-if="minimizeable" size="small" class="ml-1 flex-none" flat icon="minimize" @click="$panel.minimize(panel)"/>-->
-      <!--      <va-button v-if="maximizeable" size="small" class="ml-1 flex-none" flat icon="open_in_full" @click="panels.maximize(panel)"/>-->
-      <va-button v-if="closeable" size="small" class="ml-1 flex-none" flat icon="close" @click="$panel.close(panel)"/>
+      <!--      <va-button v-if="minimizeable" size="small" class="ml-1 flex-none" preset="secondary" icon="minimize" @click="$panel.minimize(panel)"/>-->
+      <!--      <va-button v-if="maximizeable" size="small" class="ml-1 flex-none" preset="secondary" icon="open_in_full" @click="panels.maximize(panel)"/>-->
+      <va-button v-if="closeable" size="small" class="ml-1 flex-none" preset="secondary" icon="close" @click="$panel.close(panel)"/>
     </div>
     <slot/>
   </div>

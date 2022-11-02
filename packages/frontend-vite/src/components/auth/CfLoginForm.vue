@@ -23,7 +23,7 @@
       <div class="text-center font-thin text-sm">
         Still have no account?
       </div>
-      <va-button color="primary" :to="{name: 'Sign up'}" flat>Sign up</va-button>
+      <va-button color="primary" :to="{name: 'Sign up'}" preset="secondary">Sign up</va-button>
     </va-card-content>
   </va-card>
 </template>

@@ -21,7 +21,7 @@
           @click="toggleTopbar"
           :icon="!topbarExpanded ? 'expand_more' : 'expand_less'"
           color="primary"
-          flat
+          preset="secondary"
       />
     </div>
   </div>

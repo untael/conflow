@@ -7,9 +7,9 @@
     <template #header>
       <div class="va-collapse__header">
         <div class="va-collapse__header__text">{{ interviewTemplate.name }}</div>
-        <va-button v-if="editable" size="small" class="mx-1" flat icon="edit" @click.stop="$emit('edit')"/>
-        <va-button v-if="addable" size="small" class="mx-1" flat icon="add" @click.stop="$emit('add')"/>
-        <!--        <va-button v-if="canBeRemoved" size="small" class="mx-1" flat icon="remove" @click.stop="$emit('remove')"/>-->
+        <va-button v-if="editable" size="small" class="mx-1" preset="secondary" icon="edit" @click.stop="$emit('edit')"/>
+        <va-button v-if="addable" size="small" class="mx-1" preset="secondary" icon="add" @click.stop="$emit('add')"/>
+        <!--        <va-button v-if="canBeRemoved" size="small" class="mx-1" preset="secondary" icon="remove" @click.stop="$emit('remove')"/>-->
         <va-icon class="va-collapse__header__icon" color="black" :name="value ? 'expand_less' : 'expand_more'"/>
       </div>
     </template>

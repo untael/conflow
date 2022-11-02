@@ -10,11 +10,11 @@
         </div>
         <div class="text-xl flex-none">
           Please
-          <va-button color="primary" flat text-color="primary" :to="{name: 'Login'}">
+          <va-button color="primary" preset="secondary" text-color="primary" :to="{name: 'Login'}">
             Sign in
           </va-button>
           or
-          <va-button color="success" flat text-color="success" :to="{name: 'Sign up'}">
+          <va-button color="success" preset="secondary" text-color="success" :to="{name: 'Sign up'}">
             Sign up
           </va-button>
         </div>

@@ -20,7 +20,7 @@
           <div class="mr-2 cursor-pointer" @click="$router.push({name: 'User profile'})">
             {{ currentUser.full_name }}
           </div>
-          <va-button rounded="true" flat icon="logout" @click="signOut"/>
+          <va-button rounded="true" preset="secondary" icon="logout" @click="signOut"/>
         </div>
       </template>
     </div>

@@ -215,7 +215,7 @@ export default {
 
     const existingUserReport = props.interview.user_reports.find((report: InterviewUserReport) => report.user === currentUser.value.id)
     const topicReports = existingUserReport ? ref(existingUserReport.topic_reports) : ref(extractedTopics)
-    const opinionCheck = ref(false)
+    const opinionCheck = existingUserReport ? ref(existingUserReport.opinion_check) : ref(false)
 
     const sendUserReport = async () => {
       if (!props.interview.user_reports.some((report: InterviewUserReport) => report.user === currentUser.value.id))
