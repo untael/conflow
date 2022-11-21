@@ -12,6 +12,9 @@ import 'codemirror-editor-vue3/dist/style.css'
 import 'codemirror/mode/javascript/javascript.js'
 import mitt, { Emitter } from 'mitt'
 import { Events } from '@/api/emitter'
+//ToDo: create types
+//@ts-ignore
+import print from 'vue3-print-nb'
 
 const app = createApp(App)
 app.use(createVuestic(), {
@@ -38,6 +41,7 @@ app.use(createVuestic(), {
 })
 app.provide('$vaToast', app.config.globalProperties.$vaToast)
 app.use(router)
+app.use(print)
 const emitter: Emitter<Events> = mitt<Events>()
 app.provide('$emitter', emitter)
 

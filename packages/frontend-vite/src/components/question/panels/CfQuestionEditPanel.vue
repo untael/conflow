@@ -146,7 +146,7 @@ export default {
     const { createQuestion, updateQuestion, getQuestion } = useQuestion()
     const { getTags } = useTag()
     const formLabel = computed(() => {
-      return question.value.id ? 'Edit question form' : 'Add question form'
+      return question.value.id || props.id ? 'Edit question form' : 'Add question form'
     })
     const fetchQuestion = async () => {
       showAddAnswer.value = false

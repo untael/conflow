@@ -41,6 +41,7 @@
         v-if="authRequired && !currentUser"
     >
       <cf-panel
+          :id="getPanelName(panel)"
           :panel="panel"
           :closeable="false"
           :minimizeable="false"
@@ -58,6 +59,7 @@
         ]"
       >
         <cf-panel
+            :id="getPanelName(panel)"
             :panel="panel"
             :closeable="false"
             :minimizeable="false"
@@ -79,6 +81,8 @@
             :key="`${childPanel.name}-${index}`"
         >
           <cf-panel
+              :id="getPanelName(childPanel, index)"
+              :index="index"
               :class="{
               'hidden': activePanelName !== childPanel.name || !childPanels.length,
               'w-10/12': childPanels.length > 1,
@@ -87,6 +91,7 @@
             }"
               :panel="childPanel"
               :minimizeable="childPanels.length > 1"
+              :printable="childPanel.props.printable"
           >
             <component :is="childPanel.component" v-on="$attrs" v-bind="childPanel.props"/>
           </cf-panel>
@@ -158,8 +163,8 @@ export default {
         activePanelName.value = props.panel.name
         return
       }
-
     }
+
     const init = (name: PanelNames, props: any) => {
       const panel = PanelList.find((panel: Panel) => panel.name === name)
       const existingPanel = childPanels.value.find((panel: Panel) => panel.name === name)
@@ -184,6 +189,11 @@ export default {
     const childPanelNames = computed(() => {
       return childPanels.value.map((panel: Panel) => panel.name)
     })
+
+    const getPanelName = (panel: Panel, index?: number | string) => {
+      return panel.name.replaceAll(' ', '') + index
+    }
+
     provide('panels', {
       init: init,
       minimize: minimize,
@@ -195,6 +205,7 @@ export default {
       childPanelNames,
       childPanels,
       currentUser,
+      getPanelName,
     }
   },
 

@@ -56,6 +56,7 @@ export default {
     const showInterviewPreview = (interview: Interview) => {
       $panel.init(PanelNames.InterviewPreviewPanel, {
         id: interview.id,
+        printable: true,
       })
     }
     const editInterview = (interview: Interview) => {

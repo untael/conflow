@@ -26,13 +26,11 @@ export default {
         title: 'Create question',
         icon: 'create',
         route: 'Question create',
-        badgeText: 'WIP',
       },
       {
         title: 'Questions list',
         icon: 'format_list_bulleted',
         route: 'Question list editable',
-        badgeText: 'WIP',
       },
     ])
     return {

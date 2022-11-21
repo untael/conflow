@@ -26,7 +26,7 @@ export default {
         title: 'Questions',
         icon: 'contact_support',
         route: 'Questions dashboard',
-        badgeText: 'WIP',
+        // badgeText: 'WIP',
       },
       {
         title: 'Interviews',

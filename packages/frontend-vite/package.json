@@ -25,6 +25,7 @@
     "vue": "^3.2.16",
     "vue-codemirror": "^4.0.6",
     "vue-router": "4.0.12",
+    "vue3-print-nb": "^0.1.4",
     "vuestic-ui": "^1.4.9"
   },
   "devDependencies": {
